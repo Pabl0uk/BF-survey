@@ -1,0 +1,2448 @@
+{
+  "general": [
+    {
+      "code": "390917",
+      "description": "LOCK:OVERHAUL ANY LOCK COMPLETE",
+      "uom": "NO",
+      "smv": 25.0,
+      "cost": 12.565,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "441001",
+      "description": "WASH:WASH SURFACES TO ANY ROOM",
+      "uom": "IT",
+      "smv": 48.0,
+      "cost": 24.6359,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "431315",
+      "description": "SCREED:LATEX SELF LEVEL",
+      "uom": "SM",
+      "smv": 25.0,
+      "cost": 18.9786,
+      "quantity": "",
+      "comment": ""
+    }
+  ],
+  "decoration": [
+    {
+      "code": "470001",
+      "description": "DWELLING:REDECORATE 1 BEDROOM FLAT",
+      "uom": "IT",
+      "smv": 1050.0,
+      "cost": 1030.0273,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "470502",
+      "description": "DWELLING:WASH 2CT REDECORATION 2 BEDROOM FLAT",
+      "uom": "IT",
+      "smv": 805.0,
+      "cost": 817.6068,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "470531",
+      "description": "DWELLING:WASH 1CT REDECORATION 3 BEDROOM HOUSE",
+      "uom": "IT",
+      "smv": 710.0,
+      "cost": 744.9769,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "442001",
+      "description": "WALLS AND CEILINGS:APPLY MIST 2 COATS EMULSION",
+      "uom": "SM",
+      "smv": 22.0,
+      "cost": 12.2948,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "411113",
+      "description": "WALL:FLOAT SET DUB OUT IN PATCH",
+      "uom": "IT",
+      "smv": 60.0,
+      "cost": 36.7313,
+      "quantity": "",
+      "comment": ""
+    }
+  ],
+  "external works": [
+    {
+      "code": "017304",
+      "description": "FENCING:ERECT 1.2M HIGH PANEL WITH TIMBER POSTS",
+      "uom": "LM",
+      "smv": 55.0,
+      "cost": 58.7707,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "021001",
+      "description": "GATE:RENEW TIMBER NE 1.0SM",
+      "uom": "NO",
+      "smv": 50.0,
+      "cost": 126.7315,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "413319",
+      "description": "CEILING:RENEW NE 12.5MM PLASTERBOARD 3MM SKIM COAT",
+      "uom": "SM",
+      "smv": 68.0,
+      "cost": 40.2415,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "007001",
+      "description": "FLAG:EXCAVATE AND LAY NEW PRECAST CONCRETE",
+      "uom": "SM",
+      "smv": 80.0,
+      "cost": 79.2953,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "342307",
+      "description": "FRAME:SPLICE EXTERNAL REPAIR NE 1.0M",
+      "uom": "NO",
+      "smv": 60.0,
+      "cost": 36.1516,
+      "quantity": "",
+      "comment": ""
+    }
+  ],
+  "sheds": [
+    {
+      "code": "070109",
+      "description": "SHED LOCK:RENEW COMPLETE",
+      "uom": "NO",
+      "smv": 35.0,
+      "cost": 37.0175,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "335003",
+      "description": "DOOR:EASE ADJUST REHANG INTERNAL NEW BUTTS",
+      "uom": "NO",
+      "smv": 60.0,
+      "cost": 33.7964,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "342307",
+      "description": "FRAME:SPLICE EXTERNAL REPAIR NE 1.0M",
+      "uom": "NO",
+      "smv": 60.0,
+      "cost": 36.1516,
+      "quantity": "",
+      "comment": ""
+    }
+  ],
+  "hall/stair/landing": [
+    {
+      "code": "411121",
+      "description": "WALL:HACK REPLASTER DUB OUT IN PATCH",
+      "uom": "IT",
+      "smv": 95.0,
+      "cost": 55.1485,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "352013",
+      "description": "HANDRAIL:REFIX LOOSE BRACKET",
+      "uom": "NO",
+      "smv": 20.0,
+      "cost": 10.7381,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "305704",
+      "description": "FLOORBOARDS:REMOVE AND REFIX AREA",
+      "uom": "SM",
+      "smv": 40.0,
+      "cost": 21.2345,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "325111",
+      "description": "DOOR:RENEW LOCK CATCH OR KEEP TO PVCU",
+      "uom": "NO",
+      "smv": 25.0,
+      "cost": 16.3334,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "442001",
+      "description": "WALLS AND CEILINGS:APPLY MIST 2 COATS EMULSION",
+      "uom": "SM",
+      "smv": 22.0,
+      "cost": 12.2948,
+      "quantity": "",
+      "comment": ""
+    }
+  ],
+  "w/c (closet)": [
+    {
+      "code": "630511",
+      "description": "WC PAN:RENEW COMPLETE",
+      "uom": "NO",
+      "smv": 90.0,
+      "cost": 154.4111,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "630513",
+      "description": "WC PAN:RENEW SEAT COMPLETE",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 26.6348,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "330001",
+      "description": "DOOR:RENEW INTERNAL PLY FLUSH",
+      "uom": "NO",
+      "smv": 120.0,
+      "cost": 129.6744,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "335091",
+      "description": "DOOR:OVERHAUL INTERNAL COMPLETE",
+      "uom": "NO",
+      "smv": 75.0,
+      "cost": 49.761,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "392501",
+      "description": "DOOR FURNITURE:RENEW SET OF LEVER HANDLES",
+      "uom": "NO",
+      "smv": 12.0,
+      "cost": 22.7242,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "630919",
+      "description": "BATH:RENEW PLUG AND CHAIN",
+      "uom": "NO",
+      "smv": 5.0,
+      "cost": 5.9198,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "631301",
+      "description": "TAP:RENEW PAIR BASIN PILLAR TAPS",
+      "uom": "IT",
+      "smv": 50.0,
+      "cost": 50.4912,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "442001",
+      "description": "WALLS AND CEILINGS:APPLY MIST 2 COATS EMULSION",
+      "uom": "SM",
+      "smv": 22.0,
+      "cost": 12.2948,
+      "quantity": "",
+      "comment": ""
+    }
+  ],
+  "living room": [
+    {
+      "code": "330001",
+      "description": "DOOR:RENEW INTERNAL PLY FLUSH",
+      "uom": "NO",
+      "smv": 120.0,
+      "cost": 129.6744,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "335091",
+      "description": "DOOR:OVERHAUL INTERNAL COMPLETE",
+      "uom": "NO",
+      "smv": 75.0,
+      "cost": 49.761,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "392501",
+      "description": "DOOR FURNITURE:RENEW SET OF LEVER HANDLES",
+      "uom": "NO",
+      "smv": 12.0,
+      "cost": 22.7242,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "381001",
+      "description": "SKIRTING:RENEW SOFTWOOD SKIRTING",
+      "uom": "LM",
+      "smv": 40.0,
+      "cost": 22.0438,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "342105",
+      "description": "FRAME:RENEW INTERNAL WITH STOPS AND ARCHITRAVES",
+      "uom": "NO",
+      "smv": 120.0,
+      "cost": 101.8826,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "411121",
+      "description": "WALL:HACK REPLASTER DUB OUT IN PATCH",
+      "uom": "IT",
+      "smv": 95.0,
+      "cost": 55.1485,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "318111",
+      "description": "WINDOW:RENEW ESPAGNOLETTE LOCK TO PVCU",
+      "uom": "IT",
+      "smv": 30.0,
+      "cost": 24.1752,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "318123",
+      "description": "WINDOW:CHILD RESTRICTOR TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 13.2833,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "318108",
+      "description": "WINDOW:RENEW LOCKING HANDLE TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 14.2254,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "318185",
+      "description": "WINDOW:RENEW CILL TO PVCU",
+      "uom": "LM",
+      "smv": 35.0,
+      "cost": 37.8508,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "442001",
+      "description": "WALLS AND CEILINGS:APPLY MIST 2 COATS EMULSION",
+      "uom": "SM",
+      "smv": 22.0,
+      "cost": 12.2948,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "140010",
+      "description": "FIRE:REMOVE REFIX FOR BACKBOILER RENEWAL",
+      "uom": "NO",
+      "smv": 360.0,
+      "cost": 197.9829,
+      "quantity": "",
+      "comment": ""
+    }
+  ],
+  "dining room": [
+    {
+      "code": "330001",
+      "description": "DOOR:RENEW INTERNAL PLY FLUSH",
+      "uom": "NO",
+      "smv": 120.0,
+      "cost": 129.6744,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "335091",
+      "description": "DOOR:OVERHAUL INTERNAL COMPLETE",
+      "uom": "NO",
+      "smv": 75.0,
+      "cost": 49.761,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "392501",
+      "description": "DOOR FURNITURE:RENEW SET OF LEVER HANDLES",
+      "uom": "NO",
+      "smv": 12.0,
+      "cost": 22.7242,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "381001",
+      "description": "SKIRTING:RENEW SOFTWOOD SKIRTING",
+      "uom": "LM",
+      "smv": 40.0,
+      "cost": 22.0438,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "342105",
+      "description": "FRAME:RENEW INTERNAL WITH STOPS AND ARCHITRAVES",
+      "uom": "NO",
+      "smv": 120.0,
+      "cost": 101.8826,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "411121",
+      "description": "WALL:HACK REPLASTER DUB OUT IN PATCH",
+      "uom": "IT",
+      "smv": 95.0,
+      "cost": 55.1485,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "318111",
+      "description": "WINDOW:RENEW ESPAGNOLETTE LOCK TO PVCU",
+      "uom": "IT",
+      "smv": 30.0,
+      "cost": 24.1752,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "318123",
+      "description": "WINDOW:CHILD RESTRICTOR TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 13.2833,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "318108",
+      "description": "WINDOW:RENEW LOCKING HANDLE TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 14.2254,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "318185",
+      "description": "WINDOW:RENEW CILL TO PVCU",
+      "uom": "LM",
+      "smv": 35.0,
+      "cost": 37.8508,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "442001",
+      "description": "WALLS AND CEILINGS:APPLY MIST 2 COATS EMULSION",
+      "uom": "SM",
+      "smv": 22.0,
+      "cost": 12.2948,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "140010",
+      "description": "FIRE:REMOVE REFIX FOR BACKBOILER RENEWAL",
+      "uom": "NO",
+      "smv": 360.0,
+      "cost": 197.9829,
+      "quantity": "",
+      "comment": ""
+    }
+  ],
+  "kitchen": [
+    {
+      "code": "330001",
+      "description": "DOOR:RENEW INTERNAL PLY FLUSH",
+      "uom": "NO",
+      "smv": 120.0,
+      "cost": 129.6744,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "335091",
+      "description": "DOOR:OVERHAUL INTERNAL COMPLETE",
+      "uom": "NO",
+      "smv": 75.0,
+      "cost": 49.761,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "335091",
+      "description": "DOOR:OVERHAUL INTERNAL COMPLETE",
+      "uom": "NO",
+      "smv": 75.0,
+      "cost": 49.761,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "392501",
+      "description": "DOOR FURNITURE:RENEW SET OF LEVER HANDLES",
+      "uom": "NO",
+      "smv": 12.0,
+      "cost": 22.7242,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "381001",
+      "description": "SKIRTING:RENEW SOFTWOOD SKIRTING",
+      "uom": "LM",
+      "smv": 40.0,
+      "cost": 22.0438,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "411121",
+      "description": "WALL:HACK REPLASTER DUB OUT IN PATCH",
+      "uom": "IT",
+      "smv": 95.0,
+      "cost": 55.1485,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "318111",
+      "description": "WINDOW:RENEW ESPAGNOLETTE LOCK TO PVCU",
+      "uom": "IT",
+      "smv": 30.0,
+      "cost": 24.1752,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "318123",
+      "description": "WINDOW:CHILD RESTRICTOR TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 13.2833,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "318108",
+      "description": "WINDOW:RENEW LOCKING HANDLE TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 14.2254,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "318185",
+      "description": "WINDOW:RENEW CILL TO PVCU",
+      "uom": "LM",
+      "smv": 35.0,
+      "cost": 37.8508,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "431041",
+      "description": "WALL TILES:NEW GLAZED TILES TO KITCHEN",
+      "uom": "SM",
+      "smv": 84.0,
+      "cost": 66.4418,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "431005",
+      "description": "WALL TILES:RENEW OR FIX INDIVIDUAL NEW GLAZED TILE",
+      "uom": "NO",
+      "smv": 3.0,
+      "cost": 2.0696,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "372001",
+      "description": "WORKTOP:RENEW NE 40MM THICK POST FORMED",
+      "uom": "LM",
+      "smv": 35.0,
+      "cost": 58.7582,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "373049",
+      "description": "KITCHEN UNIT:OVERHAUL ANY TYPE",
+      "uom": "NO",
+      "smv": 60.0,
+      "cost": 31.4894,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "388003",
+      "description": "BATH PANEL:RENEW HARDBOARD END AND FRAMING",
+      "uom": "IT",
+      "smv": 60.0,
+      "cost": 49.3047,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "372017",
+      "description": "WORKTOP:RENEW JOINT STRIP",
+      "uom": "NO",
+      "smv": 25.0,
+      "cost": 15.6449,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "373009",
+      "description": "KITCHEN UNIT:RENEW WALL UNIT DOOR",
+      "uom": "NO",
+      "smv": 30.0,
+      "cost": 57.4868,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "631903",
+      "description": "WASHING MACHINE:SUPPLY VALVES OR STOP TAPS",
+      "uom": "IT",
+      "smv": 120.0,
+      "cost": 88.8569,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "620103",
+      "description": "WASTE:RENEW 40MM PIPE AND TRAP SINK",
+      "uom": "NO",
+      "smv": 70.0,
+      "cost": 60.8506,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "630109",
+      "description": "SINK:RENEW PLUG AND CHAIN",
+      "uom": "NO",
+      "smv": 10.0,
+      "cost": 8.5066,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "318179",
+      "description": "WINDOW:REPOINT SILICONE TO PVCU FRAME",
+      "uom": "LM",
+      "smv": 8.0,
+      "cost": 4.4644,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "373023",
+      "description": "KITCHEN UNIT:RENEW PLINTH",
+      "uom": "NO",
+      "smv": 4.0,
+      "cost": 14.7933,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "630201",
+      "description": "SINK TOP:SUPPLY INSET",
+      "uom": "NO",
+      "smv": 150.0,
+      "cost": 220.3403,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "442001",
+      "description": "WALLS AND CEILINGS:APPLY MIST 2 COATS EMULSION",
+      "uom": "SM",
+      "smv": 22.0,
+      "cost": 12.2948,
+      "quantity": "",
+      "comment": ""
+    }
+  ],
+  "bathroom/wetroom": [
+    {
+      "code": "330001",
+      "description": "DOOR:RENEW INTERNAL PLY FLUSH",
+      "uom": "NO",
+      "smv": 120.0,
+      "cost": 129.6744,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "335091",
+      "description": "DOOR:OVERHAUL INTERNAL COMPLETE",
+      "uom": "NO",
+      "smv": 75.0,
+      "cost": 49.761,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "392501",
+      "description": "DOOR FURNITURE:RENEW SET OF LEVER HANDLES",
+      "uom": "NO",
+      "smv": 12.0,
+      "cost": 22.7242,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "381001",
+      "description": "SKIRTING:RENEW SOFTWOOD SKIRTING",
+      "uom": "LM",
+      "smv": 40.0,
+      "cost": 22.0438,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "411121",
+      "description": "WALL:HACK REPLASTER DUB OUT IN PATCH",
+      "uom": "IT",
+      "smv": 95.0,
+      "cost": 55.1485,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "388007",
+      "description": "BATH PANEL:RENEW HARDBOARD SIDE EXISTING FRAMING",
+      "uom": "IT",
+      "smv": 30.0,
+      "cost": 33.5237,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "318111",
+      "description": "WINDOW:RENEW ESPAGNOLETTE LOCK TO PVCU",
+      "uom": "IT",
+      "smv": 30.0,
+      "cost": 24.1752,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "318108",
+      "description": "WINDOW:RENEW LOCKING HANDLE TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 14.2254,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "318123",
+      "description": "WINDOW:CHILD RESTRICTOR TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 13.2833,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "318185",
+      "description": "WINDOW:RENEW CILL TO PVCU",
+      "uom": "LM",
+      "smv": 35.0,
+      "cost": 37.8508,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "432505",
+      "description": "SHEET FLOORING:LAY NEW VINYL",
+      "uom": "SM",
+      "smv": 30.0,
+      "cost": 31.555,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "318179",
+      "description": "WINDOW:REPOINT SILICONE TO PVCU FRAME",
+      "uom": "LM",
+      "smv": 8.0,
+      "cost": 4.4644,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "630901",
+      "description": "BATH:RENEW 1700MM STEEL",
+      "uom": "NO",
+      "smv": 400.0,
+      "cost": 512.4034,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "431041",
+      "description": "WALL TILES:NEW GLAZED TILES TO KITCHEN",
+      "uom": "SM",
+      "smv": 84.0,
+      "cost": 66.4418,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "431005",
+      "description": "WALL TILES:RENEW OR FIX INDIVIDUAL NEW GLAZED TILE",
+      "uom": "NO",
+      "smv": 3.0,
+      "cost": 2.0696,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "431025",
+      "description": "WALL TILES:RAKE OUT AND REGROUT",
+      "uom": "SM",
+      "smv": 25.0,
+      "cost": 13.181,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "630511",
+      "description": "WC PAN:RENEW COMPLETE",
+      "uom": "NO",
+      "smv": 90.0,
+      "cost": 154.4111,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "630513",
+      "description": "WC PAN:RENEW SEAT COMPLETE",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 26.6348,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "630703",
+      "description": "BASIN:RENEW COMPLETE WITH PEDESTAL",
+      "uom": "NO",
+      "smv": 160.0,
+      "cost": 247.1897,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "630919",
+      "description": "BATH:RENEW PLUG AND CHAIN",
+      "uom": "NO",
+      "smv": 5.0,
+      "cost": 5.9198,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "631309",
+      "description": "TAP:RENEW PAIR BATH PILLAR TAPS",
+      "uom": "IT",
+      "smv": 75.0,
+      "cost": 116.4012,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "631301",
+      "description": "TAP:RENEW PAIR BASIN PILLAR TAPS",
+      "uom": "IT",
+      "smv": 50.0,
+      "cost": 50.4912,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "635001",
+      "description": "PIPE:RENEW OR INSTALL 15MM COPPER",
+      "uom": "LM",
+      "smv": 31.000000000000004,
+      "cost": 21.6418,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "631111",
+      "description": "SHOWER:RENEW HOSE AND SPRAY",
+      "uom": "IT",
+      "smv": 15.0,
+      "cost": 33.9889,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "631125",
+      "description": "SHOWER:RENEW CURTAIN",
+      "uom": "IT",
+      "smv": 8.0,
+      "cost": 25.7098,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "442001",
+      "description": "WALLS AND CEILINGS:APPLY MIST 2 COATS EMULSION",
+      "uom": "SM",
+      "smv": 22.0,
+      "cost": 12.2948,
+      "quantity": "",
+      "comment": ""
+    }
+  ],
+  "bedroom 1": [
+    {
+      "code": "442001",
+      "description": "WALLS AND CEILINGS:APPLY MIST 2 COATS EMULSION",
+      "uom": "SM",
+      "smv": 22.0,
+      "cost": 12.2948,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "453019",
+      "description": "HALLSTAIRS:WALLPAPER WALLS 2 STOREY",
+      "uom": "IT",
+      "smv": 403.0,
+      "cost": 298.0988,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "330001",
+      "description": "DOOR:RENEW INTERNAL PLY FLUSH",
+      "uom": "NO",
+      "smv": 120.0,
+      "cost": 129.6744,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "335091",
+      "description": "DOOR:OVERHAUL INTERNAL COMPLETE",
+      "uom": "NO",
+      "smv": 75.0,
+      "cost": 49.761,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "392501",
+      "description": "DOOR FURNITURE:RENEW SET OF LEVER HANDLES",
+      "uom": "NO",
+      "smv": 12.0,
+      "cost": 22.7242,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "342325",
+      "description": "FRAME:REPAIR LOOSE INTERNAL FRAME JOINTS",
+      "uom": "NO",
+      "smv": 20.0,
+      "cost": 10.4965,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "411121",
+      "description": "WALL:HACK REPLASTER DUB OUT IN PATCH",
+      "uom": "IT",
+      "smv": 95.0,
+      "cost": 55.1485,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "318157",
+      "description": "WINDOW:RENEW FRICTION STAY TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 13.7906,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "318123",
+      "description": "WINDOW:CHILD RESTRICTOR TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 13.2833,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "318108",
+      "description": "WINDOW:RENEW LOCKING HANDLE TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 14.2254,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "305705",
+      "description": "FLOORBOARD:REMOVE AND REFIX SINGLE BOARD",
+      "uom": "LM",
+      "smv": 10.0,
+      "cost": 5.1758,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "318185",
+      "description": "WINDOW:RENEW CILL TO PVCU",
+      "uom": "LM",
+      "smv": 35.0,
+      "cost": 37.8508,
+      "quantity": "",
+      "comment": ""
+    }
+  ],
+  "bedroom 2": [
+    {
+      "code": "442001",
+      "description": "WALLS AND CEILINGS:APPLY MIST 2 COATS EMULSION",
+      "uom": "SM",
+      "smv": 22.0,
+      "cost": 12.2948,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "453019",
+      "description": "HALLSTAIRS:WALLPAPER WALLS 2 STOREY",
+      "uom": "IT",
+      "smv": 403.0,
+      "cost": 298.0988,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "330001",
+      "description": "DOOR:RENEW INTERNAL PLY FLUSH",
+      "uom": "NO",
+      "smv": 120.0,
+      "cost": 129.6744,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "335091",
+      "description": "DOOR:OVERHAUL INTERNAL COMPLETE",
+      "uom": "NO",
+      "smv": 75.0,
+      "cost": 49.761,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "392501",
+      "description": "DOOR FURNITURE:RENEW SET OF LEVER HANDLES",
+      "uom": "NO",
+      "smv": 12.0,
+      "cost": 22.7242,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "342325",
+      "description": "FRAME:REPAIR LOOSE INTERNAL FRAME JOINTS",
+      "uom": "NO",
+      "smv": 20.0,
+      "cost": 10.4965,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "411121",
+      "description": "WALL:HACK REPLASTER DUB OUT IN PATCH",
+      "uom": "IT",
+      "smv": 95.0,
+      "cost": 55.1485,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "318157",
+      "description": "WINDOW:RENEW FRICTION STAY TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 13.7906,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "318123",
+      "description": "WINDOW:CHILD RESTRICTOR TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 13.2833,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "318108",
+      "description": "WINDOW:RENEW LOCKING HANDLE TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 14.2254,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "305705",
+      "description": "FLOORBOARD:REMOVE AND REFIX SINGLE BOARD",
+      "uom": "LM",
+      "smv": 10.0,
+      "cost": 5.1758,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "318185",
+      "description": "WINDOW:RENEW CILL TO PVCU",
+      "uom": "LM",
+      "smv": 35.0,
+      "cost": 37.8508,
+      "quantity": "",
+      "comment": ""
+    }
+  ],
+  "bedroom 3": [
+    {
+      "code": "442001",
+      "description": "WALLS AND CEILINGS:APPLY MIST 2 COATS EMULSION",
+      "uom": "SM",
+      "smv": 22.0,
+      "cost": 12.2948,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "453019",
+      "description": "HALLSTAIRS:WALLPAPER WALLS 2 STOREY",
+      "uom": "IT",
+      "smv": 403.0,
+      "cost": 298.0988,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "330001",
+      "description": "DOOR:RENEW INTERNAL PLY FLUSH",
+      "uom": "NO",
+      "smv": 120.0,
+      "cost": 129.6744,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "335091",
+      "description": "DOOR:OVERHAUL INTERNAL COMPLETE",
+      "uom": "NO",
+      "smv": 75.0,
+      "cost": 49.761,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "392501",
+      "description": "DOOR FURNITURE:RENEW SET OF LEVER HANDLES",
+      "uom": "NO",
+      "smv": 12.0,
+      "cost": 22.7242,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "342325",
+      "description": "FRAME:REPAIR LOOSE INTERNAL FRAME JOINTS",
+      "uom": "NO",
+      "smv": 20.0,
+      "cost": 10.4965,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "411121",
+      "description": "WALL:HACK REPLASTER DUB OUT IN PATCH",
+      "uom": "IT",
+      "smv": 95.0,
+      "cost": 55.1485,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "318157",
+      "description": "WINDOW:RENEW FRICTION STAY TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 13.7906,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "318123",
+      "description": "WINDOW:CHILD RESTRICTOR TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 13.2833,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "318108",
+      "description": "WINDOW:RENEW LOCKING HANDLE TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 14.2254,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "305705",
+      "description": "FLOORBOARD:REMOVE AND REFIX SINGLE BOARD",
+      "uom": "LM",
+      "smv": 10.0,
+      "cost": 5.1758,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "318185",
+      "description": "WINDOW:RENEW CILL TO PVCU",
+      "uom": "LM",
+      "smv": 35.0,
+      "cost": 37.8508,
+      "quantity": "",
+      "comment": ""
+    }
+  ],
+  "bedroom 4": [
+    {
+      "code": "442001",
+      "description": "WALLS AND CEILINGS:APPLY MIST 2 COATS EMULSION",
+      "uom": "SM",
+      "smv": 22.0,
+      "cost": 12.2948,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "453019",
+      "description": "HALLSTAIRS:WALLPAPER WALLS 2 STOREY",
+      "uom": "IT",
+      "smv": 403.0,
+      "cost": 298.0988,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "330001",
+      "description": "DOOR:RENEW INTERNAL PLY FLUSH",
+      "uom": "NO",
+      "smv": 120.0,
+      "cost": 129.6744,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "335091",
+      "description": "DOOR:OVERHAUL INTERNAL COMPLETE",
+      "uom": "NO",
+      "smv": 75.0,
+      "cost": 49.761,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "392501",
+      "description": "DOOR FURNITURE:RENEW SET OF LEVER HANDLES",
+      "uom": "NO",
+      "smv": 12.0,
+      "cost": 22.7242,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "342325",
+      "description": "FRAME:REPAIR LOOSE INTERNAL FRAME JOINTS",
+      "uom": "NO",
+      "smv": 20.0,
+      "cost": 10.4965,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "411121",
+      "description": "WALL:HACK REPLASTER DUB OUT IN PATCH",
+      "uom": "IT",
+      "smv": 95.0,
+      "cost": 55.1485,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "318157",
+      "description": "WINDOW:RENEW FRICTION STAY TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 13.7906,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "318123",
+      "description": "WINDOW:CHILD RESTRICTOR TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 13.2833,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "318108",
+      "description": "WINDOW:RENEW LOCKING HANDLE TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 14.2254,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "305705",
+      "description": "FLOORBOARD:REMOVE AND REFIX SINGLE BOARD",
+      "uom": "LM",
+      "smv": 10.0,
+      "cost": 5.1758,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "318185",
+      "description": "WINDOW:RENEW CILL TO PVCU",
+      "uom": "LM",
+      "smv": 35.0,
+      "cost": 37.8508,
+      "quantity": "",
+      "comment": ""
+    }
+  ],
+  "searchable": [
+    {
+      "code": "390917",
+      "description": "LOCK:OVERHAUL ANY LOCK COMPLETE",
+      "uom": "NO",
+      "smv": 25.0,
+      "cost": 12.565
+    },
+    {
+      "code": "441001",
+      "description": "WASH:WASH SURFACES TO ANY ROOM",
+      "uom": "IT",
+      "smv": 48.0,
+      "cost": 24.6359
+    },
+    {
+      "code": "431315",
+      "description": "SCREED:LATEX SELF LEVEL",
+      "uom": "SM",
+      "smv": 25.0,
+      "cost": 18.9786
+    },
+    {
+      "code": "470001",
+      "description": "DWELLING:REDECORATE 1 BEDROOM FLAT",
+      "uom": "IT",
+      "smv": 1050.0,
+      "cost": 1030.0273
+    },
+    {
+      "code": "470502",
+      "description": "DWELLING:WASH 2CT REDECORATION 2 BEDROOM FLAT",
+      "uom": "IT",
+      "smv": 805.0,
+      "cost": 817.6068
+    },
+    {
+      "code": "470531",
+      "description": "DWELLING:WASH 1CT REDECORATION 3 BEDROOM HOUSE",
+      "uom": "IT",
+      "smv": 710.0,
+      "cost": 744.9769
+    },
+    {
+      "code": "442001",
+      "description": "WALLS AND CEILINGS:APPLY MIST 2 COATS EMULSION",
+      "uom": "SM",
+      "smv": 22.0,
+      "cost": 12.2948
+    },
+    {
+      "code": "411113",
+      "description": "WALL:FLOAT SET DUB OUT IN PATCH",
+      "uom": "IT",
+      "smv": 60.0,
+      "cost": 36.7313
+    },
+    {
+      "code": "017304",
+      "description": "FENCING:ERECT 1.2M HIGH PANEL WITH TIMBER POSTS",
+      "uom": "LM",
+      "smv": 55.0,
+      "cost": 58.7707
+    },
+    {
+      "code": "021001",
+      "description": "GATE:RENEW TIMBER NE 1.0SM",
+      "uom": "NO",
+      "smv": 50.0,
+      "cost": 126.7315
+    },
+    {
+      "code": "413319",
+      "description": "CEILING:RENEW NE 12.5MM PLASTERBOARD 3MM SKIM COAT",
+      "uom": "SM",
+      "smv": 68.0,
+      "cost": 40.2415
+    },
+    {
+      "code": "007001",
+      "description": "FLAG:EXCAVATE AND LAY NEW PRECAST CONCRETE",
+      "uom": "SM",
+      "smv": 80.0,
+      "cost": 79.2953
+    },
+    {
+      "code": "342307",
+      "description": "FRAME:SPLICE EXTERNAL REPAIR NE 1.0M",
+      "uom": "NO",
+      "smv": 60.0,
+      "cost": 36.1516
+    },
+    {
+      "code": "070109",
+      "description": "SHED LOCK:RENEW COMPLETE",
+      "uom": "NO",
+      "smv": 35.0,
+      "cost": 37.0175
+    },
+    {
+      "code": "335003",
+      "description": "DOOR:EASE ADJUST REHANG INTERNAL NEW BUTTS",
+      "uom": "NO",
+      "smv": 60.0,
+      "cost": 33.7964
+    },
+    {
+      "code": "342307",
+      "description": "FRAME:SPLICE EXTERNAL REPAIR NE 1.0M",
+      "uom": "NO",
+      "smv": 60.0,
+      "cost": 36.1516
+    },
+    {
+      "code": "411121",
+      "description": "WALL:HACK REPLASTER DUB OUT IN PATCH",
+      "uom": "IT",
+      "smv": 95.0,
+      "cost": 55.1485
+    },
+    {
+      "code": "352013",
+      "description": "HANDRAIL:REFIX LOOSE BRACKET",
+      "uom": "NO",
+      "smv": 20.0,
+      "cost": 10.7381
+    },
+    {
+      "code": "305704",
+      "description": "FLOORBOARDS:REMOVE AND REFIX AREA",
+      "uom": "SM",
+      "smv": 40.0,
+      "cost": 21.2345
+    },
+    {
+      "code": "325111",
+      "description": "DOOR:RENEW LOCK CATCH OR KEEP TO PVCU",
+      "uom": "NO",
+      "smv": 25.0,
+      "cost": 16.3334
+    },
+    {
+      "code": "442001",
+      "description": "WALLS AND CEILINGS:APPLY MIST 2 COATS EMULSION",
+      "uom": "SM",
+      "smv": 22.0,
+      "cost": 12.2948
+    },
+    {
+      "code": "630511",
+      "description": "WC PAN:RENEW COMPLETE",
+      "uom": "NO",
+      "smv": 90.0,
+      "cost": 154.4111
+    },
+    {
+      "code": "630513",
+      "description": "WC PAN:RENEW SEAT COMPLETE",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 26.6348
+    },
+    {
+      "code": "330001",
+      "description": "DOOR:RENEW INTERNAL PLY FLUSH",
+      "uom": "NO",
+      "smv": 120.0,
+      "cost": 129.6744
+    },
+    {
+      "code": "335091",
+      "description": "DOOR:OVERHAUL INTERNAL COMPLETE",
+      "uom": "NO",
+      "smv": 75.0,
+      "cost": 49.761
+    },
+    {
+      "code": "392501",
+      "description": "DOOR FURNITURE:RENEW SET OF LEVER HANDLES",
+      "uom": "NO",
+      "smv": 12.0,
+      "cost": 22.7242
+    },
+    {
+      "code": "630919",
+      "description": "BATH:RENEW PLUG AND CHAIN",
+      "uom": "NO",
+      "smv": 5.0,
+      "cost": 5.9198
+    },
+    {
+      "code": "631301",
+      "description": "TAP:RENEW PAIR BASIN PILLAR TAPS",
+      "uom": "IT",
+      "smv": 50.0,
+      "cost": 50.4912
+    },
+    {
+      "code": "442001",
+      "description": "WALLS AND CEILINGS:APPLY MIST 2 COATS EMULSION",
+      "uom": "SM",
+      "smv": 22.0,
+      "cost": 12.2948
+    },
+    {
+      "code": "330001",
+      "description": "DOOR:RENEW INTERNAL PLY FLUSH",
+      "uom": "NO",
+      "smv": 120.0,
+      "cost": 129.6744
+    },
+    {
+      "code": "335091",
+      "description": "DOOR:OVERHAUL INTERNAL COMPLETE",
+      "uom": "NO",
+      "smv": 75.0,
+      "cost": 49.761
+    },
+    {
+      "code": "392501",
+      "description": "DOOR FURNITURE:RENEW SET OF LEVER HANDLES",
+      "uom": "NO",
+      "smv": 12.0,
+      "cost": 22.7242
+    },
+    {
+      "code": "381001",
+      "description": "SKIRTING:RENEW SOFTWOOD SKIRTING",
+      "uom": "LM",
+      "smv": 40.0,
+      "cost": 22.0438
+    },
+    {
+      "code": "342105",
+      "description": "FRAME:RENEW INTERNAL WITH STOPS AND ARCHITRAVES",
+      "uom": "NO",
+      "smv": 120.0,
+      "cost": 101.8826
+    },
+    {
+      "code": "411121",
+      "description": "WALL:HACK REPLASTER DUB OUT IN PATCH",
+      "uom": "IT",
+      "smv": 95.0,
+      "cost": 55.1485
+    },
+    {
+      "code": "318111",
+      "description": "WINDOW:RENEW ESPAGNOLETTE LOCK TO PVCU",
+      "uom": "IT",
+      "smv": 30.0,
+      "cost": 24.1752
+    },
+    {
+      "code": "318123",
+      "description": "WINDOW:CHILD RESTRICTOR TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 13.2833
+    },
+    {
+      "code": "318108",
+      "description": "WINDOW:RENEW LOCKING HANDLE TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 14.2254
+    },
+    {
+      "code": "318185",
+      "description": "WINDOW:RENEW CILL TO PVCU",
+      "uom": "LM",
+      "smv": 35.0,
+      "cost": 37.8508
+    },
+    {
+      "code": "442001",
+      "description": "WALLS AND CEILINGS:APPLY MIST 2 COATS EMULSION",
+      "uom": "SM",
+      "smv": 22.0,
+      "cost": 12.2948
+    },
+    {
+      "code": "140010",
+      "description": "FIRE:REMOVE REFIX FOR BACKBOILER RENEWAL",
+      "uom": "NO",
+      "smv": 360.0,
+      "cost": 197.9829
+    },
+    {
+      "code": "330001",
+      "description": "DOOR:RENEW INTERNAL PLY FLUSH",
+      "uom": "NO",
+      "smv": 120.0,
+      "cost": 129.6744
+    },
+    {
+      "code": "335091",
+      "description": "DOOR:OVERHAUL INTERNAL COMPLETE",
+      "uom": "NO",
+      "smv": 75.0,
+      "cost": 49.761
+    },
+    {
+      "code": "392501",
+      "description": "DOOR FURNITURE:RENEW SET OF LEVER HANDLES",
+      "uom": "NO",
+      "smv": 12.0,
+      "cost": 22.7242
+    },
+    {
+      "code": "381001",
+      "description": "SKIRTING:RENEW SOFTWOOD SKIRTING",
+      "uom": "LM",
+      "smv": 40.0,
+      "cost": 22.0438
+    },
+    {
+      "code": "342105",
+      "description": "FRAME:RENEW INTERNAL WITH STOPS AND ARCHITRAVES",
+      "uom": "NO",
+      "smv": 120.0,
+      "cost": 101.8826
+    },
+    {
+      "code": "411121",
+      "description": "WALL:HACK REPLASTER DUB OUT IN PATCH",
+      "uom": "IT",
+      "smv": 95.0,
+      "cost": 55.1485
+    },
+    {
+      "code": "318111",
+      "description": "WINDOW:RENEW ESPAGNOLETTE LOCK TO PVCU",
+      "uom": "IT",
+      "smv": 30.0,
+      "cost": 24.1752
+    },
+    {
+      "code": "318123",
+      "description": "WINDOW:CHILD RESTRICTOR TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 13.2833
+    },
+    {
+      "code": "318108",
+      "description": "WINDOW:RENEW LOCKING HANDLE TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 14.2254
+    },
+    {
+      "code": "318185",
+      "description": "WINDOW:RENEW CILL TO PVCU",
+      "uom": "LM",
+      "smv": 35.0,
+      "cost": 37.8508
+    },
+    {
+      "code": "442001",
+      "description": "WALLS AND CEILINGS:APPLY MIST 2 COATS EMULSION",
+      "uom": "SM",
+      "smv": 22.0,
+      "cost": 12.2948
+    },
+    {
+      "code": "140010",
+      "description": "FIRE:REMOVE REFIX FOR BACKBOILER RENEWAL",
+      "uom": "NO",
+      "smv": 360.0,
+      "cost": 197.9829
+    },
+    {
+      "code": "330001",
+      "description": "DOOR:RENEW INTERNAL PLY FLUSH",
+      "uom": "NO",
+      "smv": 120.0,
+      "cost": 129.6744
+    },
+    {
+      "code": "335091",
+      "description": "DOOR:OVERHAUL INTERNAL COMPLETE",
+      "uom": "NO",
+      "smv": 75.0,
+      "cost": 49.761
+    },
+    {
+      "code": "335091",
+      "description": "DOOR:OVERHAUL INTERNAL COMPLETE",
+      "uom": "NO",
+      "smv": 75.0,
+      "cost": 49.761
+    },
+    {
+      "code": "392501",
+      "description": "DOOR FURNITURE:RENEW SET OF LEVER HANDLES",
+      "uom": "NO",
+      "smv": 12.0,
+      "cost": 22.7242
+    },
+    {
+      "code": "381001",
+      "description": "SKIRTING:RENEW SOFTWOOD SKIRTING",
+      "uom": "LM",
+      "smv": 40.0,
+      "cost": 22.0438
+    },
+    {
+      "code": "411121",
+      "description": "WALL:HACK REPLASTER DUB OUT IN PATCH",
+      "uom": "IT",
+      "smv": 95.0,
+      "cost": 55.1485
+    },
+    {
+      "code": "318111",
+      "description": "WINDOW:RENEW ESPAGNOLETTE LOCK TO PVCU",
+      "uom": "IT",
+      "smv": 30.0,
+      "cost": 24.1752
+    },
+    {
+      "code": "318123",
+      "description": "WINDOW:CHILD RESTRICTOR TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 13.2833
+    },
+    {
+      "code": "318108",
+      "description": "WINDOW:RENEW LOCKING HANDLE TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 14.2254
+    },
+    {
+      "code": "318185",
+      "description": "WINDOW:RENEW CILL TO PVCU",
+      "uom": "LM",
+      "smv": 35.0,
+      "cost": 37.8508
+    },
+    {
+      "code": "431041",
+      "description": "WALL TILES:NEW GLAZED TILES TO KITCHEN",
+      "uom": "SM",
+      "smv": 84.0,
+      "cost": 66.4418
+    },
+    {
+      "code": "431005",
+      "description": "WALL TILES:RENEW OR FIX INDIVIDUAL NEW GLAZED TILE",
+      "uom": "NO",
+      "smv": 3.0,
+      "cost": 2.0696
+    },
+    {
+      "code": "372001",
+      "description": "WORKTOP:RENEW NE 40MM THICK POST FORMED",
+      "uom": "LM",
+      "smv": 35.0,
+      "cost": 58.7582
+    },
+    {
+      "code": "373049",
+      "description": "KITCHEN UNIT:OVERHAUL ANY TYPE",
+      "uom": "NO",
+      "smv": 60.0,
+      "cost": 31.4894
+    },
+    {
+      "code": "388003",
+      "description": "BATH PANEL:RENEW HARDBOARD END AND FRAMING",
+      "uom": "IT",
+      "smv": 60.0,
+      "cost": 49.3047
+    },
+    {
+      "code": "372017",
+      "description": "WORKTOP:RENEW JOINT STRIP",
+      "uom": "NO",
+      "smv": 25.0,
+      "cost": 15.6449
+    },
+    {
+      "code": "373009",
+      "description": "KITCHEN UNIT:RENEW WALL UNIT DOOR",
+      "uom": "NO",
+      "smv": 30.0,
+      "cost": 57.4868
+    },
+    {
+      "code": "631903",
+      "description": "WASHING MACHINE:SUPPLY VALVES OR STOP TAPS",
+      "uom": "IT",
+      "smv": 120.0,
+      "cost": 88.8569
+    },
+    {
+      "code": "620103",
+      "description": "WASTE:RENEW 40MM PIPE AND TRAP SINK",
+      "uom": "NO",
+      "smv": 70.0,
+      "cost": 60.8506
+    },
+    {
+      "code": "630109",
+      "description": "SINK:RENEW PLUG AND CHAIN",
+      "uom": "NO",
+      "smv": 10.0,
+      "cost": 8.5066
+    },
+    {
+      "code": "318179",
+      "description": "WINDOW:REPOINT SILICONE TO PVCU FRAME",
+      "uom": "LM",
+      "smv": 8.0,
+      "cost": 4.4644
+    },
+    {
+      "code": "373023",
+      "description": "KITCHEN UNIT:RENEW PLINTH",
+      "uom": "NO",
+      "smv": 4.0,
+      "cost": 14.7933
+    },
+    {
+      "code": "630201",
+      "description": "SINK TOP:SUPPLY INSET",
+      "uom": "NO",
+      "smv": 150.0,
+      "cost": 220.3403
+    },
+    {
+      "code": "442001",
+      "description": "WALLS AND CEILINGS:APPLY MIST 2 COATS EMULSION",
+      "uom": "SM",
+      "smv": 22.0,
+      "cost": 12.2948
+    },
+    {
+      "code": "330001",
+      "description": "DOOR:RENEW INTERNAL PLY FLUSH",
+      "uom": "NO",
+      "smv": 120.0,
+      "cost": 129.6744
+    },
+    {
+      "code": "335091",
+      "description": "DOOR:OVERHAUL INTERNAL COMPLETE",
+      "uom": "NO",
+      "smv": 75.0,
+      "cost": 49.761
+    },
+    {
+      "code": "392501",
+      "description": "DOOR FURNITURE:RENEW SET OF LEVER HANDLES",
+      "uom": "NO",
+      "smv": 12.0,
+      "cost": 22.7242
+    },
+    {
+      "code": "381001",
+      "description": "SKIRTING:RENEW SOFTWOOD SKIRTING",
+      "uom": "LM",
+      "smv": 40.0,
+      "cost": 22.0438
+    },
+    {
+      "code": "411121",
+      "description": "WALL:HACK REPLASTER DUB OUT IN PATCH",
+      "uom": "IT",
+      "smv": 95.0,
+      "cost": 55.1485
+    },
+    {
+      "code": "388007",
+      "description": "BATH PANEL:RENEW HARDBOARD SIDE EXISTING FRAMING",
+      "uom": "IT",
+      "smv": 30.0,
+      "cost": 33.5237
+    },
+    {
+      "code": "318111",
+      "description": "WINDOW:RENEW ESPAGNOLETTE LOCK TO PVCU",
+      "uom": "IT",
+      "smv": 30.0,
+      "cost": 24.1752
+    },
+    {
+      "code": "318108",
+      "description": "WINDOW:RENEW LOCKING HANDLE TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 14.2254
+    },
+    {
+      "code": "318123",
+      "description": "WINDOW:CHILD RESTRICTOR TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 13.2833
+    },
+    {
+      "code": "318185",
+      "description": "WINDOW:RENEW CILL TO PVCU",
+      "uom": "LM",
+      "smv": 35.0,
+      "cost": 37.8508
+    },
+    {
+      "code": "432505",
+      "description": "SHEET FLOORING:LAY NEW VINYL",
+      "uom": "SM",
+      "smv": 30.0,
+      "cost": 31.555
+    },
+    {
+      "code": "318179",
+      "description": "WINDOW:REPOINT SILICONE TO PVCU FRAME",
+      "uom": "LM",
+      "smv": 8.0,
+      "cost": 4.4644
+    },
+    {
+      "code": "630901",
+      "description": "BATH:RENEW 1700MM STEEL",
+      "uom": "NO",
+      "smv": 400.0,
+      "cost": 512.4034
+    },
+    {
+      "code": "431041",
+      "description": "WALL TILES:NEW GLAZED TILES TO KITCHEN",
+      "uom": "SM",
+      "smv": 84.0,
+      "cost": 66.4418
+    },
+    {
+      "code": "431005",
+      "description": "WALL TILES:RENEW OR FIX INDIVIDUAL NEW GLAZED TILE",
+      "uom": "NO",
+      "smv": 3.0,
+      "cost": 2.0696
+    },
+    {
+      "code": "431025",
+      "description": "WALL TILES:RAKE OUT AND REGROUT",
+      "uom": "SM",
+      "smv": 25.0,
+      "cost": 13.181
+    },
+    {
+      "code": "630511",
+      "description": "WC PAN:RENEW COMPLETE",
+      "uom": "NO",
+      "smv": 90.0,
+      "cost": 154.4111
+    },
+    {
+      "code": "630513",
+      "description": "WC PAN:RENEW SEAT COMPLETE",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 26.6348
+    },
+    {
+      "code": "630703",
+      "description": "BASIN:RENEW COMPLETE WITH PEDESTAL",
+      "uom": "NO",
+      "smv": 160.0,
+      "cost": 247.1897
+    },
+    {
+      "code": "630919",
+      "description": "BATH:RENEW PLUG AND CHAIN",
+      "uom": "NO",
+      "smv": 5.0,
+      "cost": 5.9198
+    },
+    {
+      "code": "631309",
+      "description": "TAP:RENEW PAIR BATH PILLAR TAPS",
+      "uom": "IT",
+      "smv": 75.0,
+      "cost": 116.4012
+    },
+    {
+      "code": "631301",
+      "description": "TAP:RENEW PAIR BASIN PILLAR TAPS",
+      "uom": "IT",
+      "smv": 50.0,
+      "cost": 50.4912
+    },
+    {
+      "code": "635001",
+      "description": "PIPE:RENEW OR INSTALL 15MM COPPER",
+      "uom": "LM",
+      "smv": 31.000000000000004,
+      "cost": 21.6418
+    },
+    {
+      "code": "631111",
+      "description": "SHOWER:RENEW HOSE AND SPRAY",
+      "uom": "IT",
+      "smv": 15.0,
+      "cost": 33.9889
+    },
+    {
+      "code": "631125",
+      "description": "SHOWER:RENEW CURTAIN",
+      "uom": "IT",
+      "smv": 8.0,
+      "cost": 25.7098
+    },
+    {
+      "code": "442001",
+      "description": "WALLS AND CEILINGS:APPLY MIST 2 COATS EMULSION",
+      "uom": "SM",
+      "smv": 22.0,
+      "cost": 12.2948
+    },
+    {
+      "code": "442001",
+      "description": "WALLS AND CEILINGS:APPLY MIST 2 COATS EMULSION",
+      "uom": "SM",
+      "smv": 22.0,
+      "cost": 12.2948
+    },
+    {
+      "code": "453019",
+      "description": "HALLSTAIRS:WALLPAPER WALLS 2 STOREY",
+      "uom": "IT",
+      "smv": 403.0,
+      "cost": 298.0988
+    },
+    {
+      "code": "330001",
+      "description": "DOOR:RENEW INTERNAL PLY FLUSH",
+      "uom": "NO",
+      "smv": 120.0,
+      "cost": 129.6744
+    },
+    {
+      "code": "335091",
+      "description": "DOOR:OVERHAUL INTERNAL COMPLETE",
+      "uom": "NO",
+      "smv": 75.0,
+      "cost": 49.761
+    },
+    {
+      "code": "392501",
+      "description": "DOOR FURNITURE:RENEW SET OF LEVER HANDLES",
+      "uom": "NO",
+      "smv": 12.0,
+      "cost": 22.7242
+    },
+    {
+      "code": "342325",
+      "description": "FRAME:REPAIR LOOSE INTERNAL FRAME JOINTS",
+      "uom": "NO",
+      "smv": 20.0,
+      "cost": 10.4965
+    },
+    {
+      "code": "411121",
+      "description": "WALL:HACK REPLASTER DUB OUT IN PATCH",
+      "uom": "IT",
+      "smv": 95.0,
+      "cost": 55.1485
+    },
+    {
+      "code": "318157",
+      "description": "WINDOW:RENEW FRICTION STAY TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 13.7906
+    },
+    {
+      "code": "318123",
+      "description": "WINDOW:CHILD RESTRICTOR TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 13.2833
+    },
+    {
+      "code": "318108",
+      "description": "WINDOW:RENEW LOCKING HANDLE TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 14.2254
+    },
+    {
+      "code": "305705",
+      "description": "FLOORBOARD:REMOVE AND REFIX SINGLE BOARD",
+      "uom": "LM",
+      "smv": 10.0,
+      "cost": 5.1758
+    },
+    {
+      "code": "318185",
+      "description": "WINDOW:RENEW CILL TO PVCU",
+      "uom": "LM",
+      "smv": 35.0,
+      "cost": 37.8508
+    },
+    {
+      "code": "442001",
+      "description": "WALLS AND CEILINGS:APPLY MIST 2 COATS EMULSION",
+      "uom": "SM",
+      "smv": 22.0,
+      "cost": 12.2948
+    },
+    {
+      "code": "453019",
+      "description": "HALLSTAIRS:WALLPAPER WALLS 2 STOREY",
+      "uom": "IT",
+      "smv": 403.0,
+      "cost": 298.0988
+    },
+    {
+      "code": "330001",
+      "description": "DOOR:RENEW INTERNAL PLY FLUSH",
+      "uom": "NO",
+      "smv": 120.0,
+      "cost": 129.6744
+    },
+    {
+      "code": "335091",
+      "description": "DOOR:OVERHAUL INTERNAL COMPLETE",
+      "uom": "NO",
+      "smv": 75.0,
+      "cost": 49.761
+    },
+    {
+      "code": "392501",
+      "description": "DOOR FURNITURE:RENEW SET OF LEVER HANDLES",
+      "uom": "NO",
+      "smv": 12.0,
+      "cost": 22.7242
+    },
+    {
+      "code": "342325",
+      "description": "FRAME:REPAIR LOOSE INTERNAL FRAME JOINTS",
+      "uom": "NO",
+      "smv": 20.0,
+      "cost": 10.4965
+    },
+    {
+      "code": "411121",
+      "description": "WALL:HACK REPLASTER DUB OUT IN PATCH",
+      "uom": "IT",
+      "smv": 95.0,
+      "cost": 55.1485
+    },
+    {
+      "code": "318157",
+      "description": "WINDOW:RENEW FRICTION STAY TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 13.7906
+    },
+    {
+      "code": "318123",
+      "description": "WINDOW:CHILD RESTRICTOR TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 13.2833
+    },
+    {
+      "code": "318108",
+      "description": "WINDOW:RENEW LOCKING HANDLE TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 14.2254
+    },
+    {
+      "code": "305705",
+      "description": "FLOORBOARD:REMOVE AND REFIX SINGLE BOARD",
+      "uom": "LM",
+      "smv": 10.0,
+      "cost": 5.1758
+    },
+    {
+      "code": "318185",
+      "description": "WINDOW:RENEW CILL TO PVCU",
+      "uom": "LM",
+      "smv": 35.0,
+      "cost": 37.8508
+    },
+    {
+      "code": "442001",
+      "description": "WALLS AND CEILINGS:APPLY MIST 2 COATS EMULSION",
+      "uom": "SM",
+      "smv": 22.0,
+      "cost": 12.2948
+    },
+    {
+      "code": "453019",
+      "description": "HALLSTAIRS:WALLPAPER WALLS 2 STOREY",
+      "uom": "IT",
+      "smv": 403.0,
+      "cost": 298.0988
+    },
+    {
+      "code": "330001",
+      "description": "DOOR:RENEW INTERNAL PLY FLUSH",
+      "uom": "NO",
+      "smv": 120.0,
+      "cost": 129.6744
+    },
+    {
+      "code": "335091",
+      "description": "DOOR:OVERHAUL INTERNAL COMPLETE",
+      "uom": "NO",
+      "smv": 75.0,
+      "cost": 49.761
+    },
+    {
+      "code": "392501",
+      "description": "DOOR FURNITURE:RENEW SET OF LEVER HANDLES",
+      "uom": "NO",
+      "smv": 12.0,
+      "cost": 22.7242
+    },
+    {
+      "code": "342325",
+      "description": "FRAME:REPAIR LOOSE INTERNAL FRAME JOINTS",
+      "uom": "NO",
+      "smv": 20.0,
+      "cost": 10.4965
+    },
+    {
+      "code": "411121",
+      "description": "WALL:HACK REPLASTER DUB OUT IN PATCH",
+      "uom": "IT",
+      "smv": 95.0,
+      "cost": 55.1485
+    },
+    {
+      "code": "318157",
+      "description": "WINDOW:RENEW FRICTION STAY TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 13.7906
+    },
+    {
+      "code": "318123",
+      "description": "WINDOW:CHILD RESTRICTOR TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 13.2833
+    },
+    {
+      "code": "318108",
+      "description": "WINDOW:RENEW LOCKING HANDLE TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 14.2254
+    },
+    {
+      "code": "305705",
+      "description": "FLOORBOARD:REMOVE AND REFIX SINGLE BOARD",
+      "uom": "LM",
+      "smv": 10.0,
+      "cost": 5.1758
+    },
+    {
+      "code": "318185",
+      "description": "WINDOW:RENEW CILL TO PVCU",
+      "uom": "LM",
+      "smv": 35.0,
+      "cost": 37.8508
+    },
+    {
+      "code": "442001",
+      "description": "WALLS AND CEILINGS:APPLY MIST 2 COATS EMULSION",
+      "uom": "SM",
+      "smv": 22.0,
+      "cost": 12.2948
+    },
+    {
+      "code": "453019",
+      "description": "HALLSTAIRS:WALLPAPER WALLS 2 STOREY",
+      "uom": "IT",
+      "smv": 403.0,
+      "cost": 298.0988
+    },
+    {
+      "code": "330001",
+      "description": "DOOR:RENEW INTERNAL PLY FLUSH",
+      "uom": "NO",
+      "smv": 120.0,
+      "cost": 129.6744
+    },
+    {
+      "code": "335091",
+      "description": "DOOR:OVERHAUL INTERNAL COMPLETE",
+      "uom": "NO",
+      "smv": 75.0,
+      "cost": 49.761
+    },
+    {
+      "code": "392501",
+      "description": "DOOR FURNITURE:RENEW SET OF LEVER HANDLES",
+      "uom": "NO",
+      "smv": 12.0,
+      "cost": 22.7242
+    },
+    {
+      "code": "342325",
+      "description": "FRAME:REPAIR LOOSE INTERNAL FRAME JOINTS",
+      "uom": "NO",
+      "smv": 20.0,
+      "cost": 10.4965
+    },
+    {
+      "code": "411121",
+      "description": "WALL:HACK REPLASTER DUB OUT IN PATCH",
+      "uom": "IT",
+      "smv": 95.0,
+      "cost": 55.1485
+    },
+    {
+      "code": "318157",
+      "description": "WINDOW:RENEW FRICTION STAY TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 13.7906
+    },
+    {
+      "code": "318123",
+      "description": "WINDOW:CHILD RESTRICTOR TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 13.2833
+    },
+    {
+      "code": "318108",
+      "description": "WINDOW:RENEW LOCKING HANDLE TO PVCU",
+      "uom": "NO",
+      "smv": 15.0,
+      "cost": 14.2254
+    },
+    {
+      "code": "305705",
+      "description": "FLOORBOARD:REMOVE AND REFIX SINGLE BOARD",
+      "uom": "LM",
+      "smv": 10.0,
+      "cost": 5.1758
+    },
+    {
+      "code": "318185",
+      "description": "WINDOW:RENEW CILL TO PVCU",
+      "uom": "LM",
+      "smv": 35.0,
+      "cost": 37.8508
+    }
+  ]
+}
