@@ -1,5 +1,4 @@
 // src/App.js
-
 import React, { useEffect, useState } from "react";
 import {
   Container,
@@ -10,11 +9,12 @@ import {
   Button,
   Image,
   Accordion,
+  Table,
 } from "react-bootstrap";
 import SORSection from "./components/SORSection";
 import "./index.css";
 
-// Fixed list of desired sections; “contractor work” stays last
+// 1) Fixed list of desired sections; “contractor work” stays last
 const desiredOrder = [
   "general",
   "asbestos",
@@ -36,26 +36,47 @@ const desiredOrder = [
   "contractor work",
 ];
 
-// Helper to convert “kitchen” → “Kitchen”
+// 2) Title‐case helper for section headers
 const titleCase = (str) => {
   if (!str) return "";
   const s = str.toLowerCase();
   return s.charAt(0).toUpperCase() + s.slice(1);
 };
 
+// 3) Safe float parse (default 0)
+const parseNum = (val) => {
+  const x = parseFloat(val);
+  return isNaN(x) ? 0 : x;
+};
+
 function App() {
+  // ──────────────────────────────────────────────────────────
+  // State: All sections (arrays of SOR rows or free‐form rows)
+  // ──────────────────────────────────────────────────────────
   const [sors, setSors] = useState({});
+
+  // ──────────────────────────────────────────────────────────
+  // State: Did the user click “Start Survey”?
+  // ──────────────────────────────────────────────────────────
   const [showForm, setShowForm] = useState(false);
+
+  // ──────────────────────────────────────────────────────────
+  // State: Surveyor info
+  // ──────────────────────────────────────────────────────────
   const [surveyorName, setSurveyorName] = useState("");
   const [propertyAddress, setPropertyAddress] = useState("");
 
-  // Summary‐row state
+  // ──────────────────────────────────────────────────────────
+  // State: Summary‐row fields
+  // ──────────────────────────────────────────────────────────
   const [voidRating, setVoidRating] = useState("Green");
   const [voidType, setVoidType] = useState("Minor");
   const [overallComments, setOverallComments] = useState("");
   const [mwrRequired, setMWRRequired] = useState(false);
 
-  // Load sors.json at mount
+  // ──────────────────────────────────────────────────────────
+  // On mount: fetch SOR definitions and initialize each section with an empty array if not present
+  // ──────────────────────────────────────────────────────────
   useEffect(() => {
     fetch("/sors.json")
       .then((res) => res.json())
@@ -72,42 +93,171 @@ function App() {
       .catch((err) => console.error("Failed to load sors.json", err));
   }, []);
 
-  // Safely parse numbers
-  const parseNum = (val) => {
-    const x = parseFloat(val);
-    return isNaN(x) ? 0 : x;
-  };
-
-  // Compute totals
+  // ──────────────────────────────────────────────────────────
+  // Compute Totals
+  //
+  // We want:
+  //   • totalVoidSMV, totalVoidCost
+  //   • totalRechargeSMV, totalRechargeCost
+  //
+  // Rules:
+  //   - For “lorry clearance” & “contractor work” (free‐form lines):
+  //       • cost ALWAYS adds to voidCost.
+  //       • if item.recharge === true:
+  //           • cost also adds to rechargeCost,
+  //           • timeEstimate (in hours) → convert to minutes → add to rechargeSMV ONLY.
+  //         else:
+  //           • timeEstimate (hours→minutes) adds to voidSMV ONLY.
+  //
+  //   - For all OTHER sections (SOR‐based):
+  //       • cost ALWAYS adds to voidCost.
+  //       • if sor.recharge === true:
+  //           • cost also adds to rechargeCost,
+  //           • smv (already in minutes) adds to both voidSMV and rechargeSMV.
+  //         else:
+  //           • smv adds to voidSMV ONLY.
+  //
+  // Void Days = voidSMV ÷ 450
+  // Recharge Days = rechargeSMV ÷ 400
+  // ──────────────────────────────────────────────────────────
   const computeTotals = () => {
-    let totalSMV = 0;
-    let totalCost = 0;
+    let totalVoidSMV = 0;
+    let totalVoidCost = 0;
+    let totalRechargeSMV = 0;
+    let totalRechargeCost = 0;
 
     Object.keys(sors).forEach((sectionKey) => {
       if (sectionKey === "searchable") return;
-      sors[sectionKey].forEach((sor) => {
-        const qty = parseNum(sor.quantity || 0);
-        totalSMV += parseNum(sor.smv) * qty;
-        totalCost += parseNum(sor.cost) * qty;
+      const arr = Array.isArray(sors[sectionKey]) ? sors[sectionKey] : [];
+
+      arr.forEach((item) => {
+        // Determine if this is a free‐form “lorry clearance” or “contractor work” row
+        const isFreeForm =
+          sectionKey === "lorry clearance" || sectionKey === "contractor work";
+
+        if (isFreeForm) {
+          // item must have: description, cost, timeEstimate (in hours), recharge (boolean)
+          const cost = parseNum(item.cost);
+          const timeHours = parseNum(item.timeEstimate);
+          const timeMinutes = timeHours * 60;
+
+          // 1) Cost always goes into voidCost
+          totalVoidCost += cost;
+
+          if (item.recharge) {
+            // If flagged recharge: cost also into rechargeCost, timeMinutes → rechargeSMV
+            totalRechargeCost += cost;
+            totalRechargeSMV += timeMinutes;
+          }
+          // If not flagged recharge: do NOT add time to voidSMV
+        } else {
+          // Regular SOR row: has smv (minutes), cost (per‐unit), quantity, recharge flag
+          const quantity = parseNum(item.quantity || 0);
+          const smv = parseNum(item.smv) * quantity;
+          const cost = parseNum(item.cost) * quantity;
+
+          // 1) Cost always goes into voidCost
+          totalVoidCost += cost;
+
+          if (item.recharge) {
+            // 2a) Flagged recharge → add to both void & recharge
+            totalRechargeCost += cost;
+            totalRechargeSMV += smv;
+            totalVoidSMV += smv;
+          } else {
+            // 2b) Not flagged → only to void
+            totalVoidSMV += smv;
+          }
+        }
       });
     });
 
-    const rawDays = totalSMV / 450; // 450 SMV = 1 day
+    const voidDaysDecimal = totalVoidSMV / 450;
+    const rechargeDaysDecimal = totalRechargeSMV / 400;
+
     return {
-      smv: Math.round(totalSMV),
-      cost: totalCost.toFixed(2),
-      daysDecimal: rawDays,
+      smv: Math.round(totalVoidSMV), // total minutes for void
+      cost: totalVoidCost.toFixed(2),
+      daysDecimal: voidDaysDecimal,
+      rechargeDaysDecimal,
+      rechargeCost: totalRechargeCost.toFixed(2),
     };
   };
 
   const totals = computeTotals();
   const sectionKeys = desiredOrder.filter((key) => key in sors);
 
-  // Add / update / remove handlers
+  // ──────────────────────────────────────────────────────────
+  // Collect all “recharged” items into a single array for the Recharges table
+  // ──────────────────────────────────────────────────────────
+  const getAllRechargeItems = () => {
+    const result = [];
+    Object.keys(sors).forEach((sectionKey) => {
+      if (sectionKey === "searchable") return;
+      const arr = Array.isArray(sors[sectionKey]) ? sors[sectionKey] : [];
+
+      arr.forEach((item) => {
+        const isFreeForm =
+          sectionKey === "lorry clearance" || sectionKey === "contractor work";
+
+        if (isFreeForm) {
+          const cost = parseNum(item.cost);
+          const timeHours = parseNum(item.timeEstimate);
+          if (item.recharge) {
+            result.push({
+              section: sectionKey,
+              code: "", // no code for free‐form
+              description: item.description || "",
+              cost: cost.toFixed(2),
+              comment: item.comment || "",
+            });
+          }
+        } else {
+          const qty = parseNum(item.quantity || 0);
+          const cost = parseNum(item.cost) * qty;
+          if (item.recharge) {
+            result.push({
+              section: sectionKey,
+              code: item.code || "",
+              description: item.description || "",
+              cost: cost.toFixed(2),
+              comment: item.comment || "",
+            });
+          }
+        }
+      });
+    });
+    return result;
+  };
+
+  // ──────────────────────────────────────────────────────────
+  // Handlers to add / update / remove items
+  // ──────────────────────────────────────────────────────────
+
+  // When adding a new SOR or free‐form row: initialize necessary fields
   const handleAddSOR = (section, newSOR) => {
     setSors((prev) => {
       const arr = Array.isArray(prev[section]) ? prev[section] : [];
-      return { ...prev, [section]: [...arr, newSOR] };
+      // If this is “lorry clearance” or “contractor work”, newSOR is free‐form:
+      if (section === "lorry clearance" || section === "contractor work") {
+        // Expect newSOR = { description: "", cost: "", timeEstimate: "", recharge: false, comment: "" }
+        return {
+          ...prev,
+          [section]: [...arr, newSOR],
+        };
+      } else {
+        // Regular SOR row from JSON: initialize quantity, comment, recharge=false
+        const row = {
+          ...newSOR,
+          quantity: "",
+          comment: "",
+          recharge: false,
+        };
+        return {
+          ...prev,
+          [section]: [...arr, row],
+        };
+      }
     });
   };
 
@@ -127,11 +277,9 @@ function App() {
     });
   };
 
-  //
-  // ─────────────────────────────────────────────────────────────────────
-  //   E X P O R T   T O   E X C E L
-  // ─────────────────────────────────────────────────────────────────────
-  //
+  // ──────────────────────────────────────────────────────────
+  // Export to Excel
+  // ──────────────────────────────────────────────────────────
   const exportToExcel = () => {
     const XLSX = require("xlsx");
 
@@ -142,24 +290,50 @@ function App() {
       ["Void Rating", voidRating],
       ["Void Type", voidType],
       ["MWR Required", mwrRequired ? "Yes" : "No"],
-      ["Total SMV", totals.smv],
+      ["Total SMV (min)", totals.smv],
       ["Total Void Days", totals.daysDecimal.toFixed(1)],
       ["Total Cost (£)", totals.cost],
+      ["Recharge Days", totals.rechargeDaysDecimal.toFixed(1)],
+      ["Recharge Cost (£)", totals.rechargeCost],
       ["Comments", overallComments],
     ];
 
-    // Append Contractor Work if any
-    const contractors = sors["contractor work"] || [];
-    if (contractors.length > 0) {
-      aoa.push([]); // blank row
-      aoa.push(["Contractor", "Description", "Cost"]);
-      contractors.forEach((cw) => {
-        aoa.push([
-          cw.contractor || "",
-          cw.description || "",
-          cw.cost || "",
-        ]);
-      });
+    // Append Contractor Work & Lorry Clearance free‐form lines if any
+    const freeForms = (sectionKey) =>
+      (sors[sectionKey] || []).map((row) => [
+        row.description || "",
+        row.cost || "",
+        row.timeEstimate || "",
+        row.recharge ? "Yes" : "No",
+        row.comment || "",
+      ]);
+
+    // If there are any “contractor work” lines, add a section
+    const contractorRows = freeForms("contractor work");
+    if (contractorRows.length > 0) {
+      aoa.push([]);
+      aoa.push([
+        "Contractor Description",
+        "Cost (£)",
+        "Time (hrs)",
+        "Recharge?",
+        "Comment",
+      ]);
+      contractorRows.forEach((r) => aoa.push(r));
+    }
+
+    // If there are any “lorry clearance” lines, add a section
+    const lorryRows = freeForms("lorry clearance");
+    if (lorryRows.length > 0) {
+      aoa.push([]);
+      aoa.push([
+        "Lorry Clearance Description",
+        "Cost (£)",
+        "Time (hrs)",
+        "Recharge?",
+        "Comment",
+      ]);
+      lorryRows.forEach((r) => aoa.push(r));
     }
 
     const wsSummary = XLSX.utils.aoa_to_sheet(aoa);
@@ -173,13 +347,19 @@ function App() {
         "UOM",
         "Quantity",
         "SMV",
-        "Cost",
+        "Cost (£)",
         "Comment",
+        "Recharge?",
       ],
     ];
     sectionKeys.forEach((section) => {
-      if (section === "searchable" || section === "contractor work") return;
-      sors[section].forEach((sor) => {
+      if (
+        section === "searchable" ||
+        section === "contractor work" ||
+        section === "lorry clearance"
+      )
+        return;
+      (sors[section] || []).forEach((sor) => {
         detailsAoA.push([
           titleCase(section),
           sor.code || "",
@@ -189,12 +369,13 @@ function App() {
           sor.smv || "",
           sor.cost || "",
           sor.comment || "",
+          sor.recharge ? "Yes" : "No",
         ]);
       });
     });
     const wsDetails = XLSX.utils.aoa_to_sheet(detailsAoA);
 
-    // Create and write workbook
+    // Create workbook
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, wsSummary, "Summary");
     XLSX.utils.book_append_sheet(wb, wsDetails, "SOR Details");
@@ -203,15 +384,12 @@ function App() {
     XLSX.writeFile(wb, `Empty_Homes_Survey_${safeAddr}.xlsx`);
   };
 
-  //
-  // ─────────────────────────────────────────────────────────────────────
-  //   E X P O R T   T O   P D F
-  // ─────────────────────────────────────────────────────────────────────
-  //
+  // ──────────────────────────────────────────────────────────
+  // Export to PDF
+  // ──────────────────────────────────────────────────────────
   const exportToPDF = () => {
     const jsPDF = require("jspdf").default;
     require("jspdf-autotable");
-
     const doc = new jsPDF({ unit: "pt", format: "a4" });
     let y = 40;
 
@@ -228,9 +406,11 @@ function App() {
       ["Void Rating:", voidRating],
       ["Void Type:", voidType],
       ["MWR Required:", mwrRequired ? "Yes" : "No"],
-      ["Total SMV:", totals.smv.toString()],
-      ["Total Cost (£):", totals.cost.toString()],
+      ["Total SMV (min):", totals.smv.toString()],
       ["Total Void Days:", totals.daysDecimal.toFixed(1)],
+      ["Total Cost (£):", totals.cost.toString()],
+      ["Recharge Days:", totals.rechargeDaysDecimal.toFixed(1)],
+      ["Recharge Cost (£):", totals.rechargeCost.toString()],
       ["Comments:", overallComments],
     ];
     summaryLines.forEach((pair) => {
@@ -239,16 +419,26 @@ function App() {
     });
     y += 10;
 
-    // Contractor Work (if any)
+    // If free‐form “contractor work” rows exist
     const contractors = sors["contractor work"] || [];
     if (contractors.length > 0) {
       doc.autoTable({
         startY: y,
-        head: [["Contractor", "Description", "Cost"]],
+        head: [
+          [
+            "Contractor Description",
+            "Cost (£)",
+            "Time (hrs)",
+            "Recharge?",
+            "Comment",
+          ],
+        ],
         body: contractors.map((cw) => [
-          cw.contractor || "",
           cw.description || "",
           cw.cost || "",
+          cw.timeEstimate || "",
+          cw.recharge ? "Yes" : "No",
+          cw.comment || "",
         ]),
         styles: { fontSize: 10 },
         headStyles: { fillColor: [240, 240, 240] },
@@ -256,11 +446,43 @@ function App() {
       y = doc.lastAutoTable.finalY + 20;
     }
 
-    // SOR Details table
+    // If free‐form “lorry clearance” rows exist
+    const lorries = sors["lorry clearance"] || [];
+    if (lorries.length > 0) {
+      doc.autoTable({
+        startY: y,
+        head: [
+          [
+            "Lorry Clearance Description",
+            "Cost (£)",
+            "Time (hrs)",
+            "Recharge?",
+            "Comment",
+          ],
+        ],
+        body: lorries.map((cw) => [
+          cw.description || "",
+          cw.cost || "",
+          cw.timeEstimate || "",
+          cw.recharge ? "Yes" : "No",
+          cw.comment || "",
+        ]),
+        styles: { fontSize: 10 },
+        headStyles: { fillColor: [240, 240, 240] },
+      });
+      y = doc.lastAutoTable.finalY + 20;
+    }
+
+    // SOR Details table (excluding free‐form sections)
     const detailRows = [];
     sectionKeys.forEach((section) => {
-      if (section === "searchable" || section === "contractor work") return;
-      sors[section].forEach((sor) => {
+      if (
+        section === "searchable" ||
+        section === "contractor work" ||
+        section === "lorry clearance"
+      )
+        return;
+      (sors[section] || []).forEach((sor) => {
         detailRows.push([
           titleCase(section),
           sor.code || "",
@@ -270,6 +492,7 @@ function App() {
           sor.smv || "",
           sor.cost || "",
           sor.comment || "",
+          sor.recharge ? "Yes" : "No",
         ]);
       });
     });
@@ -284,8 +507,9 @@ function App() {
           "UOM",
           "Quantity",
           "SMV",
-          "Cost",
+          "Cost (£)",
           "Comment",
+          "Recharge?",
         ],
       ],
       body: detailRows,
@@ -298,6 +522,9 @@ function App() {
     doc.save(`Empty_Homes_Survey_${safeAddr}.pdf`);
   };
 
+  // ──────────────────────────────────────────────────────────
+  // Render
+  // ──────────────────────────────────────────────────────────
   return (
     <Container fluid className="p-0">
       {!showForm ? (
@@ -352,7 +579,10 @@ function App() {
       ) : (
         <>
           {/* ─── Sticky Header for ≥ md screens ─── */}
-          <div className="d-none d-md-block sticky-top bg-white shadow-sm" style={{ zIndex: 1020 }}>
+          <div
+            className="d-none d-md-block sticky-top bg-white shadow-sm"
+            style={{ zIndex: 1020 }}
+          >
             <Container fluid className="py-2">
               <Row className="align-items-center">
                 <Col xs="auto">
@@ -406,7 +636,7 @@ function App() {
                     </Card.Body>
                   </Card>
                 </Col>
-                <Col xs={6} md={3}>
+                <Col xs={6} md={2}>
                   <Card className="h-100">
                     <Card.Body className="text-center">
                       <Card.Title as="h6" className="text-muted">
@@ -423,7 +653,7 @@ function App() {
                     </Card.Body>
                   </Card>
                 </Col>
-                <Col xs={6} md={3}>
+                <Col xs={6} md={2}>
                   <Card className="h-100">
                     <Card.Body className="text-center">
                       <Card.Title as="h6" className="text-muted">
@@ -471,7 +701,7 @@ function App() {
                   <Card className="text-center">
                     <Card.Body className="p-1">
                       <Card.Title as="div" className="text-muted small mb-1">
-                        Days
+                        Void Days
                       </Card.Title>
                       <Card.Text className="fw-bold">
                         {totals.daysDecimal.toFixed(1)}
@@ -526,19 +756,14 @@ function App() {
             </Container>
           </div>
 
-          {/* ─── Spacing to push content below sticky header on md+ ─── */}
+          {/* ─── Spacer for md+ sticky header ─── */}
           <div style={{ height: "30px" }}></div>
-          {/* 150px roughly matches the combined height of the logo/name + cards on md+ */}
 
           {/* ─── Main Form Sections ─── */}
           <Container fluid className="px-4">
             <Accordion defaultActiveKey="none" flush>
               {sectionKeys.map((section) => (
-                <Accordion.Item
-                  eventKey={section}
-                  key={section}
-                  className="mb-3"
-                >
+                <Accordion.Item eventKey={section} key={section} className="mb-3">
                   <Accordion.Header>{titleCase(section)}</Accordion.Header>
                   <Accordion.Body>
                     <SORSection
@@ -552,7 +777,81 @@ function App() {
                 </Accordion.Item>
               ))}
 
-              {/* Final “Comments” */}
+              {/* ─── Recharges Accordion ─── */}
+              <Accordion.Item eventKey="recharges" className="mb-3">
+                <Accordion.Header>Recharges</Accordion.Header>
+                <Accordion.Body>
+                  {/* Two cards side by side: Recharge Days & Recharge Cost */}
+                  <Row className="g-3 mb-3">
+                    <Col xs={6}>
+                      <Card className="h-100 text-center">
+                        <Card.Body>
+                          <Card.Title as="h6" className="text-muted">
+                            Recharge Days
+                          </Card.Title>
+                          <Card.Text className="fs-4 fw-bold">
+                            {totals.rechargeDaysDecimal.toFixed(1)}
+                          </Card.Text>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                    <Col xs={6}>
+                      <Card className="h-100 text-center">
+                        <Card.Body>
+                          <Card.Title as="h6" className="text-muted">
+                            Recharge Cost
+                          </Card.Title>
+                          <Card.Text className="fs-4 fw-bold">
+                            £{totals.rechargeCost}
+                          </Card.Text>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                  </Row>
+
+                  {/* Warning if > 5 days of recharge work */}
+                  {totals.rechargeDaysDecimal > 5 && (
+                    <div className="alert alert-warning">
+                      This is over 5 days of recharge work – if this is a transfer,
+                      decline this.
+                    </div>
+                  )}
+
+                  {/* Recharge Details Table */}
+                  <Table bordered hover size="sm">
+                    <thead className="table-light">
+                      <tr>
+                        <th>Section</th>
+                        <th>Code</th>
+                        <th>Description</th>
+                        <th>Cost (£)</th>
+                        <th>Comment</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {getAllRechargeItems().length === 0 ? (
+                        <tr>
+                          <td colSpan={5} className="text-center text-muted">
+                            No recharge items added yet.
+                          </td>
+                        </tr>
+                      ) : (
+                        getAllRechargeItems().map((i, idx) => (
+                          <tr key={"rch-" + idx}>
+                            <td>{titleCase(i.section)}</td>
+                            <td>{i.code}</td>
+                            <td>{i.description}</td>
+                            <td>£{i.cost}</td>
+                            <td>{i.comment}</td>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </Table>
+                </Accordion.Body>
+              </Accordion.Item>
+
+              {/* ─── Final “Comments” Accordion ─── */}
               <Accordion.Item eventKey="survey-comments" className="mb-3">
                 <Accordion.Header>Comments</Accordion.Header>
                 <Accordion.Body>
@@ -581,9 +880,13 @@ function App() {
             </Accordion>
           </Container>
 
-          {/* ─── Export Buttons (at bottom) ─── */}
+          {/* ─── Export Buttons (bottom) ─── */}
           <Container fluid className="px-4 mt-4 mb-5 text-center">
-            <Button variant="success" className="me-3" onClick={exportToExcel}>
+            <Button
+              variant="success"
+              className="me-3"
+              onClick={exportToExcel}
+            >
               Export to Excel
             </Button>
             <Button variant="danger" onClick={exportToPDF}>
