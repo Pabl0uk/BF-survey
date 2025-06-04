@@ -599,7 +599,7 @@ function App() {
                   </h5>
                 </Col>
               </Row>
-              <Row className="g-3 mt-2">
+              <Row className="g-3 mt-2 justify-content-center">
                 <Col xs={6} md={2}>
                   <Card className="h-100 text-center">
                     <Card.Body>
@@ -686,7 +686,7 @@ function App() {
                   </small>
                 </Col>
               </Row>
-              <Row className="g-2 mt-1">
+              <Row className="g-2 mt-1 justify-content-center">
                 <Col xs={4}>
                   <Card className="text-center">
                     <Card.Body className="p-1">
@@ -867,14 +867,6 @@ function App() {
                       onChange={(e) => setOverallComments(e.target.value)}
                     />
                   </Form.Group>
-                  <div className="mt-3">
-                    <Form.Check
-                      type="checkbox"
-                      label="Does this require a MWR?"
-                      checked={mwrRequired}
-                      onChange={(e) => setMWRRequired(e.target.checked)}
-                    />
-                  </div>
                 </Accordion.Body>
               </Accordion.Item>
             </Accordion>
@@ -891,6 +883,19 @@ function App() {
             </Button>
             <Button variant="danger" onClick={exportToPDF}>
               Export to PDF
+            </Button>
+            <Button
+              variant="secondary"
+              className="ms-3"
+              onClick={() => {
+                const proceed = window.confirm("⚠️ Your data could be lost!");
+                if (proceed) {
+                  window.location.href =
+                    "mailto:pete.irvine@bromford.co.uk?subject=Empty%20Homes%20Survey%20Feedback";
+                }
+              }}
+            >
+              Send Feedback
             </Button>
           </Container>
         </>
