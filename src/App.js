@@ -105,8 +105,8 @@ function App() {
         desiredOrder.forEach((key) => {
           merged[key] = Array.isArray(data[key]) ? data[key] : [];
         });
-        merged.searchable = Array.isArray(data.searchable)
-          ? data.searchable
+        merged.__search_only = Array.isArray(data.__search_only)
+          ? data.__search_only
           : [];
         setSors(merged);
       })

@@ -54,7 +54,14 @@ const SORSection = ({
 
   // ─────────────────────────────────────────────────────────────────
   // 4) The global “searchable” SOR list (for standard SOR‐driven sections)
-  const allSearchable = Array.isArray(sors?.searchable) ? sors.searchable : [];
+  // Combine the section-specific SORs and the global searchable list (including __search_only if present)
+  const allSearchable = [
+    ...(Array.isArray(sors?.[section]) ? sors[section] : []),
+    ...(Array.isArray(sors?.__search_only) ? sors.__search_only : []),
+    ...(Array.isArray(sors?.searchable) ? sors.searchable : [])
+  ];
+  // Log the list of available searchable codes for debugging
+  console.log("Searchable codes (merged):", allSearchable.map(s => s.code));
 
   // 5) Filter “searchable” by searchText (multi-word, unordered matching on code/description)
   const filteredResults = allSearchable.filter((item) => {
@@ -404,7 +411,7 @@ const SORSection = ({
         {/* b) Default SORs for this section */}
         {selectedSORs.length > 0 && (
           <div>
-            <p className="fw-semibold mb-2">Default SORs:</p>
+            <p className="fw-semibold mb-2" style={{ display: "none" }}>Default SORs:</p>
             {selectedSORs.map((sor, idx) => {
               const currentQty = parseQty(sor.quantity);
               return (
