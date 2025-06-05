@@ -1,5 +1,5 @@
 // src/App.js
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Container,
   Row,
@@ -73,6 +73,12 @@ function App() {
   // State: Did the user click “Start Survey”?
   // ──────────────────────────────────────────────────────────
   const [showForm, setShowForm] = useState(false);
+
+  // ──────────────────────────────────────────────────────────
+  // Accordion: Track active section and refs to scroll into view
+  // ──────────────────────────────────────────────────────────
+  const [activeSection, setActiveSection] = useState(null);
+  const accordionRefs = useRef({});
 
   // ──────────────────────────────────────────────────────────
   // State: Surveyor info
@@ -388,6 +394,18 @@ function App() {
       });
     });
     const wsDetails = XLSX.utils.aoa_to_sheet(detailsAoA);
+    // Set column widths for SOR Details for better formatting
+    wsDetails["!cols"] = [
+      { wch: 15 }, // Section
+      { wch: 10 }, // Code
+      { wch: 40 }, // Description
+      { wch: 8 },  // UOM
+      { wch: 8 },  // Quantity
+      { wch: 8 },  // SMV
+      { wch: 10 }, // Cost
+      { wch: 30 }, // Comment
+      { wch: 10 }, // Recharge
+    ];
 
     // Create workbook
     const wb = XLSX.utils.book_new();
@@ -513,23 +531,17 @@ function App() {
     }); // close sectionKeys.forEach
     autoTable(doc, {
       startY: y,
-      head: [
-        [
-          "Section",
-          "Code",
-          "Description",
-          "UOM",
-          "Quantity",
-          "SMV",
-          "Cost (£)",
-          "Comment",
-          "Recharge?",
-        ],
-      ],
+      head: [[
+        "Section", "Code", "Description", "UOM", "Quantity", "SMV", "Cost (£)", "Comment", "Recharge?"
+      ]],
       body: detailRows,
-      styles: { fontSize: 9 },
+      styles: { fontSize: 9, cellWidth: 'wrap' },
       headStyles: { fillColor: [240, 240, 240] },
-      margin: { left: 40, right: 20 },
+      columnStyles: {
+        2: { cellWidth: 120 }, // Description
+        7: { cellWidth: 80 },  // Comment
+      },
+      margin: { left: 40, right: 20 }
     });
 
     const safeAddr = propertyAddress.replace(/\s+/g, "_");
@@ -798,9 +810,31 @@ function App() {
 
           {/* ─── Main Form Sections ─── */}
           <Container fluid className="px-4">
-            <Accordion defaultActiveKey="none" flush>
+            <Accordion
+              activeKey={activeSection}
+              onSelect={(eventKey) => {
+                setActiveSection(eventKey);
+                requestAnimationFrame(() => {
+                  setTimeout(() => {
+                    const item = accordionRefs.current[eventKey];
+                    const header = item?.querySelector(".accordion-button");
+                    const stickyHeaderHeight = document.querySelector(".sticky-top")?.offsetHeight || 90;
+                    if (header) {
+                      const y = header.getBoundingClientRect().top + window.pageYOffset - stickyHeaderHeight - 10;
+                      window.scrollTo({ top: y, behavior: "smooth" });
+                    }
+                  }, 400); // Delay allows collapsing animation to finish
+                });
+              }}
+              flush
+            >
               {sectionKeys.map((section) => (
-                <Accordion.Item eventKey={section} key={section} className="mb-3">
+                <Accordion.Item
+                  eventKey={section}
+                  key={section}
+                  className="mb-3"
+                  ref={(el) => (accordionRefs.current[section] = el)}
+                >
                   <Accordion.Header>{titleCase(section)}</Accordion.Header>
                   <Accordion.Body>
                     <SORSection
