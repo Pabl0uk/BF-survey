@@ -30,11 +30,11 @@
   ],
   "decoration": [
     {
-      "code": "470001",
-      "description": "DWELLING:REDECORATE 1 BEDROOM FLAT",
+      "code": "470501",
+      "description": "DWELLING:WASH 2CT REDECORATION 1 BEDROOM FLAT",
       "uom": "IT",
-      "smv": 1050.0,
-      "cost": 1030.0273,
+      "smv": 675.0,
+      "cost": 676.4902,
       "quantity": "",
       "comment": ""
     },
@@ -48,29 +48,38 @@
       "comment": ""
     },
     {
-      "code": "470531",
-      "description": "DWELLING:WASH 1CT REDECORATION 3 BEDROOM HOUSE",
+      "code": "470503",
+      "description": "DWELLING:WASH 2CT REDECORATION 3 BEDROOM FLAT",
       "uom": "IT",
-      "smv": 710.0,
-      "cost": 744.9769,
+      "smv": 935.0,
+      "cost": 956.208,
       "quantity": "",
       "comment": ""
     },
     {
-      "code": "442001",
-      "description": "WALLS AND CEILINGS:APPLY MIST 2 COATS EMULSION",
-      "uom": "SM",
-      "smv": 22.0,
-      "cost": 12.2948,
+      "code": "470510",
+      "description": "DWELLING:WASH 2CT REDECORATION 2 BEDROOM HOUSE",
+      "uom": "IT",
+      "smv": 1050.0,
+      "cost": 1056.7334,
       "quantity": "",
       "comment": ""
     },
     {
-      "code": "411113",
-      "description": "WALL:FLOAT SET DUB OUT IN PATCH",
+      "code": "470511",
+      "description": "DWELLING:WASH 2CT REDECORATION 3 BEDROOM HOUSE",
       "uom": "IT",
-      "smv": 60.0,
-      "cost": 36.7313,
+      "smv": 1180.0,
+      "cost": 1226.7723,
+      "quantity": "",
+      "comment": ""
+    },
+    {
+      "code": "470512",
+      "description": "DWELLING:WASH 2CT REDECORATION 4 BEDROOM HOUSE",
+      "uom": "IT",
+      "smv": 1305.0,
+      "cost": 1422.579,
       "quantity": "",
       "comment": ""
     }

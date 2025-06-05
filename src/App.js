@@ -12,6 +12,8 @@ import {
   Table,
 } from "react-bootstrap";
 import SORSection from "./components/SORSection";
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 import "./index.css";
 
 // 1) Fixed list of desired sections; “contractor work” stays last
@@ -54,6 +56,18 @@ function App() {
   // State: All sections (arrays of SOR rows or free‐form rows)
   // ──────────────────────────────────────────────────────────
   const [sors, setSors] = useState({});
+
+  // ──────────────────────────────────────────────────────────
+  // State: Dark mode
+  // ──────────────────────────────────────────────────────────
+  const [darkMode, setDarkMode] = useState(
+    localStorage.getItem("darkMode") === "true"
+  );
+
+  useEffect(() => {
+    document.body.classList.toggle("dark-mode", darkMode);
+    localStorage.setItem("darkMode", darkMode);
+  }, [darkMode]);
 
   // ──────────────────────────────────────────────────────────
   // State: Did the user click “Start Survey”?
@@ -172,7 +186,7 @@ function App() {
       });
     });
 
-    const voidDaysDecimal = totalVoidSMV / 450;
+    const voidDaysDecimal = totalVoidSMV / 400;
     const rechargeDaysDecimal = totalRechargeSMV / 400;
 
     return {
@@ -388,8 +402,6 @@ function App() {
   // Export to PDF
   // ──────────────────────────────────────────────────────────
   const exportToPDF = () => {
-    const jsPDF = require("jspdf").default;
-    require("jspdf-autotable");
     const doc = new jsPDF({ unit: "pt", format: "a4" });
     let y = 40;
 
@@ -422,7 +434,7 @@ function App() {
     // If free‐form “contractor work” rows exist
     const contractors = sors["contractor work"] || [];
     if (contractors.length > 0) {
-      doc.autoTable({
+      autoTable(doc, {
         startY: y,
         head: [
           [
@@ -449,7 +461,7 @@ function App() {
     // If free‐form “lorry clearance” rows exist
     const lorries = sors["lorry clearance"] || [];
     if (lorries.length > 0) {
-      doc.autoTable({
+      autoTable(doc, {
         startY: y,
         head: [
           [
@@ -473,7 +485,7 @@ function App() {
       y = doc.lastAutoTable.finalY + 20;
     }
 
-    // SOR Details table (excluding free‐form sections)
+    // SOR Details table (only include selected SORs)
     const detailRows = [];
     sectionKeys.forEach((section) => {
       if (
@@ -483,21 +495,23 @@ function App() {
       )
         return;
       (sors[section] || []).forEach((sor) => {
-        detailRows.push([
-          titleCase(section),
-          sor.code || "",
-          sor.description || "",
-          sor.uom || "",
-          sor.quantity || "",
-          sor.smv || "",
-          sor.cost || "",
-          sor.comment || "",
-          sor.recharge ? "Yes" : "No",
-        ]);
+        // Only include if quantity > 0
+        if (parseNum(sor.quantity) > 0) {
+          detailRows.push([
+            titleCase(section),
+            sor.code || "",
+            sor.description || "",
+            sor.uom || "",
+            sor.quantity || "",
+            sor.smv || "",
+            sor.cost || "",
+            sor.comment || "",
+            sor.recharge ? "Yes" : "No",
+          ]);
+        }
       });
-    });
-
-    doc.autoTable({
+    }); // close sectionKeys.forEach
+    autoTable(doc, {
       startY: y,
       head: [
         [
@@ -543,6 +557,20 @@ function App() {
             <Col xs={10} md={6} lg={4}>
               <Card>
                 <Card.Body>
+                  <Row className="align-items-center justify-content-between mb-3">
+                    <Col>
+                      {/* Removed duplicate "Empty Homes Survey" label */}
+                    </Col>
+                    <Col xs="auto">
+                      <Form.Check
+                        type="switch"
+                        id="dark-mode-switch-front"
+                        label="Dark Mode"
+                        checked={darkMode}
+                        onChange={(e) => setDarkMode(e.target.checked)}
+                      />
+                    </Col>
+                  </Row>
                   <Form>
                     <Form.Group controlId="surveyorName" className="mb-3">
                       <Form.Label>Surveyor Name</Form.Label>
@@ -597,6 +625,15 @@ function App() {
                   <h5 className="mb-0">
                     {surveyorName} — {propertyAddress}
                   </h5>
+                </Col>
+                <Col xs="auto">
+                  <Form.Check
+                    type="switch"
+                    id="dark-mode-switch"
+                    label="Dark Mode"
+                    checked={darkMode}
+                    onChange={(e) => setDarkMode(e.target.checked)}
+                  />
                 </Col>
               </Row>
               <Row className="g-3 mt-2 justify-content-center">
@@ -782,7 +819,7 @@ function App() {
                 <Accordion.Header>Recharges</Accordion.Header>
                 <Accordion.Body>
                   {/* Two cards side by side: Recharge Days & Recharge Cost */}
-                  <Row className="g-3 mb-3">
+                  <Row className="g-3 mb-3 justify-content-center">
                     <Col xs={6}>
                       <Card className="h-100 text-center">
                         <Card.Body>

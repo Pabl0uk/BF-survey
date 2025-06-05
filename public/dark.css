@@ -1,0 +1,202 @@
+body.dark-mode {
+  background-color: #1c2a36;
+  color: #f4f7fa;
+}
+
+.dark-mode .card,
+.dark-mode .form-control,
+.dark-mode .form-select,
+.dark-mode .form-check-input {
+  background-color: #263545;
+  color: #f4f7fa;
+  border-color: #44576c;
+}
+
+.dark-mode .form-check-label,
+.dark-mode label,
+.dark-mode .text-muted {
+  color: #c9d4e0 !important;
+}
+
+.dark-mode .btn {
+  background-color: #00acc1;
+  border-color: #00acc1;
+  color: #fff;
+}
+
+.dark-mode .btn-outline-secondary {
+  color: #f4f7fa;
+  border-color: #00acc1;
+}
+
+.dark-mode .btn-outline-secondary:hover {
+  background-color: #00acc1;
+  color: #fff;
+}
+
+.dark-mode .accordion-button {
+  background-color: #1f2d3a;
+  color: #f4f7fa;
+  border: none;
+}
+
+.dark-mode .accordion-button:not(.collapsed) {
+  background-color: #223344;
+}
+
+.dark-mode .accordion-item {
+  border: none;
+}
+
+.dark-mode .bg-white,
+.dark-mode .summary-bar,
+.dark-mode .summary-box {
+  background-color: #263545 !important;
+  color: #f4f7fa !important;
+}
+
+.dark-mode select,
+.dark-mode .form-select {
+  background-color: #263545;
+  color: #f4f7fa;
+  border-color: #44576c;
+}
+
+.dark-mode h5,
+.dark-mode label,
+.dark-mode .form-label {
+  color: #f4f7fa;
+}
+
+.dark-mode .sticky-top .small,
+.dark-mode .sticky-top h5 {
+  color: #e2eaf2 !important;
+}
+
+/* Improve contrast on summary and SOR text */
+.dark-mode .form-check-label,
+.dark-mode .form-label,
+.dark-mode .sor-summary {
+  color: #e2eaf2 !important;
+}
+
+/* Placeholder and input clarity */
+.dark-mode input,
+.dark-mode textarea,
+.dark-mode .form-control::placeholder {
+  background-color: #1f2d3a;
+  color: #f4f7fa;
+  border: 1px solid #44576c;
+}
+
+/* Improve clarity of the stepper button area */
+.dark-mode .btn-info {
+  background-color: #007ea8;
+  border-color: #007ea8;
+}
+
+.dark-mode .btn-info:hover {
+  background-color: #00acc1;
+}
+
+/* Recharge checkbox color */
+.dark-mode .form-check-input:checked {
+  background-color: #00acc1;
+  border-color: #00acc1;
+}
+
+/* Improve field visibility */
+.dark-mode input,
+.dark-mode textarea {
+  background-color: #1f2d3a;
+  color: #f4f7fa;
+  border: 1px solid #3d4e5e;
+  box-shadow: none;
+}
+
+.dark-mode input:focus,
+.dark-mode textarea:focus {
+  border-color: #00acc1;
+  outline: none;
+}
+
+/* Brighter placeholder text */
+.dark-mode .form-control::placeholder {
+  color: #aeb9c6;
+}
+
+/* Recharge label visibility */
+.dark-mode .form-check-label {
+  color: #dce7f3 !important;
+  font-weight: 500;
+}
+
+/* Force input and placeholder appearance */
+.dark-mode input[type="text"],
+.dark-mode input.form-control,
+.dark-mode textarea.form-control {
+  background-color: #1f2d3a !important;
+  color: #f4f7fa !important;
+  border: 1px solid #3d4e5e !important;
+  box-shadow: none !important;
+}
+
+.dark-mode input[type="text"]::placeholder,
+.dark-mode input.form-control::placeholder,
+.dark-mode textarea.form-control::placeholder {
+  color: #aeb9c6 !important;
+}
+.dark-mode .accordion-body input[type="text"],
+.dark-mode .accordion-body textarea,
+.dark-mode .accordion-body .form-control {
+  background-color: #1f2d3a !important;
+  color: #f4f7fa !important;
+  border: 1px solid #3d4e5e !important;
+  box-shadow: none !important;
+}
+
+.dark-mode .accordion-body input[type="text"]::placeholder,
+.dark-mode .accordion-body textarea::placeholder,
+.dark-mode .accordion-body .form-control::placeholder {
+  color: #aeb9c6 !important;
+}
+.dark-mode .sor-comment-wrapper input,
+.dark-mode .sor-search-wrapper input {
+  background-color: #1f2d3a !important;
+  color: #f4f7fa !important;
+  border: 1px solid #3d4e5e !important;
+  box-shadow: none !important;
+}
+
+.dark-mode .sor-comment-wrapper input::placeholder,
+.dark-mode .sor-search-wrapper input::placeholder {
+  color: #aeb9c6 !important;
+}
+
+/* Force accordion section content background */
+.dark-mode .accordion-body {
+  background-color: #1c2a36 !important;
+  color: #e7edf5 !important;
+}
+
+/* Brighten all text in accordion content */
+.dark-mode .accordion-body {
+  color: #e7edf5 !important;
+}
+
+/* Boost visibility for bold labels or SOR headers */
+.dark-mode .accordion-body strong {
+  color: #ffffff !important;
+}
+
+/* Enhance summary values for SMV, cost, etc. */
+.dark-mode .sor-summary {
+  color: #c0cce0 !important;
+  font-weight: 500;
+}
+
+/* Lighten border to reduce visual heaviness */
+.dark-mode .sor-comment-wrapper input,
+.dark-mode .sor-search-wrapper input {
+  border-color: #5c7088 !important;
+}

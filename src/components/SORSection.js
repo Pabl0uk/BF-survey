@@ -56,10 +56,12 @@ const SORSection = ({
   // 4) The global “searchable” SOR list (for standard SOR‐driven sections)
   const allSearchable = Array.isArray(sors?.searchable) ? sors.searchable : [];
 
-  // 5) Filter “searchable” by searchText
-  const filteredResults = allSearchable.filter((item) =>
-    item.description.toLowerCase().includes(searchText.toLowerCase())
-  );
+  // 5) Filter “searchable” by searchText (multi-word, unordered matching on code/description)
+  const filteredResults = allSearchable.filter((item) => {
+    const terms = searchText.toLowerCase().split(/\s+/).filter(Boolean);
+    const haystack = `${item.code} ${item.description}`.toLowerCase();
+    return terms.every(term => haystack.includes(term));
+  });
 
   // ─────────────────────────────────────────────────────────────────
   // 6) Decide if this is a “free‐form” section (lorry clearance or contractor work)
@@ -490,17 +492,20 @@ const SORSection = ({
 
                   {/* 6) Comment */}
                   <Col md={11} className="mt-2">
-                    <Form.Control
-                      type="text"
-                      placeholder="Comment"
-                      value={sor.comment || ""}
-                      onChange={(e) =>
-                        onUpdateSOR(section, idx, {
-                          ...sor,
-                          comment: e.target.value,
-                        })
-                      }
-                    />
+                    <div className="sor-comment-wrapper">
+                      <Form.Control
+                        type="text"
+                        placeholder="Comment"
+                        className="form-control"
+                        value={sor.comment || ""}
+                        onChange={(e) => {
+                          onUpdateSOR(section, idx, {
+                            ...sor,
+                            comment: e.target.value,
+                          });
+                        }}
+                      />
+                    </div>
                   </Col>
                 </Row>
               );
@@ -510,16 +515,18 @@ const SORSection = ({
 
         {/* c) “Add Additional SORs” search + add */}
         <div className="mt-4">
-          <Form.Control
-            type="text"
-            value={searchText}
-            onChange={(e) => {
-              setSearchText(e.target.value);
-              setShowSearchResults(true);
-            }}
-            placeholder="Search for additional SORs"
-            className="mb-2"
-          />
+          <div className="sor-search-wrapper">
+            <Form.Control
+              type="text"
+              value={searchText}
+              onChange={(e) => {
+                setSearchText(e.target.value);
+                setShowSearchResults(true);
+              }}
+              placeholder="Search for additional SORs"
+              className="form-control mb-2"
+            />
+          </div>
 
           {showSearchResults && searchText && (
             <div
@@ -532,7 +539,9 @@ const SORSection = ({
                   className="align-items-center mb-2"
                 >
                   <Col md={9}>
-                    <p className="mb-0 small">{sor.description}</p>
+                    <p className="mb-0 small">
+                      <strong>{sor.code}</strong> — {sor.description}
+                    </p>
                     <p className="text-muted small mb-0">
                       SMV: {sor.smv} | £{sor.cost.toFixed(2)} | {sor.uom || "-"}
                     </p>
