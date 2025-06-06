@@ -15,7 +15,6 @@ import SORSection from "./components/SORSection";
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import "./index.css";
-import { Analytics } from "@vercel/analytics/react";
 
 // 1) Fixed list of desired sections; “contractor work” stays last
 const desiredOrder = [
@@ -969,7 +968,6 @@ function App() {
             >
               Send Feedback
             </Button>
-            <Analytics />
           </Container>
         </>
       )}
