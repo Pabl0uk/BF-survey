@@ -357,6 +357,7 @@ function App() {
     }
 
     const wsSummary = XLSX.utils.aoa_to_sheet(aoa);
+    wsSummary["!cols"] = [{ wch: 25 }, { wch: 40 }];
 
     // Build SOR Details AoA
     const detailsAoA = [
@@ -380,17 +381,20 @@ function App() {
       )
         return;
       (sors[section] || []).forEach((sor) => {
-        detailsAoA.push([
-          titleCase(section),
-          sor.code || "",
-          sor.description || "",
-          sor.uom || "",
-          sor.quantity || "",
-          sor.smv || "",
-          sor.cost || "",
-          sor.comment || "",
-          sor.recharge ? "Yes" : "No",
-        ]);
+        const quantity = parseNum(sor.quantity || 0);
+        if (quantity > 0) {
+          detailsAoA.push([
+            titleCase(section),
+            sor.code || "",
+            sor.description || "",
+            sor.uom || "",
+            sor.quantity || "",
+            sor.smv || "",
+            sor.cost || "",
+            sor.comment || "",
+            sor.recharge ? "Yes" : "No",
+          ]);
+        }
       });
     });
     const wsDetails = XLSX.utils.aoa_to_sheet(detailsAoA);
@@ -538,8 +542,9 @@ function App() {
       styles: { fontSize: 9, cellWidth: 'wrap' },
       headStyles: { fillColor: [240, 240, 240] },
       columnStyles: {
-        2: { cellWidth: 120 }, // Description
-        7: { cellWidth: 80 },  // Comment
+        0: { cellWidth: 70 },   // Section
+        2: { cellWidth: 120 },  // Description
+        7: { cellWidth: 80 },   // Comment
       },
       margin: { left: 40, right: 20 }
     });
