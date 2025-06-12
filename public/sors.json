@@ -64,6 +64,41 @@
       "uom": "it",
       "smv": 1305.0,
       "cost": 1422.58
+    },
+    {
+      "code": "470520",
+      "description": "DWELLING:WASH 1CT REDECORATION 1 BEDROOM FLAT",
+      "uom": "it",
+      "smv": 405.0,
+      "cost": 422.51
+    },
+    {
+      "code": "470521",
+      "description": "DWELLING:WASH 1CT REDECORATION 2 BEDROOM FLAT",
+      "uom": "it",
+      "smv": 485.0,
+      "cost": 507.73
+    },
+    {
+      "code": "470522",
+      "description": "DWELLING:WASH 1CT REDECORATION 3 BEDROOM FLAT",
+      "uom": "it",
+      "smv": 560.0,
+      "cost": 590.46
+    },
+    {
+      "code": "470530",
+      "description": "DWELLING:WASH 1CT REDECORATION 2 BEDROOM HOUSE",
+      "uom": "it",
+      "smv": 630.0,
+      "cost": 648.25
+    },
+    {
+      "code": "470531",
+      "description": "DWELLING:WASH 1CT REDECORATION 3 BEDROOM HOUSE",
+      "uom": "it",
+      "smv": 710.0,
+      "cost": 744.74
     }
   ],
   "external works": [
@@ -219,6 +254,13 @@
       "uom": "sm",
       "smv": 22.0,
       "cost": 12.29
+    },
+    {
+      "code": "432501",
+      "description": "SHEET FLOORING:RENEW VINYL",
+      "uom": "sm",
+      "smv": 40.0,
+      "cost": 36.56
     }
   ],
   "living room": [
@@ -561,6 +603,13 @@
       "uom": "sm",
       "smv": 22.0,
       "cost": 12.29
+    },
+    {
+      "code": "432501",
+      "description": "SHEET FLOORING:RENEW VINYL",
+      "uom": "sm",
+      "smv": 40.0,
+      "cost": 36.56
     }
   ],
   "bathroom/wetroom": [
@@ -633,13 +682,6 @@
       "uom": "lm",
       "smv": 35.0,
       "cost": 37.85
-    },
-    {
-      "code": "432505",
-      "description": "SHEET FLOORING:LAY NEW VINYL",
-      "uom": "sm",
-      "smv": 30.0,
-      "cost": 31.56
     },
     {
       "code": "318179",
@@ -745,6 +787,13 @@
       "uom": "sm",
       "smv": 22.0,
       "cost": 12.29
+    },
+    {
+      "code": "432501",
+      "description": "SHEET FLOORING:RENEW VINYL",
+      "uom": "sm",
+      "smv": 40.0,
+      "cost": 36.56
     }
   ],
   "bedroom 1": [
