@@ -24,46 +24,46 @@
   ],
   "decoration": [
     {
-      "code": "470501",
-      "description": "DWELLING:WASH 2CT REDECORATION 1 BEDROOM FLAT",
-      "uom": "it",
-      "smv": 675.0,
-      "cost": 676.49
-    },
-    {
-      "code": "470502",
-      "description": "DWELLING:WASH 2CT REDECORATION 2 BEDROOM FLAT",
-      "uom": "it",
-      "smv": 805.0,
-      "cost": 817.61
-    },
-    {
-      "code": "470503",
-      "description": "DWELLING:WASH 2CT REDECORATION 3 BEDROOM FLAT",
-      "uom": "it",
-      "smv": 935.0,
-      "cost": 956.21
-    },
-    {
-      "code": "470510",
-      "description": "DWELLING:WASH 2CT REDECORATION 2 BEDROOM HOUSE",
+      "code": "470001",
+      "description": "DWELLING:REDECORATE 1 BEDROOM FLAT",
       "uom": "it",
       "smv": 1050.0,
-      "cost": 1056.73
+      "cost": 1030.00
     },
     {
-      "code": "470511",
-      "description": "DWELLING:WASH 2CT REDECORATION 3 BEDROOM HOUSE",
+      "code": "470002",
+      "description": "DWELLING:REDECORATE 2 BEDROOM FLAT",
       "uom": "it",
-      "smv": 1180.0,
-      "cost": 1226.77
+      "smv": 1250.0,
+      "cost": 1239.93
     },
     {
-      "code": "470512",
-      "description": "DWELLING:WASH 2CT REDECORATION 4 BEDROOM HOUSE",
+      "code": "470003",
+      "description": "DWELLING:REDECORATE 3 BEDROOM FLAT",
       "uom": "it",
-      "smv": 1305.0,
-      "cost": 1422.58
+      "smv": 1450,
+      "cost": 1449.82
+    },
+    {
+      "code": "470010",
+      "description": "DWELLING:REDECORATE 2 BEDROOM HOUSE",
+      "uom": "it",
+      "smv": 1630.0,
+      "cost": 11449.26
+    },
+    {
+      "code": "470011",
+      "description": "DWELLING:REDECORATE 3 BEDROOM HOUSE",
+      "uom": "it",
+      "smv": 1830.0,
+      "cost": 1637.77
+    },
+    {
+      "code": "470012",
+      "description": "DWELLING:REDECORATE 4 BEDROOM HOUSE",
+      "uom": "it",
+      "smv": 2030.0,
+      "cost": 1831.25
     },
     {
       "code": "470520",
