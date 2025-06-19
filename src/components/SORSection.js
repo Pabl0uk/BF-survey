@@ -38,6 +38,7 @@ const SORSection = ({
   cookerClearance,
   cookerPointType,
   extractorFan,
+  setExtractorFan,
   showerFitted: propShowerFitted,
   showerType,
   bathTurn: propBathTurn,

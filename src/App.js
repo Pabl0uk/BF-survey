@@ -57,8 +57,8 @@ const parseNum = (val) => {
 
 function App() {
   // Loft checkboxes states
-  const [loftChecked, setLoftChecked] = useState(false);
-  const [loftNeedsClearing, setLoftNeedsClearing] = useState(false);
+  const [loftChecked, setLoftChecked] = useState("");
+  const [loftNeedsClearing, setLoftNeedsClearing] = useState("");
   const [hasSavedSurvey, setHasSavedSurvey] = useState(false);
   // Kitchen and Bathroom MWR states
   const [kitchenMWR, setKitchenMWR] = useState("");
@@ -68,6 +68,8 @@ function App() {
   // Contractor and Lorry Clearance Notes states
   const [contractorNotes, setContractorNotes] = useState("");
   const [lorryClearanceNotes, setLorryClearanceNotes] = useState("");
+  // Gifted Items Notes state
+  const [giftedItemsNotes, setGiftedItemsNotes] = useState("");
   // ──────────────────────────────────────────────────────────
   // Handler: Import Excel
   // ──────────────────────────────────────────────────────────
@@ -109,6 +111,8 @@ function App() {
           if (label === "MWR Required") setMWRRequired(value === "Yes");
           // Import overall property comments from correct label
           if (label === "Overall Survey Comments") setOverallComments(value);
+          // Gifted Items Notes
+          if (label === "Gifted Items Notes") setGiftedItemsNotes(value);
           // Kitchen & bathroom-specific UI state from Summary sheet
           if (label === "Cooker Clearance OK?") setCookerClearance(value);
           if (label === "Cooker Point Type") setCookerPointType(value);
@@ -310,52 +314,54 @@ function App() {
   // Auto-save to localStorage whenever any relevant state changes (debounced)
   // Only runs after user has started the survey (showForm === true)
   // ──────────────────────────────────────────────────────────
-  useEffect(() => {
-    if (!showForm) return;
+    useEffect(() => {
+      if (!showForm) return;
 
-    const debouncedSave = debounce(() => {
-      const stateToSave = {
-        surveyorName,
-        propertyAddress,
-        voidRating,
-        voidType,
-        overallComments,
-        mwrRequired,
-        sors,
-        cookerClearance,
-        cookerPointType,
-        extractorFan,
-        showerFitted,
-        showerType,
-        bathTurn,
-        kitchenMWR,
-        bathMWR,
-        bathTurnReminder,
-        needsRefurbSurvey,
-        asbestosNotes,
-        contractorNotes,
-        lorryClearanceNotes,
-        loftChecked,
-        loftNeedsClearing,
-      };
+      const debouncedSave = debounce(() => {
+        const stateToSave = {
+          surveyorName,
+          propertyAddress,
+          voidRating,
+          voidType,
+          overallComments,
+          mwrRequired,
+          sors,
+          cookerClearance,
+          cookerPointType,
+          extractorFan,
+          showerFitted,
+          showerType,
+          bathTurn,
+          kitchenMWR,
+          bathMWR,
+          bathTurnReminder,
+          needsRefurbSurvey,
+          asbestosNotes,
+          contractorNotes,
+          lorryClearanceNotes,
+          loftChecked,
+          loftNeedsClearing,
+          giftedItemsNotes,
+        };
 
-      // Log the full contents of the sors state at save time
-      console.log("🟠 Current SOR state at save time:", JSON.stringify(sors, null, 2));
-      console.log("💾 Debounced save to localStorage:", stateToSave);
-      localStorage.setItem("surveyDraft", JSON.stringify(stateToSave));
-    }, 300);
+        // Log the full contents of the sors state at save time
+        console.log("🟠 Current SOR state at save time:", JSON.stringify(sors, null, 2));
+        console.log("💾 Debounced save to localStorage:", stateToSave);
+        localStorage.setItem("surveyDraft", JSON.stringify(stateToSave));
+      }, 300);
 
-    debouncedSave();
+      debouncedSave();
 
-    return () => debouncedSave.cancel();
-  }, [
-    showForm, // now included as a dependency
-    surveyorName, propertyAddress, voidRating, voidType, overallComments, mwrRequired, sors,
-    cookerClearance, cookerPointType, extractorFan, showerFitted, showerType, bathTurn,
-    kitchenMWR, bathMWR, bathTurnReminder, needsRefurbSurvey,
-    asbestosNotes, contractorNotes, lorryClearanceNotes,
-    loftChecked, loftNeedsClearing
-  ]);
+      return () => debouncedSave.cancel();
+    }, [
+      showForm, // now included as a dependency
+      surveyorName, propertyAddress, voidRating, voidType, overallComments, mwrRequired, sors,
+      cookerClearance, cookerPointType, extractorFan, showerFitted, showerType, bathTurn,
+      kitchenMWR, bathMWR, bathTurnReminder, needsRefurbSurvey,
+      asbestosNotes, contractorNotes, lorryClearanceNotes,
+      loftChecked, loftNeedsClearing,
+      giftedItemsNotes
+    ]);
 
   // ──────────────────────────────────────────────────────────
   // Compute Totals
@@ -531,6 +537,7 @@ function App() {
       if (field === "cookerClearance") return setCookerClearance(value);
       if (field === "cookerPointType") return setCookerPointType(value);
       if (field === "kitchenMWR") return setKitchenMWR(value);
+      if (field === "extractorFan") return setExtractorFan(value);
     }
 
     if (section === "__bathroom_ui__") {
@@ -591,6 +598,8 @@ function App() {
       ["Recharge Cost (£)", totals.rechargeCost],
       ["Overall Survey Comments", overallComments],
     ];
+    // Add Gifted Items Notes before pushing kitchen/bathroom fields
+    aoa.push(["Gifted Items Notes", giftedItemsNotes]);
 
     // Add import compatibility fields for kitchen and bathroom
     aoa.push(["Cooker Clearance OK?", cookerClearance]);
@@ -985,8 +994,9 @@ function App() {
                             setAsbestosNotes(parsed.asbestosNotes || "");
                             setContractorNotes(parsed.contractorNotes || "");
                             setLorryClearanceNotes(parsed.lorryClearanceNotes || "");
-                            setLoftChecked(parsed.loftChecked || false);
-                            setLoftNeedsClearing(parsed.loftNeedsClearing || false);
+                            setLoftChecked(parsed.loftChecked || "");
+                            setLoftNeedsClearing(parsed.loftNeedsClearing || "");
+                            setGiftedItemsNotes(parsed.giftedItemsNotes || "");
                           }}
                         >
                           Continue Saved Survey
@@ -1112,9 +1122,9 @@ function App() {
                   </Card>
                 </Col>
               </Row>
-              {/* Import Previous Survey (.xlsx) Row */}
+              {/* Import Previous Survey (.xlsx) Row - restored below summary card row */}
               <Row className="mt-3">
-                <Col>
+                <Col xs={12}>
                   <Form.Group controlId="importSurveyExcel">
                     <Form.Label className="fw-semibold">Import Previous Survey (.xlsx)</Form.Label>
                     <Form.Control
@@ -1205,6 +1215,22 @@ function App() {
                       <option>Minor</option>
                       <option>Major</option>
                     </Form.Select>
+                  </Form.Group>
+                </Col>
+              </Row>
+              {/* Import Previous Survey (.xlsx) for mobile */}
+              <Row className="mt-2">
+                <Col xs={12}>
+                  <Form.Group controlId="importSurveyExcelMobile">
+                    <Form.Label className="text-muted small mb-1 fw-semibold">
+                      Import Previous Survey (.xlsx)
+                    </Form.Label>
+                    <Form.Control
+                      type="file"
+                      accept=".xlsx"
+                      onChange={handleImportExcel}
+                      size="sm"
+                    />
                   </Form.Group>
                 </Col>
               </Row>
@@ -1345,6 +1371,23 @@ function App() {
                       )}
                     </tbody>
                   </Table>
+                </Accordion.Body>
+              </Accordion.Item>
+
+              {/* Gifted Items Accordion */}
+              <Accordion.Item eventKey="gifted-items" className="mb-3">
+                <Accordion.Header>Gifted Items</Accordion.Header>
+                <Accordion.Body>
+                  <Form.Group controlId="giftedItemsNotes">
+                    <Form.Label className="fw-medium">Gifted Items Notes</Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      rows={3}
+                      placeholder="e.g. Carpets, curtains, furniture left behind…"
+                      value={giftedItemsNotes}
+                      onChange={(e) => setGiftedItemsNotes(e.target.value)}
+                    />
+                  </Form.Group>
                 </Accordion.Body>
               </Accordion.Item>
 
