@@ -1,5 +1,6 @@
 // src/App.js
 import React, { useEffect, useState, useRef } from "react";
+import { debounce } from "lodash";
 import * as XLSX from "xlsx";
 import {
   Container,
@@ -11,6 +12,7 @@ import {
   Image,
   Accordion,
   Table,
+  Alert,
 } from "react-bootstrap";
 import SORSection from "./components/SORSection";
 import jsPDF from 'jspdf';
@@ -52,10 +54,12 @@ const parseNum = (val) => {
   return isNaN(x) ? 0 : x;
 };
 
+
 function App() {
   // Loft checkboxes states
   const [loftChecked, setLoftChecked] = useState(false);
   const [loftNeedsClearing, setLoftNeedsClearing] = useState(false);
+  const [hasSavedSurvey, setHasSavedSurvey] = useState(false);
   // Kitchen and Bathroom MWR states
   const [kitchenMWR, setKitchenMWR] = useState("");
   const [bathMWR, setBathMWR] = useState("");
@@ -76,6 +80,13 @@ function App() {
   const [bathTurn, setBathTurn] = useState("");
   const [needsRefurbSurvey, setNeedsRefurbSurvey] = useState(false);
   const [bathTurnReminder, setBathTurnReminder] = useState(""); // for showing reminder text
+
+  // Show Resume button immediately if a saved survey exists
+  useEffect(() => {
+    if (localStorage.getItem("surveyDraft")) {
+      setHasSavedSurvey(true);
+    }
+  }, []);
 
   const handleImportExcel = (e) => {
     const file = e.target.files[0];
@@ -283,6 +294,70 @@ function App() {
   }, []);
 
   // ──────────────────────────────────────────────────────────
+  // Restore from localStorage (auto-restore on mount, prevent duplicate prompts)
+  // ──────────────────────────────────────────────────────────
+  useEffect(() => {
+    const alreadyPrompted = sessionStorage.getItem("resumePrompted");
+    const saved = localStorage.getItem("surveyDraft");
+
+    if (!alreadyPrompted && saved) {
+      sessionStorage.setItem("resumePrompted", "true");
+      setHasSavedSurvey(true);
+    }
+  }, []);
+
+  // ──────────────────────────────────────────────────────────
+  // Auto-save to localStorage whenever any relevant state changes (debounced)
+  // Only runs after user has started the survey (showForm === true)
+  // ──────────────────────────────────────────────────────────
+  useEffect(() => {
+    if (!showForm) return;
+
+    const debouncedSave = debounce(() => {
+      const stateToSave = {
+        surveyorName,
+        propertyAddress,
+        voidRating,
+        voidType,
+        overallComments,
+        mwrRequired,
+        sors,
+        cookerClearance,
+        cookerPointType,
+        extractorFan,
+        showerFitted,
+        showerType,
+        bathTurn,
+        kitchenMWR,
+        bathMWR,
+        bathTurnReminder,
+        needsRefurbSurvey,
+        asbestosNotes,
+        contractorNotes,
+        lorryClearanceNotes,
+        loftChecked,
+        loftNeedsClearing,
+      };
+
+      // Log the full contents of the sors state at save time
+      console.log("🟠 Current SOR state at save time:", JSON.stringify(sors, null, 2));
+      console.log("💾 Debounced save to localStorage:", stateToSave);
+      localStorage.setItem("surveyDraft", JSON.stringify(stateToSave));
+    }, 300);
+
+    debouncedSave();
+
+    return () => debouncedSave.cancel();
+  }, [
+    showForm, // now included as a dependency
+    surveyorName, propertyAddress, voidRating, voidType, overallComments, mwrRequired, sors,
+    cookerClearance, cookerPointType, extractorFan, showerFitted, showerType, bathTurn,
+    kitchenMWR, bathMWR, bathTurnReminder, needsRefurbSurvey,
+    asbestosNotes, contractorNotes, lorryClearanceNotes,
+    loftChecked, loftNeedsClearing
+  ]);
+
+  // ──────────────────────────────────────────────────────────
   // Compute Totals
   //
   // We want:
@@ -481,6 +556,8 @@ function App() {
       }
       if (field === "bathMWR") return setBathMWR(value);
     }
+    // Log SOR update for verification
+    console.log("🔁 Updating SOR:", section, idx, updatedSOR);
     setSors((prev) => {
       const arr = Array.isArray(prev[section]) ? [...prev[section]] : [];
       arr[idx] = updatedSOR;
@@ -869,12 +946,63 @@ function App() {
                     </Form.Group>
                     <Button
                       variant="primary"
-                      className="w-100"
+                      className="w-100 mb-3"
                       onClick={() => setShowForm(true)}
                       disabled={!surveyorName || !propertyAddress}
                     >
-                      Start Survey
+                      Start New Survey
                     </Button>
+                    {hasSavedSurvey && (
+                      <>
+                        <hr />
+                        <Alert variant="info" className="text-center">A previously saved survey was found.</Alert>
+                        <Button
+                          variant="warning"
+                          className="w-100 mb-2"
+                          onClick={() => {
+                            const parsed = JSON.parse(localStorage.getItem("surveyDraft"));
+                            if (!parsed) return;
+                            setSurveyorName(parsed.surveyorName || "");
+                            setPropertyAddress(parsed.propertyAddress || "");
+                            setVoidRating(parsed.voidRating || "Green");
+                            setVoidType(parsed.voidType || "Minor");
+                            setOverallComments(parsed.overallComments || "");
+                            setMWRRequired(parsed.mwrRequired || false);
+                            setSors(parsed.sors || {});
+                            // Force accordion sections to refresh by toggling showForm off and back on
+                            setShowForm(false);
+                            setTimeout(() => setShowForm(true), 100);
+                            setCookerClearance(parsed.cookerClearance || "");
+                            setCookerPointType(parsed.cookerPointType || "");
+                            setExtractorFan(parsed.extractorFan || "");
+                            setShowerFitted(parsed.showerFitted || "");
+                            setShowerType(parsed.showerType || "");
+                            setBathTurn(parsed.bathTurn || "");
+                            setKitchenMWR(parsed.kitchenMWR || "");
+                            setBathMWR(parsed.bathMWR || "");
+                            setBathTurnReminder(parsed.bathTurn === "Yes" ? "Bath turn required: Please arrange a refurb survey." : "");
+                            setNeedsRefurbSurvey(parsed.bathTurn === "Yes");
+                            setAsbestosNotes(parsed.asbestosNotes || "");
+                            setContractorNotes(parsed.contractorNotes || "");
+                            setLorryClearanceNotes(parsed.lorryClearanceNotes || "");
+                            setLoftChecked(parsed.loftChecked || false);
+                            setLoftNeedsClearing(parsed.loftNeedsClearing || false);
+                          }}
+                        >
+                          Continue Saved Survey
+                        </Button>
+                        <Button
+                          variant="outline-danger"
+                          className="w-100"
+                          onClick={() => {
+                            localStorage.removeItem("surveyDraft");
+                            window.location.reload();
+                          }}
+                        >
+                          Discard Saved Survey
+                        </Button>
+                      </>
+                    )}
                   </Form>
                 </Card.Body>
               </Card>

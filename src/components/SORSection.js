@@ -66,8 +66,8 @@ const SORSection = ({
   // showerFitted and bathTurn are now passed as props, so no local state.
 
   // ─────────────────────────────────────────────────────────────────
-  // 3) Grab the array of already‐selected items for this section
-  const selectedSORs = Array.isArray(sors?.[section]) ? [...sors[section]] : [];
+  // 3) Always use latest selected SORs for this section (no memoization to avoid stale props)
+  const selectedSORs = Array.isArray(sors?.[section]) ? sors[section] : [];
 
   // ─────────────────────────────────────────────────────────────────
   // 4) The global “searchable” SOR list (for standard SOR‐driven sections)
