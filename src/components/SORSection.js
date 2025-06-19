@@ -35,6 +35,26 @@ const SORSection = ({
   onAddSOR,
   onUpdateSOR,
   onRemoveSOR,
+  cookerClearance,
+  cookerPointType,
+  extractorFan,
+  showerFitted: propShowerFitted,
+  showerType,
+  bathTurn: propBathTurn,
+  needsRefurbSurvey,
+  bathTurnReminder,
+  kitchenMWR,
+  bathMWR,
+  asbestosNotes,
+  setAsbestosNotes,
+  contractorNotes,
+  setContractorNotes,
+  lorryClearanceNotes,
+  setLorryClearanceNotes,
+  loftChecked,
+  setLoftChecked,
+  loftNeedsClearing,
+  setLoftNeedsClearing,
 }) => {
   // ─────────────────────────────────────────────────────────────────
   // 1) Local state for search + add additional SORs (standard SOR sections)
@@ -43,14 +63,11 @@ const SORSection = ({
 
   // ─────────────────────────────────────────────────────────────────
   // 2) Section‐specific controls (used only in kitchen / bathroom sections)
-  const [kitchenMWR, setKitchenMWR] = useState("");
-  const [showerFitted, setShowerFitted] = useState("");
-  const [bathTurn, setBathTurn] = useState("");
-  const [bathMWR, setBathMWR] = useState("");
+  // showerFitted and bathTurn are now passed as props, so no local state.
 
   // ─────────────────────────────────────────────────────────────────
   // 3) Grab the array of already‐selected items for this section
-  const selectedSORs = Array.isArray(sors?.[section]) ? sors[section] : [];
+  const selectedSORs = Array.isArray(sors?.[section]) ? [...sors[section]] : [];
 
   // ─────────────────────────────────────────────────────────────────
   // 4) The global “searchable” SOR list (for standard SOR‐driven sections)
@@ -76,8 +93,35 @@ const SORSection = ({
     section === "lorry clearance" || section === "contractor work";
 
   // ─────────────────────────────────────────────────────────────────
-  // 7) Render any section‐specific custom controls (unchanged)
+  // 7) Render any section‐specific custom controls (unchanged, except lorry/contractor notes)
   const renderCustomControls = () => {
+    // Insert lorry/contractor notes if applicable
+    if (section === "lorry clearance" && lorryClearanceNotes !== undefined) {
+      return (
+        <div className="mb-4">
+          <Form.Label className="fw-medium">Lorry Clearance Notes</Form.Label>
+          <Form.Control
+            as="textarea"
+            rows={3}
+            value={lorryClearanceNotes}
+            onChange={(e) => setLorryClearanceNotes(e.target.value)}
+          />
+        </div>
+      );
+    }
+    if (section === "contractor work" && contractorNotes !== undefined) {
+      return (
+        <div className="mb-4">
+          <Form.Label className="fw-medium">Contractor Work Notes</Form.Label>
+          <Form.Control
+            as="textarea"
+            rows={3}
+            value={contractorNotes}
+            onChange={(e) => setContractorNotes(e.target.value)}
+          />
+        </div>
+      );
+    }
     switch (section) {
       case "asbestos":
         return (
@@ -87,11 +131,14 @@ const SORSection = ({
               as="textarea"
               rows={3}
               placeholder="Enter any asbestos‐related comments here"
+              value={asbestosNotes || ""}
+              onChange={(e) => setAsbestosNotes && setAsbestosNotes(e.target.value)}
             />
           </div>
         );
-
       case "loft":
+        // Expecting loftChecked, setLoftChecked, loftNeedsClearing, setLoftNeedsClearing as props from parent
+        // Access these directly from props.
         return (
           <div className="mb-4">
             <Row className="g-3">
@@ -107,6 +154,8 @@ const SORSection = ({
                     id={`loftChecked-${section}-yes`}
                     value="yes"
                     label="Yes"
+                    checked={loftChecked === true}
+                    onChange={() => setLoftChecked && setLoftChecked(true)}
                   />
                   <Form.Check
                     inline
@@ -115,6 +164,8 @@ const SORSection = ({
                     id={`loftChecked-${section}-no`}
                     value="no"
                     label="No"
+                    checked={loftChecked === false}
+                    onChange={() => setLoftChecked && setLoftChecked(false)}
                   />
                 </div>
               </Col>
@@ -130,6 +181,8 @@ const SORSection = ({
                     id={`loftClear-${section}-yes`}
                     value="yes"
                     label="Yes"
+                    checked={loftNeedsClearing === true}
+                    onChange={() => setLoftNeedsClearing && setLoftNeedsClearing(true)}
                   />
                   <Form.Check
                     inline
@@ -138,13 +191,14 @@ const SORSection = ({
                     id={`loftClear-${section}-no`}
                     value="no"
                     label="No"
+                    checked={loftNeedsClearing === false}
+                    onChange={() => setLoftNeedsClearing && setLoftNeedsClearing(false)}
                   />
                 </div>
               </Col>
             </Row>
           </div>
         );
-
       case "kitchen":
         return (
           <div className="mb-4">
@@ -153,13 +207,25 @@ const SORSection = ({
                 <Form.Label className="fw-medium">
                   Adequate space for cooker (300 mm either side)?
                 </Form.Label>
-                <Form.Check type="checkbox" label="Yes" />
+                <Form.Check
+                  type="checkbox"
+                  label="Yes"
+                  checked={cookerClearance === "Yes"}
+                  onChange={(e) =>
+                    onUpdateSOR("__kitchen_ui__", null, null, "cookerClearance", e.target.checked ? "Yes" : "No")
+                  }
+                />
               </Col>
               <Col md={3}>
                 <Form.Label className="fw-medium">
                   Type of cooker point installed
                 </Form.Label>
-                <Form.Select>
+                <Form.Select
+                  value={cookerPointType || ""}
+                  onChange={(e) =>
+                    onUpdateSOR("__kitchen_ui__", null, null, "cookerPointType", e.target.value)
+                  }
+                >
                   <option value="">Select…</option>
                   <option>Gas</option>
                   <option>Electric</option>
@@ -170,7 +236,12 @@ const SORSection = ({
                 <Form.Label className="fw-medium">
                   Extractor fan fitted?
                 </Form.Label>
-                <Form.Select>
+                <Form.Select
+                  value={extractorFan || ""}
+                  onChange={(e) =>
+                    onUpdateSOR("__kitchen_ui__", null, null, "extractorFan", e.target.value)
+                  }
+                >
                   <option value="">Select…</option>
                   <option>Yes</option>
                   <option>No</option>
@@ -182,8 +253,10 @@ const SORSection = ({
                   Does this require a MWR?
                 </Form.Label>
                 <Form.Select
-                  value={kitchenMWR}
-                  onChange={(e) => setKitchenMWR(e.target.value)}
+                  value={kitchenMWR || ""}
+                  onChange={(e) =>
+                    onUpdateSOR("__kitchen_ui__", null, null, "kitchenMWR", e.target.value)
+                  }
                 >
                   <option value="">Select…</option>
                   <option>Yes</option>
@@ -193,14 +266,18 @@ const SORSection = ({
             </Row>
           </div>
         );
-
       case "bathroom/wetroom":
         return (
           <div className="mb-4">
             <Row className="g-3">
               <Col md={3}>
                 <Form.Label className="fw-medium">Extractor fan fitted?</Form.Label>
-                <Form.Select>
+                <Form.Select
+                  value={extractorFan || ""}
+                  onChange={(e) =>
+                    onUpdateSOR("__bathroom_ui__", null, null, "extractorFan", e.target.value)
+                  }
+                >
                   <option value="">Select…</option>
                   <option>Yes</option>
                   <option>No</option>
@@ -210,37 +287,59 @@ const SORSection = ({
               <Col md={3}>
                 <Form.Label className="fw-medium">Shower fitted?</Form.Label>
                 <Form.Select
-                  value={showerFitted}
-                  onChange={(e) => setShowerFitted(e.target.value)}
+                  value={propShowerFitted || ""}
+                  onChange={(e) =>
+                    onUpdateSOR("__bathroom_ui__", null, null, "showerFitted", e.target.value)
+                  }
                 >
                   <option value="">Select…</option>
                   <option>Yes</option>
                   <option>No</option>
                   <option>N/A</option>
                 </Form.Select>
+                {propShowerFitted === "No" && (
+                  <div className="mt-2">
+                    <Form.Label className="fw-medium">Shower type</Form.Label>
+                    <Form.Select
+                      value={showerType || ""}
+                      onChange={(e) =>
+                        onUpdateSOR("__bathroom_ui__", null, null, "showerType", e.target.value)
+                      }
+                    >
+                      <option value="">Select…</option>
+                      <option>Electric</option>
+                      <option>Thermostatic</option>
+                      <option>Other</option>
+                    </Form.Select>
+                  </div>
+                )}
               </Col>
               <Col md={3}>
                 <Form.Label className="fw-medium">Bath turn required?</Form.Label>
                 <Form.Select
-                  value={bathTurn}
-                  onChange={(e) => setBathTurn(e.target.value)}
+                  value={propBathTurn || ""}
+                  onChange={(e) =>
+                    onUpdateSOR("__bathroom_ui__", null, null, "bathTurn", e.target.value)
+                  }
                 >
                   <option value="">Select…</option>
                   <option>Yes</option>
                   <option>No</option>
                   <option>N/A</option>
                 </Form.Select>
-                {bathTurn === "Yes" && (
+                {needsRefurbSurvey && !!bathTurnReminder && (
                   <p className="text-danger small mt-1">
-                    Refurb survey required
+                    {bathTurnReminder}
                   </p>
                 )}
               </Col>
               <Col md={3}>
                 <Form.Label className="fw-medium">Does this require a MWR?</Form.Label>
                 <Form.Select
-                  value={bathMWR}
-                  onChange={(e) => setBathMWR(e.target.value)}
+                  value={bathMWR || ""}
+                  onChange={(e) =>
+                    onUpdateSOR("__bathroom_ui__", null, null, "bathMWR", e.target.value)
+                  }
                 >
                   <option value="">Select…</option>
                   <option>Yes</option>
@@ -250,7 +349,6 @@ const SORSection = ({
             </Row>
           </div>
         );
-
       default:
         return null;
     }
@@ -260,16 +358,17 @@ const SORSection = ({
   // 8) Render a “free‐form” section for Lorry Clearance / Contractor Work
   // ─────────────────────────────────────────────────────────────────
   const renderFreeFormSection = () => {
+    // Show items even when empty: always render the free-form section and add button
+    const isLorry = section === "lorry clearance";
+    const isContractor = section === "contractor work";
     return (
       <div>
-        {selectedSORs.map((item, idx) => {
-          // Each free‐form item has:
-          //   { contractor (for contractor work only),
-          //     cost, timeEstimate, recharge, comment }
-          // For lorry clearance, we treat 'comment' as “Item Description”
-          const isLorry = section === "lorry clearance";
-          const isContractor = section === "contractor work";
-
+        {(selectedSORs.length > 0
+          ? selectedSORs
+          : []
+        ).map((item, idx) => {
+          // Each free-form item has: contractor (for contractor work only), cost, timeEstimate, recharge, comment, description
+          // Ensure each item includes a description or comment
           return (
             <React.Fragment key={`${section}-${idx}`}>
               {/* ─── Row of inputs ─── */}
@@ -360,11 +459,12 @@ const SORSection = ({
                     placeholder={
                       isLorry ? "Item Description" : "Comment"
                     }
-                    value={item.comment || ""}
+                    value={item.description || item.comment || ""}
                     onChange={(e) =>
                       onUpdateSOR(section, idx, {
                         ...item,
                         comment: e.target.value,
+                        description: e.target.value,
                       })
                     }
                   />
@@ -380,11 +480,12 @@ const SORSection = ({
           size="sm"
           onClick={() =>
             onAddSOR(section, {
-              contractor: "",
+              contractor: section === "contractor work" ? "" : undefined,
               cost: "",
               timeEstimate: "",
               recharge: false,
               comment: "",
+              description: ""
             })
           }
         >

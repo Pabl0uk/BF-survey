@@ -1,5 +1,6 @@
 // src/App.js
 import React, { useEffect, useState, useRef } from "react";
+import * as XLSX from "xlsx";
 import {
   Container,
   Row,
@@ -52,6 +53,174 @@ const parseNum = (val) => {
 };
 
 function App() {
+  // Loft checkboxes states
+  const [loftChecked, setLoftChecked] = useState(false);
+  const [loftNeedsClearing, setLoftNeedsClearing] = useState(false);
+  // Kitchen and Bathroom MWR states
+  const [kitchenMWR, setKitchenMWR] = useState("");
+  const [bathMWR, setBathMWR] = useState("");
+  // Asbestos Notes state
+  const [asbestosNotes, setAsbestosNotes] = useState("");
+  // Contractor and Lorry Clearance Notes states
+  const [contractorNotes, setContractorNotes] = useState("");
+  const [lorryClearanceNotes, setLorryClearanceNotes] = useState("");
+  // ──────────────────────────────────────────────────────────
+  // Handler: Import Excel
+  // ──────────────────────────────────────────────────────────
+  // Kitchen & bathroom UI state hooks (dummy initial states here, replace as needed)
+  const [cookerClearance, setCookerClearance] = useState("");
+  const [cookerPointType, setCookerPointType] = useState("");
+  const [extractorFan, setExtractorFan] = useState("");
+  const [showerFitted, setShowerFitted] = useState("");
+  const [showerType, setShowerType] = useState("");
+  const [bathTurn, setBathTurn] = useState("");
+  const [needsRefurbSurvey, setNeedsRefurbSurvey] = useState(false);
+  const [bathTurnReminder, setBathTurnReminder] = useState(""); // for showing reminder text
+
+  const handleImportExcel = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      const data = evt.target.result;
+      const workbook = XLSX.read(data, { type: "binary" });
+
+      // Load Summary sheet
+      const summarySheet = workbook.Sheets["Summary"];
+      if (summarySheet) {
+        const summary = XLSX.utils.sheet_to_json(summarySheet, { header: 1 });
+        summary.forEach(([label, value]) => {
+          if (label === "Surveyor Name") setSurveyorName(value);
+          if (label === "Property Address") setPropertyAddress(value);
+          if (label === "Void Rating") setVoidRating(value);
+          if (label === "Void Type") setVoidType(value);
+          if (label === "MWR Required") setMWRRequired(value === "Yes");
+          // Import overall property comments from correct label
+          if (label === "Overall Survey Comments") setOverallComments(value);
+          // Kitchen & bathroom-specific UI state from Summary sheet
+          if (label === "Cooker Clearance OK?") setCookerClearance(value);
+          if (label === "Cooker Point Type") setCookerPointType(value);
+          if (label === "Extractor Fan Fitted?") setExtractorFan(value);
+          if (label === "Shower Fitted?") setShowerFitted(value);
+          if (label === "Shower Required") setShowerType(value);
+          if (label === "Bath Turn Required?") {
+            setBathTurn(value);
+            if (value === "Yes") {
+              setBathTurnReminder("Bath turn required: Please arrange a refurb survey.");
+              setNeedsRefurbSurvey(true);
+            } else {
+              setBathTurnReminder("");
+              setNeedsRefurbSurvey(false);
+            }
+          }
+          if (label === "Kitchen MWR?") setKitchenMWR(value);
+          if (label === "Bathroom MWR?") setBathMWR(value);
+          // Asbestos Notes
+          if (label === "Asbestos Notes") setAsbestosNotes(value);
+          // Contractor and Lorry Clearance Notes
+          if (label === "Contractor Notes") setContractorNotes(value);
+          if (label === "Lorry Clearance Notes") setLorryClearanceNotes(value);
+          // Loft checkboxes
+          if (label === "Loft Checked?") setLoftChecked(value === "Yes");
+          if (label === "Loft Needs Clearing?") setLoftNeedsClearing(value === "Yes");
+        });
+      }
+
+      // Load SOR Details sheet
+      const detailsSheet = workbook.Sheets["SOR Details"];
+      if (detailsSheet) {
+        const details = XLSX.utils.sheet_to_json(detailsSheet, { defval: "" });
+        const updatedSors = {};
+        // Prepare arrays for each section
+        desiredOrder.forEach((section) => {
+          updatedSors[section] = [];
+        });
+
+        details.forEach((row) => {
+          const section = (row["Section"] || "").trim().toLowerCase();
+
+          if (section === "contractor work") {
+            if (!updatedSors["contractor work"]) updatedSors["contractor work"] = [];
+            updatedSors["contractor work"].push({
+              contractor: row["Contractor"] || "",
+              cost: row["Cost (£)"] || "",
+              timeEstimate: row["Time (hrs)"] || "",
+              recharge: row["Recharge?"] === "Yes",
+              comment: row["Comment"] || "",
+              description: row["Description"] || row["Comment"] || "",
+            });
+            return;
+          }
+
+          if (section === "lorry clearance") {
+            if (!updatedSors["lorry clearance"]) updatedSors["lorry clearance"] = [];
+            updatedSors["lorry clearance"].push({
+              cost: row["Cost (£)"] || "",
+              timeEstimate: row["Time (hrs)"] || "",
+              recharge: row["Recharge?"] === "Yes",
+              comment: row["Comment"] || "",
+              description: row["Description"] || row["Comment"] || "",
+            });
+            return;
+          }
+
+          if (!(section in updatedSors)) return;
+
+          updatedSors[section].push({
+            code: row["Code"],
+            description: row["Description"],
+            uom: row["UOM"],
+            quantity: row["Quantity"],
+            smv: row["SMV"],
+            cost: row["Cost (£)"],
+            comment: row["Comment"],
+            recharge: row["Recharge?"] === "Yes",
+          });
+        });
+
+        setSors((prev) => {
+          const merged = { ...prev };
+          Object.keys(updatedSors).forEach((section) => {
+            const importList = updatedSors[section];
+            const originalList = Array.isArray(prev[section]) ? [...prev[section]] : [];
+
+            // For contractor work and lorry clearance, override with importList
+            if (section === "contractor work" || section === "lorry clearance") {
+              merged[section] = importList;
+              return;
+            }
+
+            // For all other sections, merge as before
+            const updatedList = originalList.map((originalItem) => {
+              const match = importList.find((row) => row.code === originalItem.code);
+              if (!match) return originalItem;
+              return {
+                ...originalItem,
+                quantity: match.quantity,
+                comment: match.comment,
+                recharge: match.recharge,
+              };
+            });
+
+            // Append any unmatched imported rows (manually added)
+            importList.forEach((row) => {
+              if (!updatedList.some((i) => i.code === row.code)) {
+                updatedList.push(row);
+              }
+            });
+
+            merged[section] = updatedList;
+          });
+          // Debug logging for merged contractor work and lorry clearance
+          console.log("🔍 Merged contractor work:", merged["contractor work"]);
+          console.log("🔍 Merged lorry clearance:", merged["lorry clearance"]);
+          return merged;
+        });
+      }
+    };
+    reader.readAsBinaryString(file);
+  };
   // ──────────────────────────────────────────────────────────
   // State: All sections (arrays of SOR rows or free‐form rows)
   // ──────────────────────────────────────────────────────────
@@ -281,7 +450,37 @@ function App() {
     });
   };
 
-  const handleUpdateSOR = (section, idx, updatedSOR) => {
+  const handleUpdateSOR = (section, idx, updatedSOR, field, value) => {
+    // Early return logic for custom kitchen and bathroom fields to ensure state updates
+    if (section === "__kitchen_ui__") {
+      if (field === "cookerClearance") return setCookerClearance(value);
+      if (field === "cookerPointType") return setCookerPointType(value);
+      if (field === "kitchenMWR") return setKitchenMWR(value);
+    }
+
+    if (section === "__bathroom_ui__") {
+      if (field === "extractorFan") return setExtractorFan(value);
+      if (field === "showerFitted") {
+        setShowerFitted(value);
+        if (value === "Yes") {
+          setShowerType("");
+        }
+        return;
+      }
+      if (field === "showerType") return setShowerType(value);
+      if (field === "bathTurn") {
+        setBathTurn(value);
+        if (value === "Yes") {
+          setNeedsRefurbSurvey(true);
+          setBathTurnReminder("Bath turn required: Please arrange a refurb survey.");
+        } else {
+          setNeedsRefurbSurvey(false);
+          setBathTurnReminder("");
+        }
+        return;
+      }
+      if (field === "bathMWR") return setBathMWR(value);
+    }
     setSors((prev) => {
       const arr = Array.isArray(prev[section]) ? [...prev[section]] : [];
       arr[idx] = updatedSOR;
@@ -301,8 +500,6 @@ function App() {
   // Export to Excel
   // ──────────────────────────────────────────────────────────
   const exportToExcel = () => {
-    const XLSX = require("xlsx");
-
     // Build Summary AoA
     const aoa = [
       ["Surveyor Name", surveyorName],
@@ -315,25 +512,43 @@ function App() {
       ["Total Cost (£)", totals.cost],
       ["Recharge Days", totals.rechargeDaysDecimal.toFixed(1)],
       ["Recharge Cost (£)", totals.rechargeCost],
-      ["Comments", overallComments],
+      ["Overall Survey Comments", overallComments],
     ];
 
-    // Append Contractor Work & Lorry Clearance free‐form lines if any
+    // Add import compatibility fields for kitchen and bathroom
+    aoa.push(["Cooker Clearance OK?", cookerClearance]);
+    aoa.push(["Cooker Point Type", cookerPointType]);
+    aoa.push(["Extractor Fan Fitted?", extractorFan]);
+    aoa.push(["Shower Fitted?", showerFitted]);
+    aoa.push(["Shower Required", showerType]);
+    aoa.push(["Bath Turn Required?", bathTurn]);
+    aoa.push(["Kitchen MWR?", kitchenMWR]);
+    aoa.push(["Bathroom MWR?", bathMWR]);
+    // Asbestos Notes
+    aoa.push(["Asbestos Notes", asbestosNotes]);
+    // Contractor and Lorry Clearance Notes
+    aoa.push(["Contractor Notes", contractorNotes]);
+    aoa.push(["Lorry Clearance Notes", lorryClearanceNotes]);
+    // Loft checkboxes
+    aoa.push(["Loft Checked?", loftChecked ? "Yes" : "No"]);
+    aoa.push(["Loft Needs Clearing?", loftNeedsClearing ? "Yes" : "No"]);
+
+    // Helper for contractor/lorry rows
     const freeForms = (sectionKey) =>
       (sors[sectionKey] || []).map((row) => [
-        row.description || "",
+        row.description || row.contractor || "",
         row.cost || "",
         row.timeEstimate || "",
         row.recharge ? "Yes" : "No",
         row.comment || "",
       ]);
 
-    // If there are any “contractor work” lines, add a section
+    // Insert contractor rows after summary fields
     const contractorRows = freeForms("contractor work");
     if (contractorRows.length > 0) {
       aoa.push([]);
       aoa.push([
-        "Contractor Description",
+        "Contractor",
         "Cost (£)",
         "Time (hrs)",
         "Recharge?",
@@ -342,7 +557,7 @@ function App() {
       contractorRows.forEach((r) => aoa.push(r));
     }
 
-    // If there are any “lorry clearance” lines, add a section
+    // Insert lorry clearance rows after contractor rows
     const lorryRows = freeForms("lorry clearance");
     if (lorryRows.length > 0) {
       aoa.push([]);
@@ -371,6 +586,8 @@ function App() {
         "Cost (£)",
         "Comment",
         "Recharge?",
+        "Time (hrs)",
+        "Contractor",
       ],
     ];
     sectionKeys.forEach((section) => {
@@ -393,9 +610,43 @@ function App() {
             sor.cost || "",
             sor.comment || "",
             sor.recharge ? "Yes" : "No",
+            "", // Time (hrs) blank for SOR items
+            "", // Contractor blank for SOR items
           ]);
         }
       });
+    });
+    // Append contractor work to SOR Details (with time and contractor columns)
+    (sors["contractor work"] || []).forEach((item) => {
+      detailsAoA.push([
+        "contractor work",
+        "",
+        item.description || "",
+        "",
+        "",
+        "",
+        item.cost || "",
+        item.comment || "",
+        item.recharge ? "Yes" : "No",
+        item.timeEstimate || "",
+        item.contractor || "",
+      ]);
+    });
+    // Append lorry clearance to SOR Details (with time column)
+    (sors["lorry clearance"] || []).forEach((item) => {
+      detailsAoA.push([
+        "lorry clearance",
+        "",
+        item.description || "",
+        "",
+        "",
+        "",
+        item.cost || "",
+        item.comment || "",
+        item.recharge ? "Yes" : "No",
+        item.timeEstimate || "",
+        "", // Contractor column blank for lorry clearance
+      ]);
     });
     const wsDetails = XLSX.utils.aoa_to_sheet(detailsAoA);
     // Set column widths for SOR Details for better formatting
@@ -409,6 +660,8 @@ function App() {
       { wch: 10 }, // Cost
       { wch: 30 }, // Comment
       { wch: 10 }, // Recharge
+      { wch: 10 }, // Time (hrs)
+      { wch: 18 }, // Contractor
     ];
 
     // Create workbook
@@ -431,8 +684,12 @@ function App() {
     doc.setFontSize(18);
     doc.text("Empty Homes Survey", 40, y);
     y += 30;
+    // Property Address below title in smaller font
+    doc.setFontSize(12);
+    doc.text(`Address: ${propertyAddress}`, 40, y);
+    y += 20;
 
-    // Summary fields
+    // Summary fields (updated to only include requested fields)
     doc.setFontSize(11);
     const summaryLines = [
       ["Surveyor Name:", surveyorName],
@@ -440,11 +697,6 @@ function App() {
       ["Void Rating:", voidRating],
       ["Void Type:", voidType],
       ["MWR Required:", mwrRequired ? "Yes" : "No"],
-      ["Total SMV (min):", totals.smv.toString()],
-      ["Total Void Days:", totals.daysDecimal.toFixed(1)],
-      ["Total Cost (£):", totals.cost.toString()],
-      ["Recharge Days:", totals.rechargeDaysDecimal.toFixed(1)],
-      ["Recharge Cost (£):", totals.rechargeCost.toString()],
       ["Comments:", overallComments],
     ];
     summaryLines.forEach((pair) => {
@@ -523,12 +775,8 @@ function App() {
             titleCase(section),
             sor.code || "",
             sor.description || "",
-            sor.uom || "",
             sor.quantity || "",
-            sor.smv || "",
-            sor.cost || "",
             sor.comment || "",
-            sor.recharge ? "Yes" : "No",
           ]);
         }
       });
@@ -536,21 +784,33 @@ function App() {
     autoTable(doc, {
       startY: y,
       head: [[
-        "Section", "Code", "Description", "UOM", "Quantity", "SMV", "Cost (£)", "Comment", "Recharge?"
+        "Section", "Code", "Description", "Quantity", "Comment"
       ]],
       body: detailRows,
       styles: { fontSize: 9, cellWidth: 'wrap' },
       headStyles: { fillColor: [240, 240, 240] },
       columnStyles: {
-        0: { cellWidth: 70 },   // Section
-        2: { cellWidth: 120 },  // Description
-        7: { cellWidth: 80 },   // Comment
+        0: { cellWidth: 'auto' },
+        1: { cellWidth: 'auto' },
+        2: { cellWidth: 'auto' },
+        3: { cellWidth: 'auto' },
+        4: { cellWidth: 'auto' },
       },
       margin: { left: 40, right: 20 }
     });
 
     const safeAddr = propertyAddress.replace(/\s+/g, "_");
     doc.save(`Empty_Homes_Survey_${safeAddr}.pdf`);
+  };
+
+  // ──────────────────────────────────────────────────────────
+  // Export to Excel + PDF (Export All)
+  // ──────────────────────────────────────────────────────────
+  const handleExportAll = () => {
+    exportToExcel();
+    setTimeout(() => {
+      exportToPDF();
+    }, 300);
   };
 
   // ──────────────────────────────────────────────────────────
@@ -724,6 +984,19 @@ function App() {
                   </Card>
                 </Col>
               </Row>
+              {/* Import Previous Survey (.xlsx) Row */}
+              <Row className="mt-3">
+                <Col>
+                  <Form.Group controlId="importSurveyExcel">
+                    <Form.Label className="fw-semibold">Import Previous Survey (.xlsx)</Form.Label>
+                    <Form.Control
+                      type="file"
+                      accept=".xlsx"
+                      onChange={handleImportExcel}
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
             </Container>
           </div>
 
@@ -848,6 +1121,26 @@ function App() {
                       onAddSOR={handleAddSOR}
                       onUpdateSOR={handleUpdateSOR}
                       onRemoveSOR={handleRemoveSOR}
+                      cookerClearance={cookerClearance}
+                      cookerPointType={cookerPointType}
+                      extractorFan={extractorFan}
+                      showerFitted={showerFitted}
+                      showerType={showerType}
+                      bathTurn={bathTurn}
+                      needsRefurbSurvey={needsRefurbSurvey}
+                      bathTurnReminder={bathTurnReminder}
+                      kitchenMWR={kitchenMWR}
+                      bathMWR={bathMWR}
+                      asbestosNotes={section === "asbestos" ? asbestosNotes : undefined}
+                      setAsbestosNotes={section === "asbestos" ? setAsbestosNotes : undefined}
+                      contractorNotes={section === "contractor work" ? contractorNotes : undefined}
+                      setContractorNotes={section === "contractor work" ? setContractorNotes : undefined}
+                      lorryClearanceNotes={section === "lorry clearance" ? lorryClearanceNotes : undefined}
+                      setLorryClearanceNotes={section === "lorry clearance" ? setLorryClearanceNotes : undefined}
+                      loftChecked={section === "loft" ? loftChecked : undefined}
+                      setLoftChecked={section === "loft" ? setLoftChecked : undefined}
+                      loftNeedsClearing={section === "loft" ? loftNeedsClearing : undefined}
+                      setLoftNeedsClearing={section === "loft" ? setLoftNeedsClearing : undefined}
                     />
                   </Accordion.Body>
                 </Accordion.Item>
@@ -951,14 +1244,10 @@ function App() {
           {/* ─── Export Buttons (bottom) ─── */}
           <Container fluid className="px-4 mt-4 mb-5 text-center">
             <Button
-              variant="success"
-              className="me-3"
-              onClick={exportToExcel}
+              variant="primary"
+              onClick={handleExportAll}
             >
-              Export to Excel
-            </Button>
-            <Button variant="danger" onClick={exportToPDF}>
-              Export to PDF
+              Export Survey (Excel + PDF)
             </Button>
             <Button
               variant="secondary"
