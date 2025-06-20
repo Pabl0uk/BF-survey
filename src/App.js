@@ -227,9 +227,6 @@ function App() {
 
             merged[section] = updatedList;
           });
-          // Debug logging for merged contractor work and lorry clearance
-          console.log("🔍 Merged contractor work:", merged["contractor work"]);
-          console.log("🔍 Merged lorry clearance:", merged["lorry clearance"]);
           return merged;
         });
       }
@@ -292,6 +289,19 @@ function App() {
         merged.__search_only = Array.isArray(data.__search_only)
           ? data.__search_only
           : [];
+        // Remove any phantom placeholder from lorry clearance on load (stricter filter)
+        if (Array.isArray(merged["lorry clearance"])) {
+          merged["lorry clearance"] = merged["lorry clearance"].filter((item) => {
+            // Enhanced skip condition for phantom default item
+            const isRealSOR = item.code !== undefined;
+            const isMeaningfulFreeform =
+              (item.description && item.description.trim() !== "") ||
+              (item.comment && item.comment.trim() !== "") ||
+              (item.timeEstimate && item.timeEstimate.trim() !== "") ||
+              parseNum(item.cost) !== 2500;
+            return isRealSOR || isMeaningfulFreeform;
+          });
+        }
         setSors(merged);
       })
       .catch((err) => console.error("Failed to load sors.json", err));
@@ -344,9 +354,6 @@ function App() {
           giftedItemsNotes,
         };
 
-        // Log the full contents of the sors state at save time
-        console.log("🟠 Current SOR state at save time:", JSON.stringify(sors, null, 2));
-        console.log("💾 Debounced save to localStorage:", stateToSave);
         localStorage.setItem("surveyDraft", JSON.stringify(stateToSave));
       }, 300);
 
@@ -399,13 +406,51 @@ function App() {
     Object.keys(sors).forEach((sectionKey) => {
       if (sectionKey === "searchable") return;
       const arr = Array.isArray(sors[sectionKey]) ? sors[sectionKey] : [];
+      // Skip phantom default item if all fields are empty
+      if (
+        arr.length === 1 &&
+        !arr[0].code &&
+        !arr[0].description &&
+        !arr[0].cost &&
+        !arr[0].quantity
+      ) {
+        return;
+      }
 
       arr.forEach((item) => {
         // Determine if this is a free‐form “lorry clearance” or “contractor work” row
         const isFreeForm =
-          sectionKey === "lorry clearance" || sectionKey === "contractor work";
+          (sectionKey === "lorry clearance" || sectionKey === "contractor work") &&
+          !item.code;
 
         if (isFreeForm) {
+          // Enhanced skip condition: skip default items unless user interacts
+          if (
+            item.default &&
+            !item.description &&
+            !item.comment &&
+            !item.timeEstimate
+          ) {
+            return;
+          }
+          // Skip phantom free-form item if all fields are empty
+          if (
+            !item.description &&
+            !item.cost &&
+            !item.timeEstimate &&
+            !item.comment
+          ) {
+            return;
+          }
+          // Additional skip condition for phantom £2500 row
+          if (
+            (!item.description || item.description.trim() === "") &&
+            parseNum(item.cost) === 2500 &&
+            (!item.timeEstimate || item.timeEstimate.trim() === "") &&
+            (!item.comment || item.comment.trim() === "")
+          ) {
+            return;
+          }
           // item must have: description, cost, timeEstimate (in hours), recharge (boolean)
           const cost = parseNum(item.cost);
           const timeHours = parseNum(item.timeEstimate);
@@ -421,21 +466,21 @@ function App() {
           }
           // If not flagged recharge: do NOT add time to voidSMV
         } else {
-          // Regular SOR row: has smv (minutes), cost (per‐unit), quantity, recharge flag
+          // Regular SOR row: Only process if quantity > 0
           const quantity = parseNum(item.quantity || 0);
           const smv = parseNum(item.smv) * quantity;
           const cost = parseNum(item.cost) * quantity;
 
-          // 1) Cost always goes into voidCost
-          totalVoidCost += cost;
+          if (quantity > 0) {
+            // 1) Cost always goes into voidCost
+            totalVoidCost += cost;
 
-          if (item.recharge) {
-            // 2a) Flagged recharge → add to both void & recharge
-            totalRechargeCost += cost;
-            totalRechargeSMV += smv;
-            totalVoidSMV += smv;
-          } else {
-            // 2b) Not flagged → only to void
+            if (item.recharge) {
+              // 2a) Flagged recharge → add to both void & recharge
+              totalRechargeCost += cost;
+              totalRechargeSMV += smv;
+            }
+            // Add SMV to void regardless of recharge
             totalVoidSMV += smv;
           }
         }
@@ -563,8 +608,6 @@ function App() {
       }
       if (field === "bathMWR") return setBathMWR(value);
     }
-    // Log SOR update for verification
-    console.log("🔁 Updating SOR:", section, idx, updatedSOR);
     setSors((prev) => {
       const arr = Array.isArray(prev[section]) ? [...prev[section]] : [];
       arr[idx] = updatedSOR;
@@ -886,7 +929,15 @@ function App() {
     });
 
     const safeAddr = propertyAddress.replace(/\s+/g, "_");
-    doc.save(`Empty_Homes_Survey_${safeAddr}.pdf`);
+    const pdfBlob = doc.output('blob');
+    const blobUrl = URL.createObjectURL(pdfBlob);
+    const link = document.createElement('a');
+    link.href = blobUrl;
+    link.download = `Empty_Homes_Survey_${safeAddr}.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(blobUrl); // Clean up memory
   };
 
   // ──────────────────────────────────────────────────────────

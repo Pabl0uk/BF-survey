@@ -1,4 +1,163 @@
 {
+  "lorry clearance": [
+    {
+      "code": "PSCT01",
+      "description": "Mattress Collection",
+      "cost": 50,
+      "smv": 0,
+      "uom": "Each"
+    },
+    {
+      "code": "PSCT02",
+      "description": "Garage Clearance (Full)",
+      "cost": 230,
+      "smv": 0,
+      "uom": "Each"
+    },
+    {
+      "code": "PSCT03",
+      "description": "Garage Clearance (Half Full)",
+      "cost": 160,
+      "smv": 0,
+      "uom": "Each"
+    },
+    {
+      "code": "PSCT04",
+      "description": "Garage Clearance (Quarter Full)",
+      "cost": 90,
+      "smv": 0,
+      "uom": "Each"
+    },
+    {
+      "code": "PSCT08",
+      "description": "Bulky Clearance (Full Load)",
+      "cost": 230,
+      "smv": 0,
+      "uom": "Each"
+    },
+    {
+      "code": "PSCT09",
+      "description": "Bulky Clearance (Half Load)",
+      "cost": 160,
+      "smv": 0,
+      "uom": "Each"
+    },
+    {
+      "code": "PSCT10",
+      "description": "Bulky Clearance (Quarter Load)",
+      "cost": 90,
+      "smv": 0,
+      "uom": "Each"
+    },
+    {
+      "code": "PSCT11",
+      "description": "Waste Bin Clearance (21+ bags)",
+      "cost": 180,
+      "smv": 0,
+      "uom": "Each"
+    },
+    {
+      "code": "PSCT12",
+      "description": "Waste Bin Clearance (11–20 bags)",
+      "cost": 150,
+      "smv": 0,
+      "uom": "Each"
+    },
+    {
+      "code": "PSCT13",
+      "description": "Waste Bin Clearance (6–10 bags)",
+      "cost": 100,
+      "smv": 0,
+      "uom": "Each"
+    },
+    {
+      "code": "PSCT14",
+      "description": "Waste Bin Clearance (1–5 bags)",
+      "cost": 70,
+      "smv": 0,
+      "uom": "Each"
+    },
+    {
+      "code": "PSCT15",
+      "description": "Litter Pick (Up to 80m²)",
+      "cost": 130,
+      "smv": 0,
+      "uom": "Each"
+    },
+    {
+      "code": "PSCT16",
+      "description": "Litter Pick (Up to 40m²)",
+      "cost": 80,
+      "smv": 0,
+      "uom": "Each"
+    },
+    {
+      "code": "PSCT17",
+      "description": "Litter Pick (Up to 20m²)",
+      "cost": 60,
+      "smv": 0,
+      "uom": "Each"
+    },
+    {
+      "code": "PSCT05",
+      "description": "Move to Storage (Full Load)",
+      "cost": 230,
+      "smv": 0,
+      "uom": "Each"
+    },
+    {
+      "code": "PSCT06",
+      "description": "Move to Storage (Half Load)",
+      "cost": 160,
+      "smv": 0,
+      "uom": "Each"
+    },
+    {
+      "code": "PSCT07",
+      "description": "Move to Storage (Quarter Load)",
+      "cost": 90,
+      "smv": 0,
+      "uom": "Each"
+    },
+    {
+      "code": "PSCT18",
+      "description": "WEEE Collection (1 Item)",
+      "cost": 50,
+      "smv": 0,
+      "uom": "Each"
+    },
+    {
+      "code": "PSCT19",
+      "description": "WEEE Collection (Each Add’l Item)",
+      "cost": 20,
+      "smv": 0,
+      "uom": "Each"
+    },
+    {
+      "code": "PSCT20",
+      "description": "Hard Floor Cleaning (Up to 20m²)",
+      "cost": 90,
+      "smv": 0,
+      "uom": "Each"
+    },
+    {
+      "code": "PSCT21",
+      "description": "Gas Bottle Collection",
+      "cost": 40,
+      "smv": 0,
+      "uom": "Each"
+    },
+    {
+      "code": "PSCT22",
+      "description": "Fluorescent Tube Collection",
+      "cost": 40,
+      "smv": 0,
+      "uom": "Each"
+    },
+    {
+      "type": "freeform"
+    }
+  ],
   "general": [
     {
       "code": "390917",
@@ -13,6 +172,12 @@
       "uom": "it",
       "smv": 48.0,
       "cost": 24.64
+    },{
+      "code": "442511",
+      "description": "SURFACES:APPLY BACTDET TO EXISTING SURFACES",
+      "uom": "sm",
+      "smv": 5,
+      "cost": 5.12
     },
     {
       "code": "431315",
@@ -20,7 +185,14 @@
       "uom": "sm",
       "smv": 25.0,
       "cost": 18.98
-    }
+    },
+    {
+  "code": "415013",
+  "description": "PLASTER REPAIR:REPAIR CRACK TO WALL OR CEILING",
+  "uom": "LM",
+  "smv": 20.0,
+  "cost": 10.62
+}
   ],
   "decoration": [
     {
@@ -49,7 +221,7 @@
       "description": "DWELLING:REDECORATE 2 BEDROOM HOUSE",
       "uom": "it",
       "smv": 1630.0,
-      "cost": 11449.26
+      "cost": 1449.26
     },
     {
       "code": "470011",
@@ -99,7 +271,14 @@
       "uom": "it",
       "smv": 710.0,
       "cost": 744.74
-    }
+    },
+    {
+  "code": "438001",
+  "description": "SURFACES:PRIME PAINT GENERAL SURFACES TIMBER",
+  "uom": "SM",
+  "smv": 42.0,
+  "cost": 24.74
+}
   ],
   "external works": [
     {
@@ -159,7 +338,21 @@
       "uom": "no",
       "smv": 60.0,
       "cost": 36.15
-    }
+    },
+    {
+  "code": "438001",
+  "description": "SURFACES:PRIME PAINT GENERAL SURFACES TIMBER",
+  "uom": "SM",
+  "smv": 42.0,
+  "cost": 24.74
+},
+{
+  "code": "438001",
+  "description": "SURFACES:PRIME PAINT GENERAL SURFACES TIMBER",
+  "uom": "SM",
+  "smv": 42.0,
+  "cost": 24.74
+}
   ],
   "hall/stair/landing": [
     {
@@ -196,6 +389,27 @@
       "uom": "sm",
       "smv": 22.0,
       "cost": 12.29
+    },
+    {
+      "code": "318203",
+      "description": "WINDOW FRAME:RAKE OUT AND REPOINT",
+      "uom": "IT",
+      "smv": 25.0,
+      "cost": 16.56
+    },
+    {
+      "code": "451007",
+      "description": "ROOM:STRIP PAPER UPTO 20SM CEILING AREA",
+      "uom": "IT",
+      "smv": 466.0,
+      "cost": 128.61
+    },
+    {
+      "code": "363001",
+      "description": "CURTAIN BATTEN:RENEW OR FIX NEW",
+      "uom": "IT",
+      "smv": 35.0,
+      "cost": 8.28
     }
   ],
   "w/c (closet)": [
@@ -261,6 +475,34 @@
       "uom": "sm",
       "smv": 40.0,
       "cost": 36.56
+    },
+    {
+      "code": "318203",
+      "description": "WINDOW FRAME:RAKE OUT AND REPOINT",
+      "uom": "IT",
+      "smv": 25.0,
+      "cost": 16.56
+    },
+    {
+    "code": "438001",
+    "description": "SURFACES:PRIME PAINT GENERAL SURFACES TIMBER",
+    "uom": "SM",
+    "smv": 42.0,
+    "cost": 24.74
+    },
+    {
+      "code": "451007",
+      "description": "ROOM:STRIP PAPER UPTO 20SM CEILING AREA",
+      "uom": "IT",
+      "smv": 466.0,
+      "cost": 128.61
+    },
+    {
+      "code": "363001",
+      "description": "CURTAIN BATTEN:RENEW OR FIX NEW",
+      "uom": "IT",
+      "smv": 35.0,
+      "cost": 8.28
     }
   ],
   "living room": [
@@ -347,6 +589,41 @@
       "uom": "no",
       "smv": 360.0,
       "cost": 197.98
+    },
+    {
+      "code": "318203",
+      "description": "WINDOW FRAME:RAKE OUT AND REPOINT",
+      "uom": "IT",
+      "smv": 25.0,
+      "cost": 16.56
+    },
+    {
+    "code": "438001",
+    "description": "SURFACES:PRIME PAINT GENERAL SURFACES TIMBER",
+    "uom": "SM",
+    "smv": 42.0,
+    "cost": 24.74
+    },
+    {
+  "code": "140009",
+  "description": "FIRE:REMOVE FIRE AND SEAL OPENING",
+  "uom": "IT",
+  "smv": 200.0,
+  "cost": 146.0
+},
+    {
+      "code": "451007",
+      "description": "ROOM:STRIP PAPER UPTO 20SM CEILING AREA",
+      "uom": "IT",
+      "smv": 466.0,
+      "cost": 128.61
+    },
+    {
+      "code": "363001",
+      "description": "CURTAIN BATTEN:RENEW OR FIX NEW",
+      "uom": "IT",
+      "smv": 35.0,
+      "cost": 8.28
     }
   ],
   "dining room": [
@@ -433,6 +710,41 @@
       "uom": "no",
       "smv": 360.0,
       "cost": 197.98
+    },
+    {
+      "code": "318203",
+      "description": "WINDOW FRAME:RAKE OUT AND REPOINT",
+      "uom": "IT",
+      "smv": 25.0,
+      "cost": 16.56
+    },
+    {
+    "code": "438001",
+    "description": "SURFACES:PRIME PAINT GENERAL SURFACES TIMBER",
+    "uom": "SM",
+    "smv": 42.0,
+    "cost": 24.74
+    },
+    {
+  "code": "140009",
+  "description": "FIRE:REMOVE FIRE AND SEAL OPENING",
+  "uom": "IT",
+  "smv": 200.0,
+  "cost": 146.0
+},
+    {
+      "code": "451007",
+      "description": "ROOM:STRIP PAPER UPTO 20SM CEILING AREA",
+      "uom": "IT",
+      "smv": 466.0,
+      "cost": 128.61
+    },
+    {
+      "code": "363001",
+      "description": "CURTAIN BATTEN:RENEW OR FIX NEW",
+      "uom": "IT",
+      "smv": 35.0,
+      "cost": 8.28
     }
   ],
   "kitchen": [
@@ -610,6 +922,34 @@
       "uom": "sm",
       "smv": 40.0,
       "cost": 36.56
+    },
+    {
+      "code": "318203",
+      "description": "WINDOW FRAME:RAKE OUT AND REPOINT",
+      "uom": "IT",
+      "smv": 25.0,
+      "cost": 16.56
+    },
+    {
+    "code": "438001",
+    "description": "SURFACES:PRIME PAINT GENERAL SURFACES TIMBER",
+    "uom": "SM",
+    "smv": 42.0,
+    "cost": 24.74
+    },
+    {
+      "code": "451007",
+      "description": "ROOM:STRIP PAPER UPTO 20SM CEILING AREA",
+      "uom": "IT",
+      "smv": 466.0,
+      "cost": 128.61
+    },
+    {
+      "code": "363001",
+      "description": "CURTAIN BATTEN:RENEW OR FIX NEW",
+      "uom": "IT",
+      "smv": 35.0,
+      "cost": 8.28
     }
   ],
   "bathroom/wetroom": [
@@ -794,6 +1134,55 @@
       "uom": "sm",
       "smv": 40.0,
       "cost": 36.56
+    },
+    {
+      "code": "318203",
+      "description": "WINDOW FRAME:RAKE OUT AND REPOINT",
+      "uom": "IT",
+      "smv": 25.0,
+      "cost": 16.56
+    },
+    {
+    "code": "438001",
+    "description": "SURFACES:PRIME PAINT GENERAL SURFACES TIMBER",
+    "uom": "SM",
+    "smv": 42.0,
+    "cost": 24.74
+    },
+    {
+      "code": "451007",
+      "description": "ROOM:STRIP PAPER UPTO 20SM CEILING AREA",
+      "uom": "IT",
+      "smv": 466.0,
+      "cost": 128.61
+    },
+    {
+      "code": "363001",
+      "description": "CURTAIN BATTEN:RENEW OR FIX NEW",
+      "uom": "IT",
+      "smv": 35.0,
+      "cost": 8.28
+    },
+    {
+      "code": "388001",
+      "description": "BATH PANEL:RENEW HARDBOARD SIDE AND FRAMING",
+      "uom": "IT",
+      "smv": 90.0,
+      "cost": 73.21
+    },
+    {
+      "code": "630927",
+      "description": "BATH:TOUCH UP CHIP",
+      "uom": "IT",
+      "smv": 10.0,
+      "cost": 43.0
+    },
+    {
+      "code": "631501",
+      "description": "SEALANT:RENEW TO SIDES AND ENDS OF BATH",
+      "uom": "IT",
+      "smv": 15.0,
+      "cost": 8.87
     }
   ],
   "bedroom 1": [
@@ -880,6 +1269,34 @@
       "uom": "lm",
       "smv": 35.0,
       "cost": 37.85
+    },
+    {
+      "code": "318203",
+      "description": "WINDOW FRAME:RAKE OUT AND REPOINT",
+      "uom": "IT",
+      "smv": 25.0,
+      "cost": 16.56
+    },
+    {
+    "code": "438001",
+    "description": "SURFACES:PRIME PAINT GENERAL SURFACES TIMBER",
+    "uom": "SM",
+    "smv": 42.0,
+    "cost": 24.74
+    },
+    {
+      "code": "451007",
+      "description": "ROOM:STRIP PAPER UPTO 20SM CEILING AREA",
+      "uom": "IT",
+      "smv": 466.0,
+      "cost": 128.61
+    },
+    {
+      "code": "363001",
+      "description": "CURTAIN BATTEN:RENEW OR FIX NEW",
+      "uom": "IT",
+      "smv": 35.0,
+      "cost": 8.28
     }
   ],
   "bedroom 2": [
@@ -966,6 +1383,34 @@
       "uom": "lm",
       "smv": 35.0,
       "cost": 37.85
+    },
+    {
+      "code": "318203",
+      "description": "WINDOW FRAME:RAKE OUT AND REPOINT",
+      "uom": "IT",
+      "smv": 25.0,
+      "cost": 16.56
+    },
+    {
+    "code": "438001",
+    "description": "SURFACES:PRIME PAINT GENERAL SURFACES TIMBER",
+    "uom": "SM",
+    "smv": 42.0,
+    "cost": 24.74
+    },
+    {
+      "code": "451007",
+      "description": "ROOM:STRIP PAPER UPTO 20SM CEILING AREA",
+      "uom": "IT",
+      "smv": 466.0,
+      "cost": 128.61
+    },
+    {
+      "code": "363001",
+      "description": "CURTAIN BATTEN:RENEW OR FIX NEW",
+      "uom": "IT",
+      "smv": 35.0,
+      "cost": 8.28
     }
   ],
   "bedroom 3": [
@@ -1052,6 +1497,34 @@
       "uom": "lm",
       "smv": 35.0,
       "cost": 37.85
+    },
+    {
+      "code": "318203",
+      "description": "WINDOW FRAME:RAKE OUT AND REPOINT",
+      "uom": "IT",
+      "smv": 25.0,
+      "cost": 16.56
+    },
+    {
+    "code": "438001",
+    "description": "SURFACES:PRIME PAINT GENERAL SURFACES TIMBER",
+    "uom": "SM",
+    "smv": 42.0,
+    "cost": 24.74
+    },
+    {
+      "code": "451007",
+      "description": "ROOM:STRIP PAPER UPTO 20SM CEILING AREA",
+      "uom": "IT",
+      "smv": 466.0,
+      "cost": 128.61
+    },
+    {
+      "code": "363001",
+      "description": "CURTAIN BATTEN:RENEW OR FIX NEW",
+      "uom": "IT",
+      "smv": 35.0,
+      "cost": 8.28
     }
   ],
   "bedroom 4": [
@@ -1138,6 +1611,34 @@
       "uom": "lm",
       "smv": 35.0,
       "cost": 37.85
+    },
+    {
+      "code": "318203",
+      "description": "WINDOW FRAME:RAKE OUT AND REPOINT",
+      "uom": "IT",
+      "smv": 25.0,
+      "cost": 16.56
+    },
+    {
+    "code": "438001",
+    "description": "SURFACES:PRIME PAINT GENERAL SURFACES TIMBER",
+    "uom": "SM",
+    "smv": 42.0,
+    "cost": 24.74
+    },
+    {
+      "code": "451007",
+      "description": "ROOM:STRIP PAPER UPTO 20SM CEILING AREA",
+      "uom": "IT",
+      "smv": 466.0,
+      "cost": 128.61
+    },
+    {
+      "code": "363001",
+      "description": "CURTAIN BATTEN:RENEW OR FIX NEW",
+      "uom": "IT",
+      "smv": 35.0,
+      "cost": 8.28
     }
   ],
   "searchable": [

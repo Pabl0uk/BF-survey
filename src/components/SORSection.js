@@ -68,7 +68,12 @@ const SORSection = ({
 
   // ─────────────────────────────────────────────────────────────────
   // 3) Always use latest selected SORs for this section (no memoization to avoid stale props)
-  const selectedSORs = Array.isArray(sors?.[section]) ? sors[section] : [];
+  // Flatten mixed-type sections (e.g., lorry clearance with {type: "sors", items: [...]})
+  const selectedSORs = Array.isArray(sors?.[section])
+    ? section === "contractor work"
+      ? sors[section]
+      : sors[section].flatMap(entry => entry.items || [entry])
+    : [];
 
   // ─────────────────────────────────────────────────────────────────
   // 4) The global “searchable” SOR list (for standard SOR‐driven sections)
@@ -89,27 +94,14 @@ const SORSection = ({
   });
 
   // ─────────────────────────────────────────────────────────────────
-  // 6) Decide if this is a “free‐form” section (lorry clearance or contractor work)
-  const isFreeFormSection =
-    section === "lorry clearance" || section === "contractor work";
+  // 6) Decide if this is a “free‐form” section (contractor work), or a mixed section (lorry clearance)
+  const isFreeFormSection = section === "contractor work";
+  const isMixedSection = section === "lorry clearance";
 
   // ─────────────────────────────────────────────────────────────────
   // 7) Render any section‐specific custom controls (unchanged, except lorry/contractor notes)
   const renderCustomControls = () => {
-    // Insert lorry/contractor notes if applicable
-    if (section === "lorry clearance" && lorryClearanceNotes !== undefined) {
-      return (
-        <div className="mb-4">
-          <Form.Label className="fw-medium">Lorry Clearance Notes</Form.Label>
-          <Form.Control
-            as="textarea"
-            rows={3}
-            value={lorryClearanceNotes}
-            onChange={(e) => setLorryClearanceNotes(e.target.value)}
-          />
-        </div>
-      );
-    }
+    // Insert contractor notes if applicable
     if (section === "contractor work" && contractorNotes !== undefined) {
       return (
         <div className="mb-4">
@@ -359,24 +351,27 @@ const SORSection = ({
   // 8) Render a “free‐form” section for Lorry Clearance / Contractor Work
   // ─────────────────────────────────────────────────────────────────
   const renderFreeFormSection = () => {
-    // Show items even when empty: always render the free-form section and add button
-    const isLorry = section === "lorry clearance";
-    const isContractor = section === "contractor work";
+    // Always render the section, even if selectedSORs is empty.
+    const isContractorItem = section === "contractor work";
+    const isLorryItem = section === "lorry clearance";
+
+    const isFullSOR = (item) =>
+      item.code &&
+      item.description &&
+      typeof item.smv === "number" &&
+      typeof item.cost === "number";
+
+    // For lorry clearance, only render freeform if at least one non-fullSOR (freeform) item exists, or allow adding one.
+    // (2024-06) Always render the freeform box for lorry clearance, even if all full SORs are present.
+
     return (
       <div>
-        {(selectedSORs.length > 0
-          ? selectedSORs
-          : []
-        ).map((item, idx) => {
-          // Each free-form item has: contractor (for contractor work only), cost, timeEstimate, recharge, comment, description
-          // Ensure each item includes a description or comment
-          return (
-            <React.Fragment key={`${section}-${idx}`}>
-              {/* ─── Row of inputs ─── */}
-              <Row className="align-items-center mb-2">
-                {isContractor && (
-                  <Col md={3} className="mb-2 mb-md-0">
-                    {/* Contractor Name */}
+        {(isContractorItem || isLorryItem ? selectedSORs : []).map((item, idx) => {
+          if (isContractorItem) {
+            return (
+              <React.Fragment key={`${section}-${idx}`}>
+                <Row className="mb-2">
+                  <Col md={3}>
                     <Form.Control
                       type="text"
                       placeholder="Contractor"
@@ -389,93 +384,159 @@ const SORSection = ({
                       }
                     />
                   </Col>
-                )}
+                  <Col md={2}>
+                    <Form.Control
+                      type="number"
+                      min={0}
+                      placeholder="Time (hrs)"
+                      value={item.timeEstimate || ""}
+                      onChange={(e) =>
+                        onUpdateSOR(section, idx, {
+                          ...item,
+                          timeEstimate: e.target.value,
+                        })
+                      }
+                    />
+                  </Col>
+                  <Col md={2}>
+                    <Form.Control
+                      type="number"
+                      min={0}
+                      step="0.01"
+                      placeholder="Cost (£)"
+                      value={item.cost || ""}
+                      onChange={(e) =>
+                        onUpdateSOR(section, idx, {
+                          ...item,
+                          cost: e.target.value,
+                        })
+                      }
+                    />
+                  </Col>
+                  <Col md={2}>
+                    <Form.Check
+                      type="checkbox"
+                      label="Recharge?"
+                      checked={!!item.recharge}
+                      onChange={(e) =>
+                        onUpdateSOR(section, idx, {
+                          ...item,
+                          recharge: e.target.checked,
+                        })
+                      }
+                    />
+                  </Col>
+                  <Col md={1} className="text-end">
+                    <Button
+                      variant="outline-danger"
+                      size="sm"
+                      onClick={() => onRemoveSOR(section, idx)}
+                    >
+                      ✕
+                    </Button>
+                  </Col>
+                </Row>
+                <Row className="mb-3">
+                  <Col>
+                    <Form.Control
+                      as="textarea"
+                      rows={2}
+                      placeholder="Comment"
+                      value={item.comment || ""}
+                      onChange={(e) =>
+                        onUpdateSOR(section, idx, {
+                          ...item,
+                          comment: e.target.value,
+                          description: e.target.value,
+                        })
+                      }
+                    />
+                  </Col>
+                </Row>
+              </React.Fragment>
+            );
+          }
 
-                {/* Cost */}
-                <Col md={isContractor ? 2 : 3} className="mb-2 mb-md-0">
-                  <Form.Control
-                    type="number"
-                    min={0}
-                    step="0.01"
-                    placeholder="Cost"
-                    value={item.cost || ""}
-                    onChange={(e) =>
-                      onUpdateSOR(section, idx, {
-                        ...item,
-                        cost: e.target.value,
-                      })
-                    }
-                  />
-                </Col>
+          if (isLorryItem && (!item.code || item.type === "freeform")) {
+            return (
+              <React.Fragment key={`${section}-${idx}`}>
+                <Row className="align-items-center mb-2">
+                  <Col md={3}>
+                    <Form.Control
+                      type="number"
+                      min={0}
+                      step="0.01"
+                      placeholder="Cost"
+                      value={item.cost || ""}
+                      onChange={(e) =>
+                        onUpdateSOR(section, idx, {
+                          ...item,
+                          cost: e.target.value,
+                        })
+                      }
+                    />
+                  </Col>
+                  <Col md={3}>
+                    <Form.Control
+                      type="number"
+                      min={0}
+                      placeholder="Time (hrs)"
+                      value={item.timeEstimate || ""}
+                      onChange={(e) =>
+                        onUpdateSOR(section, idx, {
+                          ...item,
+                          timeEstimate: e.target.value,
+                        })
+                      }
+                    />
+                  </Col>
+                  <Col md={2}>
+                    <Form.Check
+                      type="checkbox"
+                      label="Recharge?"
+                      checked={!!item.recharge}
+                      onChange={(e) =>
+                        onUpdateSOR(section, idx, {
+                          ...item,
+                          recharge: e.target.checked,
+                        })
+                      }
+                    />
+                  </Col>
+                  <Col md={1} className="text-end">
+                    <Button
+                      variant="outline-danger"
+                      size="sm"
+                      onClick={() => onRemoveSOR(section, idx)}
+                    >
+                      ✕
+                    </Button>
+                  </Col>
+                </Row>
+                <Row className="mb-3">
+                  <Col>
+                    <Form.Control
+                      as="textarea"
+                      rows={2}
+                      placeholder="Item Description"
+                      value={item.description || item.comment || ""}
+                      onChange={(e) =>
+                        onUpdateSOR(section, idx, {
+                          ...item,
+                          comment: e.target.value,
+                          description: e.target.value,
+                        })
+                      }
+                    />
+                  </Col>
+                </Row>
+              </React.Fragment>
+            );
+          }
 
-                {/* Time Estimate (hrs) */}
-                <Col md={isContractor ? 2 : 3} className="mb-2 mb-md-0">
-                  <Form.Control
-                    type="number"
-                    min={0}
-                    placeholder="Time (hrs)"
-                    value={item.timeEstimate || ""}
-                    onChange={(e) =>
-                      onUpdateSOR(section, idx, {
-                        ...item,
-                        timeEstimate: e.target.value,
-                      })
-                    }
-                  />
-                </Col>
-
-                {/* “Recharge?” checkbox */}
-                <Col md={2} className="mb-2 mb-md-0">
-                  <Form.Check
-                    type="checkbox"
-                    label="Recharge?"
-                    checked={!!item.recharge}
-                    onChange={(e) =>
-                      onUpdateSOR(section, idx, {
-                        ...item,
-                        recharge: e.target.checked,
-                      })
-                    }
-                  />
-                </Col>
-
-                {/* Delete Button */}
-                <Col md={1} className="text-end">
-                  <Button
-                    variant="outline-danger"
-                    size="sm"
-                    onClick={() => onRemoveSOR(section, idx)}
-                  >
-                    ✕
-                  </Button>
-                </Col>
-              </Row>
-
-              {/* ─── Full‐width “Item Description” or “Comment” ─── */}
-              <Row className="mb-3">
-                <Col>
-                  <Form.Control
-                    as="textarea"
-                    rows={2}
-                    placeholder={
-                      isLorry ? "Item Description" : "Comment"
-                    }
-                    value={item.description || item.comment || ""}
-                    onChange={(e) =>
-                      onUpdateSOR(section, idx, {
-                        ...item,
-                        comment: e.target.value,
-                        description: e.target.value,
-                      })
-                    }
-                  />
-                </Col>
-              </Row>
-            </React.Fragment>
-          );
+          return null;
         })}
 
-        {/* ─── “Add New Free‐Form Item” button ─── */}
         <Button
           variant="secondary"
           size="sm"
@@ -486,16 +547,11 @@ const SORSection = ({
               timeEstimate: "",
               recharge: false,
               comment: "",
-              description: ""
+              description: "",
             })
           }
         >
-          + Add{" "}
-          {titleCase(
-            section === "contractor work"
-              ? "Contractor Item"
-              : "Lorry Clearance Item"
-          )}
+          + Add {titleCase(section === "contractor work" ? "Contractor Item" : "Lorry Clearance Item")}
         </Button>
       </div>
     );
@@ -515,6 +571,7 @@ const SORSection = ({
           <div>
             <p className="fw-semibold mb-2" style={{ display: "none" }}>Default SORs:</p>
             {selectedSORs.map((sor, idx) => {
+              if (sor.type === "freeform") return null;
               const currentQty = parseQty(sor.quantity);
               return (
                 <Row
@@ -688,7 +745,14 @@ const SORSection = ({
 
   return (
     <div>
-      {isFreeFormSection ? renderFreeFormSection() : renderSORSection()}
+      {isFreeFormSection && renderFreeFormSection()}
+      {isMixedSection && (
+        <>
+          {renderFreeFormSection()}
+          {renderSORSection()}
+        </>
+      )}
+      {!isFreeFormSection && !isMixedSection && renderSORSection()}
     </div>
   );
 };
