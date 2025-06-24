@@ -2,6 +2,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import { debounce } from "lodash";
 import * as XLSX from "xlsx";
+import JSZip from "jszip";
+import { saveAs } from "file-saver";
 import {
   Container,
   Row,
@@ -687,7 +689,28 @@ function App() {
     }
 
     // Insert lorry clearance rows after contractor rows
-    const lorryRows = freeForms("lorry clearance");
+    const lorryRows = (sors["lorry clearance"] || [])
+      .filter((item) => {
+        if (item.code) {
+          // Dropdown SOR: Only include if quantity > 0 or comment exists
+          return parseNum(item.quantity) > 0 || item.comment?.trim();
+        } else {
+          // Freeform row: Include if any relevant field has been filled
+          return (
+            item.description?.trim() ||
+            item.comment?.trim() ||
+            parseNum(item.cost) > 0 ||
+            parseNum(item.timeEstimate) > 0
+          );
+        }
+      })
+      .map((row) => [
+        row.description || row.contractor || "",
+        row.cost || "",
+        row.timeEstimate || "",
+        row.recharge ? "Yes" : "No",
+        row.comment || "",
+      ]);
     if (lorryRows.length > 0) {
       aoa.push([]);
       aoa.push([
@@ -715,6 +738,7 @@ function App() {
         "Cost (£)",
         "Comment",
         "Recharge?",
+        "Recharge Type",
         "Time (hrs)",
         "Contractor",
       ],
@@ -739,8 +763,9 @@ function App() {
             sor.cost || "",
             sor.comment || "",
             sor.recharge ? "Yes" : "No",
-            "", // Time (hrs) blank for SOR items
-            "", // Contractor blank for SOR items
+            sor.recharge ? "SOR" : "",
+            "", // Time
+            "", // Contractor
           ]);
         }
       });
@@ -757,26 +782,43 @@ function App() {
         item.cost || "",
         item.comment || "",
         item.recharge ? "Yes" : "No",
+        item.recharge ? "Contractor" : "",
         item.timeEstimate || "",
         item.contractor || "",
       ]);
     });
-    // Append lorry clearance to SOR Details (with time column)
-    (sors["lorry clearance"] || []).forEach((item) => {
-      detailsAoA.push([
-        "lorry clearance",
-        "",
-        item.description || "",
-        "",
-        "",
-        "",
-        item.cost || "",
-        item.comment || "",
-        item.recharge ? "Yes" : "No",
-        item.timeEstimate || "",
-        "", // Contractor column blank for lorry clearance
-      ]);
-    });
+    // Append lorry clearance to SOR Details (with time column), handling dropdown SOR vs freeform
+    (sors["lorry clearance"] || [])
+      .filter((item) => {
+        if (item.code) {
+          // Dropdown SOR: Only include if quantity > 0 or comment exists
+          return parseNum(item.quantity) > 0 || item.comment?.trim();
+        } else {
+          // Freeform row: Include if any relevant field has been filled
+          return (
+            item.description?.trim() ||
+            item.comment?.trim() ||
+            parseNum(item.cost) > 0 ||
+            parseNum(item.timeEstimate) > 0
+          );
+        }
+      })
+      .forEach((item) => {
+        detailsAoA.push([
+          "lorry clearance",
+          item.code || "",
+          item.description || "",
+          item.uom || "",
+          item.quantity || "",
+          item.smv || "",
+          item.cost || "",
+          item.comment || "",
+          item.recharge ? "Yes" : "No",
+          item.recharge ? "Lorry" : "",
+          item.timeEstimate || "",
+          "", // Contractor column blank for lorry clearance
+        ]);
+      });
     const wsDetails = XLSX.utils.aoa_to_sheet(detailsAoA);
     // Set column widths for SOR Details for better formatting
     wsDetails["!cols"] = [
@@ -789,6 +831,7 @@ function App() {
       { wch: 10 }, // Cost
       { wch: 30 }, // Comment
       { wch: 10 }, // Recharge
+      { wch: 15 }, // Recharge Type
       { wch: 10 }, // Time (hrs)
       { wch: 18 }, // Contractor
     ];
@@ -803,151 +846,298 @@ function App() {
   };
 
   // ──────────────────────────────────────────────────────────
-  // Export to PDF
+  // Generate PDF Blob (for export/download)
   // ──────────────────────────────────────────────────────────
-  const exportToPDF = () => {
-    const doc = new jsPDF({ unit: "pt", format: "a4" });
-    let y = 40;
+  const generatePDFBlob = () => {
+    return new Promise((resolve) => {
+      const doc = new jsPDF({ unit: "pt", format: "a4" });
+      let y = 40;
 
-    // Title
-    doc.setFontSize(18);
-    doc.text("Empty Homes Survey", 40, y);
-    y += 30;
-    // Property Address below title in smaller font
-    doc.setFontSize(12);
-    doc.text(`Address: ${propertyAddress}`, 40, y);
-    y += 20;
+      doc.setFontSize(18);
+      doc.text("Empty Homes Survey", 40, y);
+      y += 30;
 
-    // Summary fields (updated to only include requested fields)
-    doc.setFontSize(11);
-    const summaryLines = [
-      ["Surveyor Name:", surveyorName],
-      ["Property Address:", propertyAddress],
-      ["Void Rating:", voidRating],
-      ["Void Type:", voidType],
-      ["MWR Required:", mwrRequired ? "Yes" : "No"],
-      ["Comments:", overallComments],
-    ];
-    summaryLines.forEach((pair) => {
-      doc.text(`${pair[0]} ${pair[1]}`, 40, y);
-      y += 16;
-    });
-    y += 10;
+      doc.setFontSize(12);
+      doc.text(`Address: ${propertyAddress}`, 40, y);
+      y += 20;
 
-    // If free‐form “contractor work” rows exist
-    const contractors = sors["contractor work"] || [];
-    if (contractors.length > 0) {
-      autoTable(doc, {
-        startY: y,
-        head: [
-          [
-            "Contractor Description",
-            "Cost (£)",
-            "Time (hrs)",
-            "Recharge?",
-            "Comment",
-          ],
-        ],
-        body: contractors.map((cw) => [
-          cw.description || "",
-          cw.cost || "",
-          cw.timeEstimate || "",
-          cw.recharge ? "Yes" : "No",
-          cw.comment || "",
-        ]),
-        styles: { fontSize: 10 },
-        headStyles: { fillColor: [240, 240, 240] },
+      doc.setFontSize(11);
+      const summaryLines = [
+        ["Surveyor Name:", surveyorName],
+        ["Property Address:", propertyAddress],
+        ["Void Rating:", voidRating],
+        ["Void Type:", voidType],
+        ["MWR Required:", mwrRequired ? "Yes" : "No"],
+        ["Comments:", overallComments],
+      ];
+      summaryLines.forEach((pair) => {
+        doc.text(`${pair[0]} ${pair[1]}`, 40, y);
+        y += 16;
       });
-      y = doc.lastAutoTable.finalY + 20;
-    }
+      y += 10;
 
-    // If free‐form “lorry clearance” rows exist
-    const lorries = sors["lorry clearance"] || [];
-    if (lorries.length > 0) {
-      autoTable(doc, {
-        startY: y,
-        head: [
-          [
-            "Lorry Clearance Description",
-            "Cost (£)",
-            "Time (hrs)",
-            "Recharge?",
-            "Comment",
-          ],
-        ],
-        body: lorries.map((cw) => [
-          cw.description || "",
-          cw.cost || "",
-          cw.timeEstimate || "",
-          cw.recharge ? "Yes" : "No",
-          cw.comment || "",
-        ]),
-        styles: { fontSize: 10 },
-        headStyles: { fillColor: [240, 240, 240] },
-      });
-      y = doc.lastAutoTable.finalY + 20;
-    }
+      const contractors = sors["contractor work"] || [];
+      if (contractors.length > 0) {
+        autoTable(doc, {
+          startY: y,
+          head: [["Contractor Description", "Cost (£)", "Time (hrs)", "Recharge?", "Comment"]],
+          body: contractors.map((cw) => [
+            cw.description || "",
+            cw.cost || "",
+            cw.timeEstimate || "",
+            cw.recharge ? "Yes" : "No",
+            cw.comment || "",
+          ]),
+          styles: { fontSize: 10 },
+          headStyles: { fillColor: [240, 240, 240] },
+        });
+        y = doc.lastAutoTable.finalY + 20;
+      }
 
-    // SOR Details table (only include selected SORs)
-    const detailRows = [];
-    sectionKeys.forEach((section) => {
-      if (
-        section === "searchable" ||
-        section === "contractor work" ||
-        section === "lorry clearance"
-      )
-        return;
-      (sors[section] || []).forEach((sor) => {
-        // Only include if quantity > 0
-        if (parseNum(sor.quantity) > 0) {
-          detailRows.push([
-            titleCase(section),
-            sor.code || "",
-            sor.description || "",
-            sor.quantity || "",
-            sor.comment || "",
-          ]);
+      const lorries = (sors["lorry clearance"] || []).filter((item) => {
+        if (item.code) {
+          return parseNum(item.quantity) > 0 || item.comment?.trim();
+        } else {
+          return (
+            item.description?.trim() ||
+            item.comment?.trim() ||
+            parseNum(item.cost) > 0 ||
+            parseNum(item.timeEstimate) > 0
+          );
         }
       });
-    }); // close sectionKeys.forEach
-    autoTable(doc, {
-      startY: y,
-      head: [[
-        "Section", "Code", "Description", "Quantity", "Comment"
-      ]],
-      body: detailRows,
-      styles: { fontSize: 9, cellWidth: 'wrap' },
-      headStyles: { fillColor: [240, 240, 240] },
-      columnStyles: {
-        0: { cellWidth: 'auto' },
-        1: { cellWidth: 'auto' },
-        2: { cellWidth: 'auto' },
-        3: { cellWidth: 'auto' },
-        4: { cellWidth: 'auto' },
-      },
-      margin: { left: 40, right: 20 }
-    });
+      if (lorries.length > 0) {
+        autoTable(doc, {
+          startY: y,
+          head: [["Lorry Clearance Description", "Cost (£)", "Time (hrs)", "Recharge?", "Comment"]],
+          body: lorries.map((cw) => [
+            cw.description || "",
+            cw.cost || "",
+            cw.timeEstimate || "",
+            cw.recharge ? "Yes" : "No",
+            cw.comment || "",
+          ]),
+          styles: { fontSize: 10 },
+          headStyles: { fillColor: [240, 240, 240] },
+        });
+        y = doc.lastAutoTable.finalY + 20;
+      }
 
+      const detailRows = [];
+      sectionKeys.forEach((section) => {
+        if (section === "searchable" || section === "contractor work" || section === "lorry clearance") return;
+        (sors[section] || []).forEach((sor) => {
+          if (parseNum(sor.quantity) > 0) {
+            detailRows.push([
+              titleCase(section),
+              sor.code || "",
+              sor.description || "",
+              sor.quantity || "",
+              sor.comment || "",
+            ]);
+          }
+        });
+      });
+
+      autoTable(doc, {
+        startY: y,
+        head: [["Section", "Code", "Description", "Quantity", "Comment"]],
+        body: detailRows,
+        styles: { fontSize: 9, cellWidth: 'wrap' },
+        headStyles: { fillColor: [240, 240, 240] },
+        columnStyles: {
+          0: { cellWidth: 'auto' },
+          1: { cellWidth: 'auto' },
+          2: { cellWidth: 'auto' },
+          3: { cellWidth: 'auto' },
+          4: { cellWidth: 'auto' },
+        },
+        margin: { left: 40, right: 20 }
+      });
+
+      resolve(doc.output("blob"));
+    });
+  };
+
+  // Optional: manual PDF export button
+  const exportToPDF = async () => {
+    const pdfBlob = await generatePDFBlob();
     const safeAddr = propertyAddress.replace(/\s+/g, "_");
-    const pdfBlob = doc.output('blob');
     const blobUrl = URL.createObjectURL(pdfBlob);
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = blobUrl;
     link.download = `Empty_Homes_Survey_${safeAddr}.pdf`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    URL.revokeObjectURL(blobUrl); // Clean up memory
+    URL.revokeObjectURL(blobUrl);
   };
 
   // ──────────────────────────────────────────────────────────
-  // Export to Excel + PDF (Export All)
+  // Export to Excel + PDF as ZIP (Export All)
   // ──────────────────────────────────────────────────────────
-  const handleExportAll = () => {
-    exportToExcel();
-    setTimeout(() => {
-      exportToPDF();
-    }, 300);
+  const exportToZip = async () => {
+    const zip = new JSZip();
+
+    // 1. Generate Excel blob (with both Summary and SOR Details sheets)
+    const excelBlob = await new Promise((resolve) => {
+      const aoa = [
+        ["Surveyor Name", surveyorName],
+        ["Property Address", propertyAddress],
+        ["Void Rating", voidRating],
+        ["Void Type", voidType],
+        ["MWR Required", mwrRequired ? "Yes" : "No"],
+        ["Total SMV (min)", totals.smv],
+        ["Total Void Days", totals.daysDecimal.toFixed(1)],
+        ["Total Cost (£)", totals.cost],
+        ["Recharge Days", totals.rechargeDaysDecimal.toFixed(1)],
+        ["Recharge Cost (£)", totals.rechargeCost],
+        ["Overall Survey Comments", overallComments],
+        ["Gifted Items Notes", giftedItemsNotes],
+        ["Cooker Clearance OK?", cookerClearance],
+        ["Cooker Point Type", cookerPointType],
+        ["Extractor Fan Fitted?", extractorFan],
+        ["Shower Fitted?", showerFitted],
+        ["Shower Required", showerType],
+        ["Bath Turn Required?", bathTurn],
+        ["Kitchen MWR?", kitchenMWR],
+        ["Bathroom MWR?", bathMWR],
+        ["Asbestos Notes", asbestosNotes],
+        ["Contractor Notes", contractorNotes],
+        ["Lorry Clearance Notes", lorryClearanceNotes],
+        ["Loft Checked?", loftChecked ? "Yes" : "No"],
+        ["Loft Needs Clearing?", loftNeedsClearing ? "Yes" : "No"],
+      ];
+
+      const wsSummary = XLSX.utils.aoa_to_sheet(aoa);
+      wsSummary["!cols"] = [{ wch: 25 }, { wch: 40 }];
+
+      // SOR Details
+      const detailsAoA = [
+        [
+          "Section",
+          "Code",
+          "Description",
+          "UOM",
+          "Quantity",
+          "SMV",
+          "Cost (£)",
+          "Comment",
+          "Recharge?",
+          "Recharge Type",
+          "Time (hrs)",
+          "Contractor",
+        ],
+      ];
+      sectionKeys.forEach((section) => {
+        if (
+          section === "searchable" ||
+          section === "contractor work" ||
+          section === "lorry clearance"
+        )
+          return;
+        (sors[section] || []).forEach((sor) => {
+          const quantity = parseNum(sor.quantity || 0);
+          if (quantity > 0) {
+            detailsAoA.push([
+              titleCase(section),
+              sor.code || "",
+              sor.description || "",
+              sor.uom || "",
+              sor.quantity || "",
+              sor.smv || "",
+              sor.cost || "",
+              sor.comment || "",
+              sor.recharge ? "Yes" : "No",
+              sor.recharge ? "SOR" : "",
+              "", // Time
+              "", // Contractor
+            ]);
+          }
+        });
+      });
+      (sors["contractor work"] || []).forEach((item) => {
+        detailsAoA.push([
+          "contractor work",
+          "",
+          item.description || "",
+          "",
+          "",
+          "",
+          item.cost || "",
+          item.comment || "",
+          item.recharge ? "Yes" : "No",
+          item.recharge ? "Contractor" : "",
+          item.timeEstimate || "",
+          item.contractor || "",
+        ]);
+      });
+      (sors["lorry clearance"] || [])
+        .filter((item) => {
+          if (item.code) {
+            return parseNum(item.quantity) > 0 || item.comment?.trim();
+          } else {
+            return (
+              item.description?.trim() ||
+              item.comment?.trim() ||
+              parseNum(item.cost) > 0 ||
+              parseNum(item.timeEstimate) > 0
+            );
+          }
+        })
+        .forEach((item) => {
+          detailsAoA.push([
+            "lorry clearance",
+            item.code || "",
+            item.description || "",
+            item.uom || "",
+            item.quantity || "",
+            item.smv || "",
+            item.cost || "",
+            item.comment || "",
+            item.recharge ? "Yes" : "No",
+            item.recharge ? "Lorry" : "",
+            item.timeEstimate || "",
+            "", // Contractor
+          ]);
+        });
+
+      const wsDetails = XLSX.utils.aoa_to_sheet(detailsAoA);
+      wsDetails["!cols"] = [
+        { wch: 15 },
+        { wch: 10 },
+        { wch: 40 },
+        { wch: 8 },
+        { wch: 8 },
+        { wch: 8 },
+        { wch: 10 },
+        { wch: 30 },
+        { wch: 10 },
+        { wch: 15 }, // Recharge Type
+        { wch: 10 },
+        { wch: 18 },
+      ];
+
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, wsSummary, "Summary");
+      XLSX.utils.book_append_sheet(wb, wsDetails, "SOR Details");
+
+      const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+      resolve(new Blob([wbout], { type: "application/octet-stream" }));
+    });
+
+    // 2. Generate PDF blob
+    const pdfBlob = await generatePDFBlob();
+
+    // 3. Add both to zip
+    const safeAddr = propertyAddress.replace(/\s+/g, "_");
+    zip.file(`Empty_Homes_Survey_${safeAddr}.xlsx`, excelBlob);
+    zip.file(`Empty_Homes_Survey_${safeAddr}.pdf`, pdfBlob);
+
+    // 4. Trigger zip download
+    zip.generateAsync({ type: "blob" }).then((content) => {
+      saveAs(content, `Empty_Homes_Survey_${safeAddr}.zip`);
+    });
   };
 
   // ──────────────────────────────────────────────────────────
@@ -1467,7 +1657,7 @@ function App() {
           <Container fluid className="px-4 mt-4 mb-5 text-center">
             <Button
               variant="primary"
-              onClick={handleExportAll}
+              onClick={exportToZip}
             >
               Export Survey (Excel + PDF)
             </Button>
