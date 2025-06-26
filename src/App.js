@@ -1615,7 +1615,7 @@ function App() {
                 </Accordion.Body>
               </Accordion.Item>
 
-              {/* Gifted Items Accordion */}
+              {/* Gifted Items Accordion hello teat */}
               <Accordion.Item eventKey="gifted-items" className="mb-3">
                 <Accordion.Header>Gifted Items</Accordion.Header>
                 <Accordion.Body>
