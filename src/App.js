@@ -1204,7 +1204,26 @@ function App() {
           lorryClearanceNotes,
           loftChecked,
           loftNeedsClearing,
-          sors,
+          sors: Object.fromEntries(
+            Object.entries(sors).map(([section, items]) => {
+              const filtered = (items || []).filter((item) => {
+                if (section === "contractor work" || section === "lorry clearance") {
+                  const isFreeForm = !item.code;
+                  if (isFreeForm) {
+                    return (
+                      item.description?.trim() ||
+                      item.comment?.trim() ||
+                      parseFloat(item.cost) > 0 ||
+                      parseFloat(item.timeEstimate) > 0
+                    );
+                  }
+                  return parseFloat(item.quantity || 0) > 0 || item.comment?.trim();
+                }
+                return parseFloat(item.quantity || 0) > 0;
+              });
+              return [section, filtered];
+            })
+          ),
           submittedAt: new Date().toISOString()
         });
       } catch (err) {
