@@ -1153,6 +1153,7 @@ function App() {
           body: JSON.stringify({
             surveyorName,
             propertyAddress,
+            address: propertyAddress,
             voidRating,
             voidType,
             mwrRequired,
@@ -1172,7 +1173,33 @@ function App() {
             lorryClearanceNotes,
             loftChecked,
             loftNeedsClearing,
-            sors,
+            sors: Object.fromEntries(
+              Object.entries(sors).map(([section, items]) => {
+                const filtered = (items || []).filter((item) => {
+                  const quantity = parseFloat(item.quantity || 0);
+                  const hasComment = item.comment?.trim();
+                  const isRecharge = item.recharge === true;
+                  const isFreeForm = !item.code;
+
+                  if (section === "contractor work" || section === "lorry clearance") {
+                    const cost = parseFloat(item.cost || 0);
+                    const time = parseFloat(item.timeEstimate || 0);
+                    const hasDescription = item.description?.trim();
+
+                    return (
+                      hasDescription ||
+                      hasComment ||
+                      cost > 0 ||
+                      time > 0
+                    );
+                  }
+
+                  // Only include SORs where quantity > 0, has a comment, or is marked as a recharge
+                  return quantity > 0 || hasComment || isRecharge;
+                });
+                return [section, filtered];
+              })
+            ),
             timestamp: new Date().toISOString(),
           }),
         });
@@ -1185,6 +1212,7 @@ function App() {
         await addDoc(collection(db, "surveys"), {
           surveyorName,
           propertyAddress,
+          address: propertyAddress,
           voidRating,
           voidType,
           mwrRequired,
@@ -1207,19 +1235,26 @@ function App() {
           sors: Object.fromEntries(
             Object.entries(sors).map(([section, items]) => {
               const filtered = (items || []).filter((item) => {
+                const quantity = parseFloat(item.quantity || 0);
+                const hasComment = item.comment?.trim();
+                const isRecharge = item.recharge === true;
+                const isFreeForm = !item.code;
+
                 if (section === "contractor work" || section === "lorry clearance") {
-                  const isFreeForm = !item.code;
-                  if (isFreeForm) {
-                    return (
-                      item.description?.trim() ||
-                      item.comment?.trim() ||
-                      parseFloat(item.cost) > 0 ||
-                      parseFloat(item.timeEstimate) > 0
-                    );
-                  }
-                  return parseFloat(item.quantity || 0) > 0 || item.comment?.trim();
+                  const cost = parseFloat(item.cost || 0);
+                  const time = parseFloat(item.timeEstimate || 0);
+                  const hasDescription = item.description?.trim();
+
+                  return (
+                    hasDescription ||
+                    hasComment ||
+                    cost > 0 ||
+                    time > 0
+                  );
                 }
-                return parseFloat(item.quantity || 0) > 0;
+
+                // Only include SORs where quantity > 0, has a comment, or is marked as a recharge
+                return quantity > 0 || hasComment || isRecharge;
               });
               return [section, filtered];
             })
