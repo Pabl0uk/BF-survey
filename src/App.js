@@ -1135,7 +1135,43 @@ function App() {
     zip.file(`Empty_Homes_Survey_${safeAddr}.pdf`, pdfBlob);
 
     // 4. Trigger zip download
-    zip.generateAsync({ type: "blob" }).then((content) => {
+    zip.generateAsync({ type: "blob" }).then(async (content) => {
+      // Send data to dashboard API
+      try {
+        await fetch("https://voids-dashboard.vercel.app/api/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            surveyorName,
+            propertyAddress,
+            voidRating,
+            voidType,
+            mwrRequired,
+            overallComments,
+            totals,
+            giftedItemsNotes,
+            cookerClearance,
+            cookerPointType,
+            extractorFan,
+            showerFitted,
+            showerType,
+            bathTurn,
+            kitchenMWR,
+            bathMWR,
+            asbestosNotes,
+            contractorNotes,
+            lorryClearanceNotes,
+            loftChecked,
+            loftNeedsClearing,
+            sors,
+            timestamp: new Date().toISOString(),
+          }),
+        });
+      } catch (err) {
+        console.error("Failed to send survey data to dashboard:", err);
+      }
       saveAs(content, `Empty_Homes_Survey_${safeAddr}.zip`);
     });
   };
