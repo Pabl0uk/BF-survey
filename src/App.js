@@ -21,6 +21,13 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import "./index.css";
 
+import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { initializeApp } from "firebase/app";
+import firebaseConfig from "./lib/firebase";
+
+const firebaseApp = initializeApp(firebaseConfig);
+const db = getFirestore(firebaseApp);
+
 // 1) Fixed list of desired sections; “contractor work” stays last
 const desiredOrder = [
   "general",
@@ -1172,6 +1179,38 @@ function App() {
       } catch (err) {
         console.error("Failed to send survey data to dashboard:", err);
       }
+
+      // Also send to Firebase
+      try {
+        await addDoc(collection(db, "surveys"), {
+          surveyorName,
+          propertyAddress,
+          voidRating,
+          voidType,
+          mwrRequired,
+          overallComments,
+          totals,
+          giftedItemsNotes,
+          cookerClearance,
+          cookerPointType,
+          extractorFan,
+          showerFitted,
+          showerType,
+          bathTurn,
+          kitchenMWR,
+          bathMWR,
+          asbestosNotes,
+          contractorNotes,
+          lorryClearanceNotes,
+          loftChecked,
+          loftNeedsClearing,
+          sors,
+          submittedAt: new Date().toISOString()
+        });
+      } catch (err) {
+        console.error("Failed to submit to Firebase:", err);
+      }
+
       saveAs(content, `Empty_Homes_Survey_${safeAddr}.zip`);
     });
   };
