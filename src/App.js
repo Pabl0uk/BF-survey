@@ -1179,13 +1179,27 @@ function App() {
                   const quantity = parseFloat(item.quantity || 0);
                   const hasComment = item.comment?.trim();
                   const isRecharge = item.recharge === true;
-                  const isFreeForm = !item.code;
 
-                  if (section === "contractor work" || section === "lorry clearance") {
+                  if (section === "lorry clearance") {
+                    if (item.code) {
+                      return quantity > 0 || hasComment || isRecharge;
+                    } else {
+                      const cost = parseFloat(item.cost || 0);
+                      const time = parseFloat(item.timeEstimate || 0);
+                      const hasDescription = item.description?.trim();
+                      return (
+                        hasDescription ||
+                        hasComment ||
+                        cost > 0 ||
+                        time > 0
+                      );
+                    }
+                  }
+
+                  if (section === "contractor work") {
                     const cost = parseFloat(item.cost || 0);
                     const time = parseFloat(item.timeEstimate || 0);
                     const hasDescription = item.description?.trim();
-
                     return (
                       hasDescription ||
                       hasComment ||
@@ -1194,7 +1208,6 @@ function App() {
                     );
                   }
 
-                  // Only include SORs where quantity > 0, has a comment, or is marked as a recharge
                   return quantity > 0 || hasComment || isRecharge;
                 });
                 return [section, filtered];
@@ -1238,13 +1251,27 @@ function App() {
                 const quantity = parseFloat(item.quantity || 0);
                 const hasComment = item.comment?.trim();
                 const isRecharge = item.recharge === true;
-                const isFreeForm = !item.code;
 
-                if (section === "contractor work" || section === "lorry clearance") {
+                if (section === "lorry clearance") {
+                  if (item.code) {
+                    return quantity > 0 || hasComment || isRecharge;
+                  } else {
+                    const cost = parseFloat(item.cost || 0);
+                    const time = parseFloat(item.timeEstimate || 0);
+                    const hasDescription = item.description?.trim();
+                    return (
+                      hasDescription ||
+                      hasComment ||
+                      cost > 0 ||
+                      time > 0
+                    );
+                  }
+                }
+
+                if (section === "contractor work") {
                   const cost = parseFloat(item.cost || 0);
                   const time = parseFloat(item.timeEstimate || 0);
                   const hasDescription = item.description?.trim();
-
                   return (
                     hasDescription ||
                     hasComment ||
@@ -1253,7 +1280,6 @@ function App() {
                   );
                 }
 
-                // Only include SORs where quantity > 0, has a comment, or is marked as a recharge
                 return quantity > 0 || hasComment || isRecharge;
               });
               return [section, filtered];
