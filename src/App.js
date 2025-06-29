@@ -66,6 +66,51 @@ const parseNum = (val) => {
 
 function App() {
   // Loft checkboxes states
+  // Visit Type & Location state (new)
+  const [visitType, setVisitType] = useState("Leaving Well");
+  const [location, setLocation] = useState({
+    latitude: null,
+    longitude: null,
+    source: null, // 'gps' or 'postcode'
+  });
+  const [postcodeCoords, setPostcodeCoords] = useState(null); // cache postcode coords for fallback
+  // ──────────────────────────────────────────────────────────
+  // On mount: Try to get GPS location
+  // ──────────────────────────────────────────────────────────
+  useEffect(() => {
+    if (!navigator.geolocation) return;
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setLocation({
+          latitude: pos.coords.latitude,
+          longitude: pos.coords.longitude,
+          source: "gps",
+        });
+      },
+      (error) => {
+        // GPS failed or denied, fallback not triggered here, fallback will be done on submit
+        console.warn("GPS location unavailable", error);
+      },
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
+  }, []);
+
+  // Helper to fetch postcode coordinates from api.postcodes.io
+  const fetchPostcodeCoords = async (postcode) => {
+    try {
+      const res = await fetch(`https://api.postcodes.io/postcodes/${encodeURIComponent(postcode)}`);
+      const data = await res.json();
+      if (data.status === 200 && data.result) {
+        return {
+          latitude: data.result.latitude,
+          longitude: data.result.longitude,
+        };
+      }
+    } catch (e) {
+      console.error("Failed to fetch postcode coords", e);
+    }
+    return null;
+  };
   const [loftChecked, setLoftChecked] = useState("");
   const [loftNeedsClearing, setLoftNeedsClearing] = useState("");
   const [hasSavedSurvey, setHasSavedSurvey] = useState(false);
@@ -640,6 +685,7 @@ function App() {
     const aoa = [
       ["Surveyor Name", surveyorName],
       ["Property Address", propertyAddress],
+      ["Visit Type", visitType],
       ["Void Rating", voidRating],
       ["Void Type", voidType],
       ["MWR Required", mwrRequired ? "Yes" : "No"],
@@ -649,27 +695,21 @@ function App() {
       ["Recharge Days", totals.rechargeDaysDecimal.toFixed(1)],
       ["Recharge Cost (£)", totals.rechargeCost],
       ["Overall Survey Comments", overallComments],
+      ["Gifted Items Notes", giftedItemsNotes],
+      ["Cooker Clearance OK?", cookerClearance],
+      ["Cooker Point Type", cookerPointType],
+      ["Extractor Fan Fitted?", extractorFan],
+      ["Shower Fitted?", showerFitted],
+      ["Shower Required", showerType],
+      ["Bath Turn Required?", bathTurn],
+      ["Kitchen MWR?", kitchenMWR],
+      ["Bathroom MWR?", bathMWR],
+      ["Asbestos Notes", asbestosNotes],
+      ["Contractor Notes", contractorNotes],
+      ["Lorry Clearance Notes", lorryClearanceNotes],
+      ["Loft Checked?", loftChecked ? "Yes" : "No"],
+      ["Loft Needs Clearing?", loftNeedsClearing ? "Yes" : "No"],
     ];
-    // Add Gifted Items Notes before pushing kitchen/bathroom fields
-    aoa.push(["Gifted Items Notes", giftedItemsNotes]);
-
-    // Add import compatibility fields for kitchen and bathroom
-    aoa.push(["Cooker Clearance OK?", cookerClearance]);
-    aoa.push(["Cooker Point Type", cookerPointType]);
-    aoa.push(["Extractor Fan Fitted?", extractorFan]);
-    aoa.push(["Shower Fitted?", showerFitted]);
-    aoa.push(["Shower Required", showerType]);
-    aoa.push(["Bath Turn Required?", bathTurn]);
-    aoa.push(["Kitchen MWR?", kitchenMWR]);
-    aoa.push(["Bathroom MWR?", bathMWR]);
-    // Asbestos Notes
-    aoa.push(["Asbestos Notes", asbestosNotes]);
-    // Contractor and Lorry Clearance Notes
-    aoa.push(["Contractor Notes", contractorNotes]);
-    aoa.push(["Lorry Clearance Notes", lorryClearanceNotes]);
-    // Loft checkboxes
-    aoa.push(["Loft Checked?", loftChecked ? "Yes" : "No"]);
-    aoa.push(["Loft Needs Clearing?", loftNeedsClearing ? "Yes" : "No"]);
 
     // Helper for contractor/lorry rows
     const freeForms = (sectionKey) =>
@@ -984,6 +1024,25 @@ function App() {
   // Export to Excel + PDF as ZIP (Export All)
   // ──────────────────────────────────────────────────────────
   const exportToZip = async () => {
+    // On submit: If GPS location missing, try postcode geocode
+    let finalLocation = location;
+    // Only try fallback if no GPS and propertyAddress has a postcode
+    if (!location.latitude && propertyAddress) {
+      // Extract postcode from propertyAddress (simple regex or manual parse)
+      const postcodeMatch = propertyAddress.match(/[A-Z]{1,2}\d{1,2}[A-Z]?\s*\d[A-Z]{2}/i);
+      if (postcodeMatch) {
+        const pc = postcodeMatch[0];
+        let coords = postcodeCoords;
+        if (!coords) {
+          coords = await fetchPostcodeCoords(pc);
+          setPostcodeCoords(coords);
+        }
+        if (coords) {
+          finalLocation = { ...coords, source: "postcode" };
+          setLocation(finalLocation);
+        }
+      }
+    }
     const zip = new JSZip();
 
     // 1. Generate Excel blob (with both Summary and SOR Details sheets)
@@ -1213,6 +1272,8 @@ function App() {
                 return [section, filtered];
               })
             ),
+            visitType,
+            location: finalLocation,
             timestamp: new Date().toISOString(),
           }),
         });
@@ -1285,6 +1346,8 @@ function App() {
               return [section, filtered];
             })
           ),
+          visitType,
+          location: finalLocation,
           submittedAt: new Date().toISOString()
         });
       } catch (err) {
@@ -1348,6 +1411,17 @@ function App() {
                         value={propertyAddress}
                         onChange={(e) => setPropertyAddress(e.target.value)}
                       />
+                    </Form.Group>
+                    <Form.Group controlId="visitType" className="mb-3">
+                      <Form.Label>Visit Type</Form.Label>
+                      <Form.Select
+                        value={visitType}
+                        onChange={(e) => setVisitType(e.target.value)}
+                      >
+                        <option value="Leaving Well">Leaving Well</option>
+                        <option value="Day 29">Day 29</option>
+                        <option value="Mutual Exchange">Mutual Exchange</option>
+                      </Form.Select>
                     </Form.Group>
                     <Button
                       variant="primary"
