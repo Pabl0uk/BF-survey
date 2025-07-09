@@ -148,11 +148,11 @@
       "uom": "Each"
     },
     {
-      "code": "PSCT22",
-      "description": "Fluorescent Tube Collection",
-      "cost": 40,
-      "smv": 0,
-      "uom": "Each"
+      "code": "460026",
+      "description": "GARDEN:CLEAR/CUT BACK EXCEPTIONAL DEBRIS",
+      "cost": 40148.62,
+      "smv": 210.0,
+      "uom": "it"
     },
     {
       "type": "freeform"
@@ -192,7 +192,49 @@
   "uom": "LM",
   "smv": 20.0,
   "cost": 10.62
-}
+},
+    {
+      "code": "318179",
+      "description": "WINDOW/DOOR/FLOOR:RENEW SILICONE",
+      "uom": "sm",
+      "smv": 13.0,
+      "cost": 4.46
+    },
+    {
+      "code": "318125",
+      "description": "WINDOW:OVERHAUL",
+      "uom": "it",
+      "smv": 75.0,
+      "cost": 47.21
+    },
+    {
+      "code": "650013",
+      "description": "STOPCOCK:OVERHAUL ANY SIZE AND TYPE",
+      "uom": "no",
+      "smv": 40.0,
+      "cost": 26.73
+    },
+    {
+      "code": "460012",
+      "description": "DWELLING:CLEAN TO LETTABLE STANDARD",
+      "uom": "it",
+      "smv": 150.0,
+      "cost": 99.26
+    },
+    {
+      "code": "460507",
+      "description": "CARPET:CLEAN TO ROOM UPTO 20SM AREA",
+      "uom": "it",
+      "smv": 120.0,
+      "cost": 52.16
+    },
+    {
+      "code": "397009",
+      "description": "WALLS:REMOVE FIXINGS/FITTINGS FROM WALLS",
+      "uom": "sm",
+      "smv": 0.12,
+      "cost": 3.75
+    }
   ],
   "decoration": [
     {
@@ -278,7 +320,28 @@
   "uom": "SM",
   "smv": 42.0,
   "cost": 24.74
-}
+},
+    {
+      "code": "436061",
+      "description": "WALLS:WASH APPLY 2 COATS MASONRY PAINT",
+      "uom": "sm",
+      "smv": 18.0,
+      "cost": 10.01
+    },
+    {
+      "code": "442003",
+      "description": "WALLS AND CEILINGS:APPLY 2 COATS FRA PAINT/TIMINOX",
+      "uom": "sm",
+      "smv": 18.0,
+      "cost": 10.85
+    },
+    {
+      "code": "442008",
+      "description": "RADIATORS: APPLY TWO COATS PAINT",
+      "uom": "it",
+      "smv": 26.0,
+      "cost": 12.85
+    }
   ],
   "external works": [
     {
@@ -296,13 +359,6 @@
       "cost": 126.73
     },
     {
-      "code": "413319",
-      "description": "CEILING:RENEW NE 12.5MM PLASTERBOARD 3MM SKIM COAT",
-      "uom": "sm",
-      "smv": 68.0,
-      "cost": 40.24
-    },
-    {
       "code": "007001",
       "description": "FLAG:EXCAVATE AND LAY NEW PRECAST CONCRETE",
       "uom": "sm",
@@ -315,6 +371,20 @@
       "uom": "no",
       "smv": 60.0,
       "cost": 36.15
+    },
+    {
+      "code": "009013",
+      "description": "GARDEN:RENEW GRAVEL PAVING 30MM",
+      "uom": "SM",
+      "smv": 32.0,
+      "cost": 56.0
+    },
+    {
+      "code": "603903",
+      "description": "GUTTER:CLEAN AND FLUSH OUT PER ELEVATION",
+      "uom": "it",
+      "smv": 45.0,
+      "cost": 42.09
     }
   ],
   "sheds": [
@@ -352,6 +422,13 @@
   "uom": "SM",
   "smv": 42.0,
   "cost": 24.74
+},
+{
+  "code": "070105",
+  "description": "SHED DOOR:RENEW L AND B DOOR",
+  "uom": "no",
+  "smv": 120.0,
+  "cost": 167.62
 }
   ],
   "hall/stair/landing": [
@@ -410,6 +487,55 @@
       "uom": "IT",
       "smv": 35.0,
       "cost": 8.28
+    },
+    {
+      "code": "395103",
+      "description": "CEILING HATCH:RENEW BLOCKBOARD ACCESS HATCH",
+      "uom": "IT",
+      "smv": 115.0,
+      "cost": 71.80
+    },
+    {
+      "code": "451007",
+      "description": "ROOM:STRIP PAPER UPTO 20SM CEILING AREA",
+      "uom": "IT",
+      "smv": 466.0,
+      "cost": 128.61
+    },
+    {
+      "code": "318108",
+      "description": "WINDOW:RENEW LOCKING HANDLE TO PVCU",
+      "uom": "no",
+      "smv": 15.0,
+      "cost": 14.23
+    },
+    {
+      "code": "335003",
+      "description": "DOOR:EASE ADJUST REHANG INTERNAL NEW BUTTS",
+      "uom": "no",
+      "smv": 60.0,
+      "cost": 33.80
+    },
+    {
+      "code": "330001",
+      "description": "DOOR:RENEW INTERNAL PLY FLUSH",
+      "uom": "no",
+      "smv": 120.0,
+      "cost": 129.67
+    },
+    {
+      "code": "",
+      "description": "CEILING HATCH:RENEW BLOCKBOARD ACCESS HATCH",
+      "uom": "IT",
+      "smv": 115.0,
+      "cost": 71.80
+    },
+    {
+      "code": "",
+      "description": "",
+      "uom": "IT",
+      "smv": 115.0,
+      "cost": 71.80
     }
   ],
   "w/c (closet)": [
@@ -450,14 +576,21 @@
     },
     {
       "code": "630919",
-      "description": "BATH:RENEW PLUG AND CHAIN",
+      "description": "BASIN:RENEW PLUG AND CHAIN",
       "uom": "no",
       "smv": 5.0,
       "cost": 5.92
     },
     {
+      "code": "620507",
+      "description": "BASIN OR SINK:CLEAR BLOCKAGE",
+      "uom": "no",
+      "smv": 20.0,
+      "cost": 13.97
+    },
+    {
       "code": "631301",
-      "description": "TAP:RENEW PAIR BASIN PILLAR TAPS",
+      "description": "TAP:RENEW PAIR BASIN TAPS",
       "uom": "it",
       "smv": 50.0,
       "cost": 50.49
@@ -503,6 +636,34 @@
       "uom": "IT",
       "smv": 35.0,
       "cost": 8.28
+    },
+    {
+      "code": "318185",
+      "description": "WINDOW:RENEW CILL TO PVCU",
+      "uom": "LM",
+      "smv": 35.0,
+      "cost": 37.85
+    },
+    {
+      "code": "630533",
+      "description": "WC CISTERN:RENEW LOW LEVEL PLASTIC",
+      "uom": "no",
+      "smv": 50.0,
+      "cost": 114.02
+    },
+    {
+      "code": "630571",
+      "description": "WC CISTERN:OVERHAUL/RENEW FLUSH HANDLE",
+      "uom": "no",
+      "smv": 20.0,
+      "cost": 27.25
+    },
+    {
+      "code": "631501",
+      "description": "SEALANT:RENEW TO W/C",
+      "uom": "LM",
+      "smv": 4.0,
+      "cost": 4.47
     }
   ],
   "living room": [
@@ -619,7 +780,14 @@
       "cost": 128.61
     },
     {
-      "code": "363001",
+      "code": "330001",
+      "description": "VENT CHIMNEY:RENEW PVC OR ALUMINIUM",
+      "uom": "no",
+      "smv": 15.0,
+      "cost": 13.34
+    },
+    {
+      "code": "115011",
       "description": "CURTAIN BATTEN:RENEW OR FIX NEW",
       "uom": "IT",
       "smv": 35.0,
@@ -740,11 +908,11 @@
       "cost": 128.61
     },
     {
-      "code": "363001",
-      "description": "CURTAIN BATTEN:RENEW OR FIX NEW",
-      "uom": "IT",
-      "smv": 35.0,
-      "cost": 8.28
+      "code": "330001",
+      "description": "VENT CHIMNEY:RENEW PVC OR ALUMINIUM",
+      "uom": "no",
+      "smv": 15.0,
+      "cost": 13.34
     }
   ],
   "kitchen": [
@@ -903,8 +1071,15 @@
       "cost": 14.79
     },
     {
+      "code": "620507",
+      "description": "BASIN OR SINK:CLEAR BLOCKAGE",
+      "uom": "no",
+      "smv": 20.0,
+      "cost": 13.97
+    },
+    {
       "code": "630201",
-      "description": "SINK TOP:SUPPLY INSET",
+      "description": "SINK TOP:SUPPLY INSET SINK",
       "uom": "no",
       "smv": 150.0,
       "cost": 220.34
@@ -945,11 +1120,39 @@
       "cost": 128.61
     },
     {
-      "code": "363001",
-      "description": "CURTAIN BATTEN:RENEW OR FIX NEW",
+      "code": "620103",
+      "description": "WASTE:RENEW 40MM PIPE AND TRAP SINK (NOZZLE)",
       "uom": "IT",
+      "smv": 15.0,
+      "cost": 28.56
+    },
+    {
+      "code": "373049",
+      "description": "KITCHEN UNIT:RE-ALIGN UNIT DOORS/DRAWERS",
+      "uom": "no",
+      "smv": 8.0,
+      "cost": 4.42
+    },
+    {
+      "code": "373007",
+      "description": "KITCHEN UNIT:RENEW BASE UNIT DOOR",
+      "uom": "no",
+      "smv": 30.0,
+      "cost": 70.89
+    },
+    {
+      "code": "373009",
+      "description": "KITCHEN UNIT:RENEW WALL UNIT DOOR",
+      "uom": "no",
+      "smv": 30.0,
+      "cost": 57.89
+    },
+    {
+      "code": "372001",
+      "description": "WORKTOP:RENEW NE 40MM THICK POST FORMED",
+      "uom": "lm",
       "smv": 35.0,
-      "cost": 8.28
+      "cost": 58.76
     }
   ],
   "bathroom/wetroom": [
@@ -1115,6 +1318,13 @@
       "cost": 33.99
     },
     {
+      "code": "620507",
+      "description": "BASIN OR SINK:CLEAR BLOCKAGE",
+      "uom": "no",
+      "smv": 20.0,
+      "cost": 13.97
+    },
+    {
       "code": "631125",
       "description": "SHOWER:RENEW CURTAIN",
       "uom": "it",
@@ -1178,11 +1388,39 @@
       "cost": 43.0
     },
     {
+      "code": "631107",
+      "description": "SHOWER:RENEW THERMOSTATIC MIXING VALVE",
+      "uom": "no",
+      "smv": 35.0,
+      "cost": 399.46
+    },
+    {
+      "code": "630533",
+      "description": "WC CISTERN:RENEW LOW LEVEL PLASTIC",
+      "uom": "no",
+      "smv": 50.0,
+      "cost": 114.02
+    },
+    {
+      "code": "961019",
+      "description": "SEAT:SUPPLY AND FIX HINGED WITH LEG",
+      "uom": "no",
+      "smv": 35.0,
+      "cost": 167.08
+    },
+    {
       "code": "631501",
       "description": "SEALANT:RENEW TO SIDES AND ENDS OF BATH",
       "uom": "IT",
       "smv": 15.0,
       "cost": 8.87
+    },
+    {
+      "code": "631507",
+      "description": "SEALANT:RENEW TO BATHROOM LM",
+      "uom": "LM",
+      "smv": 4.0,
+      "cost": 4.47
     }
   ],
   "bedroom 1": [
@@ -1297,6 +1535,20 @@
       "uom": "IT",
       "smv": 35.0,
       "cost": 8.28
+    },
+    {
+      "code": "451007",
+      "description": "ROOM:STRIP PAPER UPTO 20SM CEILING AREA",
+      "uom": "IT",
+      "smv": 466.0,
+      "cost": 128.61
+    },
+    {
+      "code": "451115",
+      "description": "ROOM:STRIP PAINTED PAPER PER M2",
+      "uom": "SM",
+      "smv": 33.0,
+      "cost": 9.62
     }
   ],
   "bedroom 2": [
@@ -1411,6 +1663,20 @@
       "uom": "IT",
       "smv": 35.0,
       "cost": 8.28
+    },
+    {
+      "code": "451007",
+      "description": "ROOM:STRIP PAPER UPTO 20SM CEILING AREA",
+      "uom": "IT",
+      "smv": 466.0,
+      "cost": 128.61
+    },
+    {
+      "code": "451115",
+      "description": "ROOM:STRIP PAINTED PAPER PER M2",
+      "uom": "SM",
+      "smv": 33.0,
+      "cost": 9.62
     }
   ],
   "bedroom 3": [
@@ -1525,6 +1791,20 @@
       "uom": "IT",
       "smv": 35.0,
       "cost": 8.28
+    },
+    {
+      "code": "451007",
+      "description": "ROOM:STRIP PAPER UPTO 20SM CEILING AREA",
+      "uom": "IT",
+      "smv": 466.0,
+      "cost": 128.61
+    },
+    {
+      "code": "451115",
+      "description": "ROOM:STRIP PAINTED PAPER PER M2",
+      "uom": "SM",
+      "smv": 33.0,
+      "cost": 9.62
     }
   ],
   "bedroom 4": [
@@ -1639,6 +1919,20 @@
       "uom": "IT",
       "smv": 35.0,
       "cost": 8.28
+    },
+    {
+      "code": "451007",
+      "description": "ROOM:STRIP PAPER UPTO 20SM CEILING AREA",
+      "uom": "IT",
+      "smv": 466.0,
+      "cost": 128.61
+    },
+    {
+      "code": "451115",
+      "description": "ROOM:STRIP PAINTED PAPER PER M2",
+      "uom": "SM",
+      "smv": 33.0,
+      "cost": 9.62
     }
   ],
   "searchable": [

@@ -683,9 +683,11 @@ function App() {
   const exportToExcel = () => {
     // Build Summary AoA
     const aoa = [
+      ["Empty Homes Survey Summary"], // Bold header row
+      [],
       ["Surveyor Name", surveyorName],
       ["Property Address", propertyAddress],
-      ["Visit Type", visitType],
+      ["Visit Type", visitType],   // Prominent Visit Type row
       ["Void Rating", voidRating],
       ["Void Type", voidType],
       ["MWR Required", mwrRequired ? "Yes" : "No"],
