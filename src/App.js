@@ -25,8 +25,19 @@ import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 import firebaseConfig from "./lib/firebase";
 
+import { getAuth, signInAnonymously } from "firebase/auth";
+
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
+
+const auth = getAuth(firebaseApp);
+signInAnonymously(auth)
+  .then(() => {
+    console.log("Signed in anonymously with Firebase");
+  })
+  .catch((error) => {
+    console.error("Firebase anonymous auth error:", error);
+  });
 
 // 1) Fixed list of desired sections; “contractor work” stays last
 const desiredOrder = [
