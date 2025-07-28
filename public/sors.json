@@ -1,4 +1,5 @@
 {
+  "_forceUpdate": true,
   "lorry clearance": [
     {
       "code": "PSCT01",
@@ -150,7 +151,7 @@
     {
       "code": "460026",
       "description": "GARDEN:CLEAR/CUT BACK EXCEPTIONAL DEBRIS",
-      "cost": 40148.62,
+      "cost": 401.62,
       "smv": 210.0,
       "uom": "it"
     },
@@ -196,8 +197,8 @@
     {
       "code": "318179",
       "description": "WINDOW/DOOR/FLOOR:RENEW SILICONE",
-      "uom": "sm",
-      "smv": 13.0,
+      "uom": "lm",
+      "smv": 1.0,
       "cost": 4.46
     },
     {
